@@ -92,6 +92,7 @@ const routes = [
             { path: "transfer", element: <TransferTokenPage /> },
             { path: ":tokenid/:token_type", element: <TokenDetailPage /> },
             { path: "*", element: <Navigate to="/tokens" replace={true} /> },
+            // slkdjfkjsdfijndsf
         ],
     },
     {
