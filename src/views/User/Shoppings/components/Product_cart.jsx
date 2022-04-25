@@ -1,88 +1,80 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
+import React, { useState } from "react";
+import "../index.scss";
+import { Button, Card } from "reactstrap";
+import { Link } from "react-router-dom";
+import img from "../../../../assets/images/logo_ether.png";
+import { useDispatch, useSelector } from "react-redux";
+import { AddShoppingCart, Favorite, RemoveRedEye } from "@mui/icons-material";
+import { pink } from "@material-ui/core/colors";
+import { NUMBER_CART } from "../../../../redux/User/Products/actionTypes";
+import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 export default function Product_cart() {
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const [fav, setFav] = useState(false);
+    const dispatch = useDispatch();
+    const number = useSelector((state) => state.Product.number);
+    const addToCart = () => {
+        dispatch({ type: NUMBER_CART, payload: number + 1 });
+        dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add To Cart Successful !" } });
     };
-
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardHeader
-                avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        R
-                    </Avatar>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                title="Shrimp and Chorizo Paella"
-                subheader="September 14, 2016"
-            />
-            <CardMedia component="img" height="194" image="/static/images/cards/paella.jpg" alt="Paella dish" />
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
-                <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-                    <ExpandMoreIcon />
-                </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>Method:</Typography>
-                    <Typography paragraph>Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes.</Typography>
-                    <Typography paragraph>
-                        Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-                        browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
-                        pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                    </Typography>
-                    <Typography paragraph>
-                        Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-                        medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook again without stirring, until mussels have opened and rice is just tender, 5 to 7 minutes
-                        more. (Discard any mussels that don&apos;t open.)
-                    </Typography>
-                    <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
-                </CardContent>
-            </Collapse>
-        </Card>
+        <div className={"col-xl-2 col-sm-6 xl-4 col-grid-box"}>
+            <Card>
+                <div className="product-box">
+                    <div className="product-img">
+                        {"status" === "sale" ? <span className="ribbon ribbon-danger">{"status"}</span> : ""}
+                        {"status" === "50%" ? <span className="ribbon ribbon-success ribbon-right">{"status"}</span> : ""}
+                        <span className="ribbon ribbon-secondary ribbon-vertical-left">
+                            <i className="icon-gift"></i>
+                        </span>
+
+                        <img style={{ width: "100%", height: "100%" }} src={img} alt="" />
+                        <div className="product-hover">
+                            <ul>
+                                <li className="li-fix">
+                                    {/* <Link to={``}> */}
+                                    <Button color="default" onClick={() => addToCart()}>
+                                        {/* <i className="icon-shopping-cart"></i> */}
+                                        <AddShoppingCart />
+                                    </Button>
+                                    {/* </Link> */}
+                                </li>
+                                <li className="li-fix">
+                                    <Link to={`:product_id`}>
+                                        <Button color="default" data-toggle="modal">
+                                            <RemoveRedEye />
+                                        </Button>
+                                    </Link>
+                                </li>
+                                <li className="li-fix" onClick={() => setFav(!fav)}>
+                                    {/* <Link to={`$`}> */}
+                                    <Button color="default">
+                                        {/* <i className="icon-heart"></i> */}
+                                        <Favorite sx={{ color: fav ? pink[500] : "" }} />
+                                    </Button>
+                                    {/* </Link> */}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="product-details">
+                        <div className="rating">
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
+                        </div>
+                        <h4 className="font-primary">{"name"}</h4>
+                        <p>{"note"}</p>
+                        <div className="product-price">
+                            {"$"} {"price"}
+                            <del>
+                                {"$"} {"discountPrice"}
+                            </del>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </div>
     );
 }

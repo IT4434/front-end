@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, LogIn, Moon, Sun, User } from "react-feather";
+import { Grid, LogIn, Moon, ShoppingCart, Sun, User } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken } from "src/utils/token";
 import { clearRole } from "src/utils/role";
@@ -9,6 +9,10 @@ import { LAYOUT } from "src/redux/User/Storages/actionTypes";
 import { useEffect } from "react";
 import { userActions } from "src/redux/Guest/reducer";
 import { imagePath } from "../../../constant/imagePath";
+import { Badge, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { DISPLAY_CART } from "../../../redux/User/Products/actionTypes";
+import { alpha, FormControl, InputBase, styled } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Header() {
     const dispatch = useDispatch();
@@ -21,6 +25,9 @@ export default function Header() {
         }
     }, []);
     const user = useSelector((state) => state.User.user);
+    const display_cart = useSelector((state) => state.Product.display_cart);
+    const number_cart = useSelector((state) => state.Product.number);
+
     const navigate = useNavigate();
     const [moonlight, setMoonlight] = useState(false);
     const MoonlightToggle = () => {
@@ -36,6 +43,51 @@ export default function Header() {
             localStorage.setItem("layout_version", "dark-only");
         }
     };
+    const toggleDrawer = (open) => {
+        // if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+        //     return;
+        // }
+        dispatch({ type: DISPLAY_CART, payload: open });
+    };
+
+    const Search = styled("div")(({ theme }) => ({
+        position: "relative",
+        border: "1px solid #ddd",
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
+        "&:hover": {
+            backgroundColor: alpha(theme.palette.common.white, 0.25),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: theme.spacing(3),
+            width: "auto",
+        },
+    }));
+    const SearchIconWrapper = styled("div")(({ theme }) => ({
+        padding: theme.spacing(0, 2),
+        height: "100%",
+        position: "absolute",
+        pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    }));
+    const StyledInputBase = styled(InputBase)(({ theme }) => ({
+        color: "inherit",
+        "& .MuiInputBase-input": {
+            padding: theme.spacing(1, 1, 1, 0),
+            // vertical padding + font size from searchIcon
+            paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+            transition: theme.transitions.create("width"),
+            width: "100%",
+            [theme.breakpoints.up("md")]: {
+                width: "40ch",
+            },
+        },
+    }));
 
     return (
         <div className="vchain_header">
@@ -45,8 +97,24 @@ export default function Header() {
                 <label htmlFor="check_toggle_sidebar" className="toggle_sidebar">
                     <Grid width={16} height={16} />
                 </label>
+
+                <Search>
+                    <SearchIconWrapper>
+                        <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
+                </Search>
             </div>
             <div className="vchain_header_right">
+                <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px" }} onClick={() => toggleDrawer(!display_cart)}>
+                    {/* <AddShoppingCart color="action" /> */}
+                    <ShoppingCart />
+                </Badge>
+                {/* <div className="cart-nav cart-box" onClick={() => toggleDrawer(!display_cart)}>
+                    <ShoppingCart />
+                    <span className="badge badge-pill badge-primary">{"2"}</span>
+                </div> */}
+
                 <div className="mode" onClick={() => MoonlightToggle()}>
                     {localStorage.getItem("layout_version") == "dark-only" ? <Sun /> : <Moon />}
                 </div>

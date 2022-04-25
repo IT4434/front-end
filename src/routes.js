@@ -44,72 +44,37 @@ import EditDApp from "./views/User/DApps/EditDApp/EditDApp";
 // Layout
 import GuestLayout from "src/layouts/GuestLayout";
 import Products from "./views/User/Shoppings/Products";
+import Product_detail from "./views/User/Shoppings/Product_detail";
+import Payment from "./views/User/Shoppings/Payment";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
+    // {
+    //     path: "/",
+    //     element: <UserLayout />,
+    //     children: [
+    //         { path: "dashboard", element: <Products /> },
+    //         { path: "new", element: <NewNetwork /> },
+    //         { path: ":networkId", element: <DetailNetwork /> },
+    //         { path: "*", element: <Navigate to="/networks" replace={true} /> },
+    //         // { path: "404", element: <NotFound /> },
+    //     ],
+    // },
+
     {
-        path: "/dashboard",
+        path: "/products",
         element: <UserLayout />,
         children: [
             { path: "", element: <Products /> },
-            { path: "new", element: <NewNetwork /> },
-            { path: ":networkId", element: <DetailNetwork /> },
-            { path: "*", element: <Navigate to="/networks" replace={true} /> },
-            // { path: "404", element: <NotFound /> },
-        ],
-    },
-    {
-        path: "/networks",
-        element: <UserLayout />,
-        children: [
-            { path: "", element: <MyNetwork /> },
-            { path: "new", element: <NewNetwork /> },
-            { path: ":networkId", element: <DetailNetwork /> },
-            { path: "*", element: <Navigate to="/networks" replace={true} /> },
-            // { path: "404", element: <NotFound /> },
-        ],
-    },
-    {
-        path: "/dapps",
-        element: <UserLayout />,
-        children: [
-            { path: "", element: <MyDApp /> },
-            { path: "new", element: <NewDApp /> },
-            { path: ":dappId", element: <DetailDApp /> },
-            { path: "edit/:dappId", element: <EditDApp /> },
-            { path: "*", element: <Navigate to="/dapps" replace={true} /> },
-            // { path: "404", element: <NotFound /> },
-        ],
-    },
-    {
-        path: "/tokens",
-        element: <UserLayout />,
-        children: [
-            { path: "", element: <MyTokensPage /> },
-            { path: "new", element: <NewTokenPage /> },
-            { path: "fabric/new", element: <NewFabricTokenPage /> },
+            { path: ":product_id", element: <Product_detail /> },
+            { path: "payment", element: <Payment /> },
             { path: "fabric/:tokenid/", element: <FabricTokenDetailPage /> },
             { path: "transfer", element: <TransferTokenPage /> },
             { path: ":tokenid/:token_type", element: <TokenDetailPage /> },
             { path: "*", element: <Navigate to="/tokens" replace={true} /> },
-            // slkdjfkjsdfijndsf
         ],
     },
-    {
-        path: "/storages",
-        element: <UserLayout />,
-        children: [
-            { path: "", element: <MyStorage /> },
-            { path: ":folderId", element: <DetailFolder /> },
-            { path: "platform-artifact", element: <ShareWithMe /> },
-            { path: "platform-artifact/:folderId", element: <DetailPlatfromFolder /> },
-            { path: "recent", element: <Recent /> },
-            { path: "favorite", element: <Favorite /> },
-            { path: "trash", element: <Trash /> },
-            { path: "*", element: <Navigate to="/storages" replace={true} /> },
-            // { path: "404", element: <NotFound /> }
-        ],
-    },
+
     {
         path: "/settings",
         element: <UserLayout />,
@@ -143,7 +108,7 @@ function Redirector(props) {
     if (!role) {
         to = "/login";
     } else if (role === ROLE.USER) {
-        to = "/dapps";
+        to = "/products";
     }
     return <Navigate to={to} />;
 }

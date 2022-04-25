@@ -2,25 +2,6 @@ import React from "react";
 import { Airplay, Box, Database, LifeBuoy, Settings, Share2, ShoppingBag } from "react-feather";
 
 export const menu = [
-    // {
-    //     title: "Products",
-    //     icon: <Share2 />,
-    //     url: `/networks`,
-    //     childs: [],
-    // },
-    // {
-    //     title: "Product Page",
-    //     icon: <Airplay />,
-    //     url: `/dapps`,
-    //     childs: [],
-    // },
-    // {
-    //     title: "Tokens",
-    //     icon: <LifeBuoy />,
-    //     url: `/tokens`,
-    //     // url: `/tokens`,
-    //     childs: [],
-    // },
     {
         title: "Shopping",
         icon: <ShoppingBag />,
@@ -32,11 +13,11 @@ export const menu = [
             },
             {
                 title: "Product Page",
-                url: `/product/page`,
+                url: `/products/:product_id`,
             },
             {
                 title: "Payment Detail",
-                url: `/payment`,
+                url: `/products/payment`,
             },
             {
                 title: "Order History",

@@ -21,6 +21,9 @@ import settingSagas from "src/saga/settingSagas";
 
 import Alert from "src/redux/User/Alerts/reducer";
 
+import Product from "src/redux/User/Products/reducer";
+import productSagas from "src/saga/productSaga";
+
 export const reducers = combineReducers({
     DApp,
     Network,
@@ -29,8 +32,9 @@ export const reducers = combineReducers({
     Token,
     Setting,
     Alert,
+    Product,
 });
 
 export function* rootSaga() {
-    yield all([dappSagas(), networkSagas(), userSagas(), tokenSagas(), settingSagas()]);
+    yield all([dappSagas(), networkSagas(), userSagas(), tokenSagas(), settingSagas(), productSagas()]);
 }

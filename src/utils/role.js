@@ -2,8 +2,8 @@ import { getRemember } from "./token";
 
 const ROLE = {
     USER: "user",
-    GUEST: "guest"
-}
+    GUEST: "guest",
+};
 
 function setLocalRole(role) {
     localStorage.setItem("role", role);
@@ -33,9 +33,9 @@ function clearRole() {
 
 function getRouteByRole(role) {
     if (role === ROLE.USER) {
-        return "/dapps";
+        return "/products";
     } else if (role === ROLE.GUEST) {
-        return "/login"
+        return "/login";
     }
 }
 

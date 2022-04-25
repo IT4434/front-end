@@ -1,0 +1,96 @@
+// .product {
+//     padding: 20px;
+//     display: flex;
+// }
+// .favorite {
+//     background-color: #dc3845;
+//     color: aliceblue;
+//     // position: relative;
+//     // top: 20px;
+//     width: 68px;
+//     height: 30px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+// .sale {
+//     background-color: #51bb25;
+//     color: aliceblue;
+//     // position: relative;
+//     // top: -20px;
+//     right: 0;
+//     width: 68px;
+//     height: 30px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+// .top-prod {
+//     position: relative;
+//     top: 20px;
+//     display: flex;
+//     justify-content: space-between;
+// }
+// .product-name {
+//     font-size: 20px;
+//     font-family: roboto;
+//     color: #7366ff;
+//     margin-bottom: 0;
+// }
+// .over-text {
+//     white-space: nowrap;
+//     width: 100%;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+// }
+// .css-46bh2p-MuiCardContent-root {
+//     padding-bottom: 0 !important;
+// }
+// .price {
+//     font-size: 20px;
+//     font-weight: 700;
+//     font-family: roboto;
+//     color: #7366ff;
+//     margin-bottom: 15px;
+//     margin-top: 5px;
+// }
+// .discount {
+//     font-size: 18px;
+//     font-weight: 700;
+//     font-family: roboto;
+//     margin-bottom: 15px;
+//     margin-top: 5px;
+//     margin-left: 10px;
+//     opacity: 0.6;
+// }
+// .modal {
+//     position: absolute;
+//     height: 100%;
+//     width: 100%;
+//     top: 0;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background-color: rgba(0, 0, 0, 0.3);
+//     opacity: 0;
+//     border-radius: 100%;
+//     transform: scale(0);
+//     transition: all 0.3s ease;
+// }
+.li-fix {
+    padding: 10px !important;
+}
+.btn-add {
+    border: 1px solid rgb(247, 153, 153) !important;
+    width: 35px !important;
+    height: 35px !important;
+    padding: 0 !important;
+    cursor: pointer;
+    font-size: larger !important;
+    &:hover {
+        background-color: antiquewhite;
+    }
+    &:active {
+        background-color: aliceblue;
+    }
+}
