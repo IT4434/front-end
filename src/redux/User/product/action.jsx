@@ -11,13 +11,30 @@ export const ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
 export const GET_SINGLE_ITEM = "GET_SINGLE_ITEM";
 
 export const GET_LIST = "GET_LIST";
+
+export const watchfetchProducts = () => ({
+    type: WATCH_PRODUCT_LIST,
+});
+
+export const watchfetchSingleProducts = () => ({
+    type: WATCH_SINGLE_ITEM,
+});
+
 export const fetchProducts = (product) => ({
     type: GET_LIST,
     payload: product,
 });
+
 export const getSingleItem = () => ({
     type: GET_SINGLE_ITEM,
 });
-export const watchfetchProducts = () => ({
-    type: WATCH_PRODUCT_LIST,
+
+export const addToCart = (product, qty) => ({
+    type: ADD_TO_CART,
+    payload: { product, qty },
 });
+
+// export const decrementQty = (productId) => ({
+//     type: DECREMENT_QTY,
+//     productId,
+// });

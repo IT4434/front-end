@@ -1,6 +1,8 @@
-import { takeEvery, put, call } from "redux-saga/effects";
+import { takeEvery, put, call, takeLatest } from "redux-saga/effects";
 import { userActions } from "src/redux/Guest/reducer";
-
+import { GET_SINGLE_ITEM, WATCH_PRODUCT_LIST, WATCH_SINGLE_ITEM } from "src/redux/User/Products/actionTypes";
+import { fetchProductApi } from "src/services/User/products";
+import { fetchProducts, getSingleItem } from "src/redux/User/Products/actionTypes";
 // function* getUserProfile({ payload }) {
 //     const { user_id } = payload;
 //     try {
@@ -15,9 +17,15 @@ import { userActions } from "src/redux/Guest/reducer";
 //         console.error(error);
 //     }
 // }
+function* fetchProductsAsyn() {
+    const productData = yield call(fetchProductApi);
+    yield put(fetchProducts(productData.data));
+    yield put(getSingleItem());
+}
 
 function* productSagas() {
-    // yield takeEvery(GET_PROFILE, getUserProfile);
+    yield takeLatest(WATCH_PRODUCT_LIST, fetchProductsAsyn);
+    yield takeLatest(WATCH_SINGLE_ITEM, fetchProductsAsyn);
 }
 
 export default productSagas;

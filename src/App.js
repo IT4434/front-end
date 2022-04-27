@@ -4,7 +4,7 @@ import routes from "src/routes";
 import { Provider } from "react-redux";
 import store from "src/store";
 import { SnackbarProvider } from "notistack";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 
 const App = () => {
     const routing = useRoutes(routes);
@@ -16,7 +16,7 @@ const App = () => {
                     <div>{routing}</div>
                 </SnackbarProvider>
             </Provider>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </Fragment>
     );
 };

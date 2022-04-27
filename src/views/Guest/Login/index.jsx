@@ -61,7 +61,7 @@ const Login = (props) => {
                     // await dispatch(userActions.getProfile({ user_id: body.data.user_id }));
                     dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Logged in successfully!" } });
                     setTimeout(() => {
-                        navigate(getRouteByRole("user"));
+                        // navigate(getRouteByRole("user"));
                     }, 900);
                 } else {
                     dispatch({ type: OPEN_ERROR_ALERT, payload: { message: body.data.message } });
@@ -72,6 +72,7 @@ const Login = (props) => {
             dispatch({ type: OPEN_ERROR_ALERT, payload: { message: "Login error!" } });
             console.error(error);
         }
+        navigate("/products");
     }
 
     return (

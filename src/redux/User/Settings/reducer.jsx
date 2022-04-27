@@ -1,5 +1,5 @@
 import { UPDATE_PROFILE_FAIL } from "src/redux/Guest/actionTypes";
-import { UPDATE_PROFILE } from "./actionTypes";
+import { LAYOUT, UPDATE_PROFILE } from "./actionTypes";
 import { UPDATE_EMAIL } from "./actionTypes";
 import { UPDATE_EMAIL_FAIL } from "./actionTypes";
 import { UPDATE_PASSWORD_SUCCESSFUL } from "./actionTypes";
@@ -24,12 +24,15 @@ const initial_state = {
     alert: "",
     logout: false,
     verify_email: null,
+    layout: "light",
 };
 
 export default (state = initial_state, action) => {
     switch (action.type) {
         case CATEGORY:
             return { ...state, category: action.payload };
+        case LAYOUT:
+            return { ...state, layout: action.payload };
         case PROFILE:
             return { ...state, profile: action.payload };
         case UPDATE_PROFILE_FAIL:

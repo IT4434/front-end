@@ -7,7 +7,7 @@ import Content from "./content/Content";
 import Header from "./header/Header";
 import Sidebar from "./sidebar/Sidebar";
 
-export default function UserLayout() {
+export default function AdminLayout() {
     const location = useLocation();
     // useEffect(() => {
     //     if (!localStorage.getItem("token")) {
@@ -22,9 +22,9 @@ export default function UserLayout() {
             <div className="vchain_content_swapper">
                 <Header />
                 <Content />
+                <Cart />
             </div>
-            <Cart />
-            {/* <Sidebar /> */}
+            <Sidebar />
             <AlertCustom />
         </div>
     );

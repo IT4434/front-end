@@ -3,6 +3,7 @@ import { getRemember } from "./token";
 const ROLE = {
     USER: "user",
     GUEST: "guest",
+    ADMIN: "admin",
 };
 
 function setLocalRole(role) {
