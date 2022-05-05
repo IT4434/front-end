@@ -249,7 +249,14 @@ const Product = (props) => {
                             <Col xl="9" sm="12">
                                 <Form>
                                     <FormGroup className="m-0">
-                                        <Input className="form-control" type="text" placeholder="search" defaultValue={searchKeyword} onChange={(e) => handleSearchKeyword(e.target.value)} />
+                                        <Input
+                                            style={{ border: "0.5px solid #ddd" }}
+                                            className="form-control"
+                                            type="text"
+                                            placeholder="search"
+                                            defaultValue={searchKeyword}
+                                            onChange={(e) => handleSearchKeyword(e.target.value)}
+                                        />
                                         <i className="fa fa-search"></i>
                                     </FormGroup>
                                 </Form>

@@ -5,7 +5,6 @@ import Cart from "src/views/User/Shoppings/components/Cart";
 import AlertCustom from "./alert/AlertCustom";
 import Content from "./content/Content";
 import Header from "./header/Header";
-import Sidebar from "./sidebar/Sidebar";
 
 export default function UserLayout() {
     const location = useLocation();
@@ -17,7 +16,7 @@ export default function UserLayout() {
     //     }
     // }, [location]);
     return (
-        <div className="vchain_layout">
+        <div className="vchain_layout_user">
             <input type="checkbox" id="check_toggle_sidebar" style={{ display: "none" }} />
             <div className="vchain_content_swapper">
                 <Header />

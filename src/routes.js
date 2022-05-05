@@ -20,6 +20,7 @@ import Product_detail from "./views/User/Shoppings/Product_detail";
 import Payment from "./views/User/Shoppings/Payment";
 import AdminLayout from "./layouts/AdminLayout/AdminLayout";
 import Product from "./views/User/Shoppings/product";
+import Dashboard from "./views/Admin/dashboard/ecommerce";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -65,7 +66,7 @@ const routes = [
         element: <AdminLayout />,
 
         children: [
-            // { path: "login", element: <Login /> },
+            { path: "", element: <Dashboard /> },
             // { path: "registry", element: <Registry /> },
             // // {path: "forgot-password", element: <ForgotPassword />},
             // { path: "*", element: <Redirector /> },

@@ -1,19 +1,25 @@
 import React from "react";
-import { Airplay, Box, Database, LifeBuoy, Settings, Share2, ShoppingBag } from "react-feather";
+import { Aperture, Monitor, Settings } from "react-feather";
 
 export const menu = [
     {
-        title: "Shopping",
-        icon: <ShoppingBag />,
-        url: `/products`,
+        title: "Dashboard",
+        icon: <Monitor />,
+        url: `/dashboard`,
+        childs: [],
+    },
+    {
+        title: "Manage",
+        icon: <Aperture />,
+        url: `/manage`,
         childs: [
             {
-                title: "Products",
-                url: `/products`,
+                title: " Users",
+                url: `/users`,
             },
             {
-                title: "Product Page",
-                url: `/products/:product_id`,
+                title: " Orders",
+                url: `/orders`,
             },
             {
                 title: "Payment Detail",

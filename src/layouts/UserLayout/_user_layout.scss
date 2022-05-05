@@ -1,18 +1,18 @@
 $header_height: 80px;
-$sidebar_width: 0px;
-$zIndex_sidebar: 00;
-$zIndex_header: $zIndex_sidebar - 1;
+// $sidebar_width: 0px;
+// $zIndex_sidebar: 00;
+$zIndex_header: 100;
 $transition_time: 0.3s;
 
-$sidebar_small_width: 0px;
+// $sidebar_small_width: 0px;
 
 $bg_color_dark_only: #1d1e26;
 
-.vchain_layout {
+.vchain_layout_user {
     min-height: 100vh;
     .vchain_content_swapper {
         transition: 0.3s;
-        margin-left: $sidebar_width;
+        // margin-left: $sidebar_width;
         position: relative;
         padding-top: $header_height;
         min-height: 100vh;
@@ -22,7 +22,7 @@ $bg_color_dark_only: #1d1e26;
     #check_toggle_sidebar:checked {
         & ~ .vchain_sidebar {
             &:not(:hover) {
-                width: $sidebar_small_width;
+                // width: $sidebar_small_width;
 
                 .vchain_logo_wrapper {
                     .logo_short {
@@ -42,12 +42,12 @@ $bg_color_dark_only: #1d1e26;
                 }
             }
         }
-        & + .vchain_content_swapper {
-            margin-left: $sidebar_small_width;
-            .vchain_header {
-                padding-left: $sidebar_small_width;
-            }
-        }
+        // & + .vchain_content_swapper {
+        //     margin-left: $sidebar_small_width;
+        //     .vchain_header {
+        //         padding-left: $sidebar_small_width;
+        //     }
+        // }
     }
 }
 
@@ -56,17 +56,16 @@ $bg_color_dark_only: #1d1e26;
         .vchain_content_swapper {
             margin-left: 0;
         }
-        #check_toggle_sidebar:checked {
-            & ~ .toggle_sidebar_bg {
-                display: block;
-            }
-            & ~ .vchain_sidebar {
-                width: $sidebar_width;
-            }
-        }
+        // #check_toggle_sidebar:checked {
+        //     & ~ .toggle_sidebar_bg {
+        //         display: block;
+        //     }
+        // & ~ .vchain_sidebar {
+        //     width: $sidebar_width;
+        // }
+        // }
     }
 }
 
 @import "header/header2";
-@import "sidebar/sidebar";
 @import "content/content";

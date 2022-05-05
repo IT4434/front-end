@@ -24,6 +24,7 @@ const Login = (props) => {
         password: "",
         remember: true,
     });
+    const [role, setRole] = useState("user");
 
     const navigate = useNavigate();
 
@@ -120,7 +121,35 @@ const Login = (props) => {
                                             <span className={togglePassword ? "" : "show"}></span>
                                         </div>
                                     </FormGroup>
+
                                     <div className="form-group mb-0">
+                                        <div className="checkbox ml-3">
+                                            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                                                <Input
+                                                    id="user"
+                                                    type="checkbox"
+                                                    checked={role === "user"}
+                                                    onChange={(e) => {
+                                                        setRole("user");
+                                                    }}
+                                                />
+                                                <Label className="text-muted" for="user">
+                                                    User
+                                                </Label>
+                                                <Input
+                                                    id="admin"
+                                                    type="checkbox"
+                                                    checked={role === "admin"}
+                                                    onChange={(e) => {
+                                                        setRole("admin");
+                                                    }}
+                                                />
+                                                <Label className="text-muted" for="admin">
+                                                    Admin
+                                                </Label>
+                                            </div>
+                                        </div>
+
                                         <div className="checkbox ml-3">
                                             <Input
                                                 id="checkbox1"
@@ -135,26 +164,9 @@ const Login = (props) => {
                                                 Remember me
                                             </Label>
                                         </div>
-                                        <a className="link" href="#javascript"></a>
                                         <Input type="submit" color="primary" className="btn btn-primary" onClick={hdLogin} value="Login"></Input>
                                     </div>
-                                    {/* <h6 className="text-muted mt-4 or">{"Or Sign in with"}</h6>
-                                        <div className="social mt-4">
-                                            <div className="btn-showcase">
-                                            <Button color="light">
-                                                <Facebook className="txt-fb" />
-                                            </Button>
-                                            <Button color="light">
-                                                <i className="icon-social-google txt-googleplus"></i>
-                                            </Button>
-                                            <Button color="light">
-                                                <Twitter className="txt-twitter" />
-                                            </Button>
-                                            <Button color="light">
-                                                <GitHub />
-                                            </Button>
-                                            </div>
-                                        </div> */}
+
                                     <p className="mt-4 mb-0">
                                         {"Don't have account?"}
                                         <a className="ml-2" href="/registry">

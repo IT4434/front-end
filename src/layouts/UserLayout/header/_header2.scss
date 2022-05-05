@@ -90,10 +90,16 @@
         }
     }
 }
+.logo_chinh {
+    margin-left: 50px;
+}
 
 body.dark-only {
-    .vchain_header {
+    .dark_layout {
         background-color: $bg_color_dark_only;
+    }
+    .vchain_header {
+        background-color: $bg_color_dark_only !important;
         box-shadow: 0px 3px 6px #0000008f;
         .vchain_header_right {
             .avata_wrapper {

@@ -97,13 +97,6 @@ export default function Header() {
                 <label htmlFor="check_toggle_sidebar" className="toggle_sidebar">
                     <Grid width={16} height={16} />
                 </label>
-
-                <Search>
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
-                </Search>
             </div>
             <div className="vchain_header_right">
                 <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px" }} onClick={() => toggleDrawer(!display_cart)}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, LogIn, Moon, ShoppingCart, Sun, User } from "react-feather";
+import { Grid, LogIn, Monitor, Moon, ShoppingCart, Sun, User } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken } from "src/utils/token";
 import { clearRole } from "src/utils/role";
@@ -11,8 +11,7 @@ import { userActions } from "src/redux/Guest/reducer";
 import { imagePath } from "../../../constant/imagePath";
 import { Badge, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { DISPLAY_CART } from "../../../redux/User/Products/actionTypes";
-import { alpha, FormControl, InputBase, styled } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import { alpha, InputBase, styled } from "@mui/material";
 
 export default function Header() {
     const dispatch = useDispatch();
@@ -89,6 +88,12 @@ export default function Header() {
         },
     }));
 
+    const [value, setValue] = useState("0");
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
         <div className="vchain_header">
             <div className="vchain_header_left">
@@ -97,13 +102,7 @@ export default function Header() {
                 <label htmlFor="check_toggle_sidebar" className="toggle_sidebar">
                     <Grid width={16} height={16} />
                 </label>
-
-                {/* <Search>
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
-                </Search> */}
+                <img className="logo_header logo_chinh" src={"https://asmart.com.vn/wp-content/uploads/2020/11/1200px-Circle_K_logo_2016.svg_-1000x395.png"} alt="" height="41.26" width="152.89" />
             </div>
             <div className="vchain_header_right">
                 <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px" }} onClick={() => toggleDrawer(!display_cart)}>
