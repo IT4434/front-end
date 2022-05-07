@@ -21,6 +21,10 @@ import Payment from "./views/User/Shoppings/Payment";
 import AdminLayout from "./layouts/AdminLayout/AdminLayout";
 import Product from "./views/User/Shoppings/product";
 import Dashboard from "./views/Admin/dashboard/ecommerce";
+import ManageUsers from "./views/Admin/Manage/Users";
+import ManageProducts from "./views/Admin/Manage/Products";
+import AddProductGeneral from "./views/Admin/Manage/Products/components/AddProductGeneral";
+import AddProductDetail from "./views/Admin/Manage/Products/components/AddProductDetail";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -66,8 +70,12 @@ const routes = [
         element: <AdminLayout />,
 
         children: [
-            { path: "", element: <Dashboard /> },
-            // { path: "registry", element: <Registry /> },
+            { path: "dashboard", element: <Dashboard /> },
+            { path: "manage/users", element: <ManageUsers /> },
+            { path: "manage/products", element: <ManageProducts /> },
+            { path: "manage/products/add_product", element: <AddProductGeneral /> },
+            { path: "manage/products/add_product/detail", element: <AddProductDetail /> },
+
             // // {path: "forgot-password", element: <ForgotPassword />},
             // { path: "*", element: <Redirector /> },
             // // { path: "404", element: <NotFound /> },
@@ -84,7 +92,7 @@ function Redirector(props) {
     } else if (role === ROLE.USER) {
         to = "/products";
     } else if (role === ROLE.ADMIN) {
-        to = "/admin";
+        to = "/admin/dashboard";
     }
     return <Navigate to={to} />;
 }

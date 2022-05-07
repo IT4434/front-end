@@ -18,6 +18,12 @@ $bg_color_dark_only: #1d1e26;
         min-height: 100vh;
     }
 }
+.card-header {
+    background-color: inherit !important;
+}
+.card-header-right {
+    background-color: inherit !important;
+}
 @media (min-width: 1280px) {
     #check_toggle_sidebar:checked {
         & ~ .vchain_sidebar {

@@ -1,7 +1,7 @@
 import { FILTER_BRAND, FILTER_COLOR, FILTER_PRICE, SEARCH_BY, SORT_BY } from "./action";
 const filtersReducerDefaultState = {
     brand: ["Diesel", "Hudson", "Lee"],
-    value: { min: 100, max: 950 },
+    value: { min: 0, max: 1000 },
     sortBy: "",
     searchBy: "",
 };
@@ -21,7 +21,7 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
         case FILTER_PRICE:
             return {
                 ...state,
-                value: { min: action.value.value.min, max: action.value.value.max },
+                value: action.payload,
             };
         case SORT_BY:
             return {

@@ -13,12 +13,16 @@ import Product from "src/redux/User/Products/reducer";
 import productSagas from "src/saga/productSaga";
 
 import filters from "src/redux/User/filter/reducer";
+
+import manageProduct from "src/redux/Admin/ManageProducts/reducer";
+
 export const reducers = combineReducers({
     User,
     Setting,
     Alert,
     Product,
     filters,
+    manageProduct,
 });
 
 export function* rootSaga() {

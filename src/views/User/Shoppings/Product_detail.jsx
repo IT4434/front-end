@@ -1,14 +1,15 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import { Container, Row, Col, Card, Button, Media, CardBody } from "reactstrap";
+import { Container, Row, Col, Card, Button, Media, CardBody, CardHeader, InputGroup, Input, InputGroupAddon } from "reactstrap";
 import Slider from "react-slick";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import Ratings from "react-ratings-declarative";
-import { Truck, Gift, CreditCard, Clock } from "react-feather";
+import { Truck, Gift, CreditCard, Clock, Smile } from "react-feather";
 import { singleItem } from "./components/singleItem";
 import img from "../../../assets/images/logo_ether.png";
 import { Rating } from "@mui/material";
 import "./index.scss";
+import { DISPLAY_CART } from "src/redux/User/product/action";
 const Product_detail = (props) => {
     const navigate = useNavigate();
     const [state, setState] = useState({ nav1: null, nav2: null });
@@ -16,6 +17,7 @@ const Product_detail = (props) => {
     // eslint-disable-next-line
     const [quantity, Setquantity] = useState(1);
     const [number, setNumber] = useState(1);
+    const display_cart = useSelector((state) => state.Product.display_cart);
 
     const slider1 = useRef();
     const slider2 = useRef();
@@ -38,6 +40,11 @@ const Product_detail = (props) => {
     const changeRating = (newRating) => {
         setRating(newRating);
     };
+    const toggleDrawer = (open) => {
+        dispatch({ type: DISPLAY_CART, payload: open });
+    };
+    const avt_temp =
+        "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.15752-9/279506892_357962046171200_7563227832826377298_n.jpg?_nc_cat=105&ccb=1-6&_nc_sid=ae9488&_nc_ohc=ILAsc11W5UoAX9qcaYU&_nc_oc=AQlrYKcGpoYW3gpKUoGQqbcUXS-7m1iJWZeuHkKsn1fXDV3I6iQ8RfTwRocTJKDKYzc&tn=eM5rTJ4veMqDO5eX&_nc_ht=scontent.fhan14-1.fna&oh=03_AVKWEF-LjjXvjbAkVNlxc5IRwgixA_xCbgajhb2o30Mjww&oe=629BFAAA";
 
     return (
         <Fragment>
@@ -139,44 +146,7 @@ const Product_detail = (props) => {
                                                 </table>
                                             </div>
                                             <hr />
-                                            <Row>
-                                                <Col md="6">
-                                                    <h6 className="product-title">{"share it"}</h6>
-                                                </Col>
-                                                <Col md="6">
-                                                    <div className="product-icon">
-                                                        <ul className="product-social">
-                                                            <li className="d-inline-block">
-                                                                <a href="#javascript">
-                                                                    <i className="fa fa-facebook"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li className="d-inline-block">
-                                                                <a href="#javascript">
-                                                                    <i className="fa fa-google-plus"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li className="d-inline-block">
-                                                                <a href="#javascript">
-                                                                    <i className="fa fa-twitter"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li className="d-inline-block">
-                                                                <a href="#javascript">
-                                                                    <i className="fa fa-instagram"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li className="d-inline-block">
-                                                                <a href="#javascript">
-                                                                    <i className="fa fa-rss"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                        <form className="d-inline-block f-right"></form>
-                                                    </div>
-                                                </Col>
-                                            </Row>
-                                            <hr />
+
                                             <Row>
                                                 <Col md="6">
                                                     <h6 className="product-title">{"Rate Now"}</h6>
@@ -203,13 +173,17 @@ const Product_detail = (props) => {
                                                         {"+"}
                                                     </Button>
                                                 </span>
-                                                <Button color="success" className="m-r-10">
+                                                <Button color="success" className="m-r-10" onClick={() => toggleDrawer(!display_cart)}>
                                                     <i className="fa fa-shopping-cart mr-1"></i>
-                                                    {"BuyNow"}
+                                                    {"Buy Now"}
+                                                </Button>
+                                                <Button color="primary" className="m-r-10">
+                                                    <i className="fa fa-shopping-cart mr-1"></i>
+                                                    {"Add To Card"}
                                                 </Button>
                                                 <Button color="secondary">
                                                     <i className="fa fa-heart mr-1"></i>
-                                                    {"Add To WishList"}
+                                                    {"Favorite"}
                                                 </Button>
                                             </div>
                                         </CardBody>
@@ -276,6 +250,96 @@ const Product_detail = (props) => {
                                     </Card>
                                 </Col>
                             </Row>
+                        </Card>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Card>
+                            <CardHeader>
+                                <h4>Comment</h4>
+                            </CardHeader>
+                            <CardBody>
+                                <div className="social-chat">
+                                    <div className="your-msg">
+                                        <Media>
+                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
+                                            <Media body>
+                                                <span className="f-w-600">
+                                                    {"JasonBorne"}{" "}
+                                                    <span>
+                                                        {"1 Year Ago"} <i className="fa fa-reply font-primary"></i>
+                                                    </span>
+                                                </span>
+                                                <p>{"we are doing dance and singing songs, please vote our post which is very good for all young peoples"}</p>
+                                            </Media>
+                                        </Media>
+                                    </div>
+                                    <div className="other-msg">
+                                        <Media>
+                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
+                                            <Media body>
+                                                <span className="f-w-600">
+                                                    {"AlexendraDhadio"}{" "}
+                                                    <span>
+                                                        {"1 Month Ago"} <i className="fa fa-reply font-primary"></i>
+                                                    </span>
+                                                </span>
+                                                <p>{"ohh yeah very good car and its features i will surely vote for it"} </p>
+                                            </Media>
+                                        </Media>
+                                    </div>
+                                    <div className="other-msg">
+                                        <Media>
+                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
+                                            <Media body>
+                                                <span className="f-w-600">
+                                                    {"OliviaJon"}{" "}
+                                                    <span>
+                                                        {"15 Days Ago"} <i className="fa fa-reply font-primary"></i>
+                                                    </span>
+                                                </span>
+                                                <p>{"ohh yeah very good car and its features i will surely vote for it"} </p>
+                                            </Media>
+                                        </Media>
+                                    </div>
+                                    <div className="your-msg">
+                                        <Media>
+                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
+                                            <Media body>
+                                                <span className="f-w-600">
+                                                    {"IssaBell"}{" "}
+                                                    <span>
+                                                        {"1 Year Ago"} <i className="fa fa-reply font-primary"></i>
+                                                    </span>
+                                                </span>
+                                                <p>{"we are doing dance and singing songs, please vote our post which is very good for all young peoples"}</p>
+                                            </Media>
+                                        </Media>
+                                    </div>
+                                    <div className="text-center mb-4">
+                                        <a href="#javascript" style={{ color: "#7366ff" }}>
+                                            {" "}
+                                            {"More Comments"}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="comments-box">
+                                    <Media>
+                                        <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
+                                        <Media body>
+                                            <InputGroup className="text-box">
+                                                <Input className="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Post Your commnets" />
+                                                <InputGroupAddon addonType="append">
+                                                    <Button color="transparent">
+                                                        <Smile />
+                                                    </Button>
+                                                </InputGroupAddon>
+                                            </InputGroup>
+                                        </Media>
+                                    </Media>
+                                </div>
+                            </CardBody>
                         </Card>
                     </Col>
                 </Row>

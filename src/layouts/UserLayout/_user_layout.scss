@@ -18,6 +18,9 @@ $bg_color_dark_only: #1d1e26;
         min-height: 100vh;
     }
 }
+.footer {
+    margin-left: 0 !important;
+}
 @media (min-width: 1280px) {
     #check_toggle_sidebar:checked {
         & ~ .vchain_sidebar {

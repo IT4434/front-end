@@ -13,5 +13,5 @@ export const filterColor = (color) => ({
 });
 export const filterPrice = (value) => ({
     type: FILTER_PRICE,
-    value,
+    payload: value,
 });

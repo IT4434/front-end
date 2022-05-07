@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import Cart from "src/views/User/Shoppings/components/Cart";
 import AlertCustom from "./alert/AlertCustom";
 import Content from "./content/Content";
+import Footer from "./footer";
 import Header from "./header/Header";
 
 export default function UserLayout() {
@@ -25,6 +26,7 @@ export default function UserLayout() {
             <Cart />
             {/* <Sidebar /> */}
             <AlertCustom />
+            <Footer />
         </div>
     );
 }

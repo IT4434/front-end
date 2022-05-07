@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, LogIn, Monitor, Moon, ShoppingCart, Sun, User } from "react-feather";
+import { Grid, LogIn, Monitor, Moon, ShoppingCart, Star, Sun, User } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken } from "src/utils/token";
 import { clearRole } from "src/utils/role";
@@ -105,7 +105,8 @@ export default function Header() {
                 <img className="logo_header logo_chinh" src={"https://asmart.com.vn/wp-content/uploads/2020/11/1200px-Circle_K_logo_2016.svg_-1000x395.png"} alt="" height="41.26" width="152.89" />
             </div>
             <div className="vchain_header_right">
-                <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px" }} onClick={() => toggleDrawer(!display_cart)}>
+                <Star style={{ marginRight: "15px", cursor: "pointer" }} />
+                <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px", cursor: "pointer" }} onClick={() => toggleDrawer(!display_cart)}>
                     {/* <AddShoppingCart color="action" /> */}
                     <ShoppingCart />
                 </Badge>

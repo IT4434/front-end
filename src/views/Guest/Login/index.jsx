@@ -34,6 +34,7 @@ const Login = (props) => {
 
     async function hdLogin(e) {
         e.preventDefault();
+        var response;
         try {
             const data = {
                 username: state.username,
@@ -44,7 +45,11 @@ const Login = (props) => {
             } else if (data.username === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your user name, please!" } });
             } else {
-                const response = await login(data);
+                if (role === "user") {
+                    response = await login(data);
+                } else {
+                    // const response = await login(data);
+                }
                 const body = response.data;
                 if (body.status == "success") {
                     if (state.remember) {

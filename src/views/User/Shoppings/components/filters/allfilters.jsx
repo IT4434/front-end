@@ -9,10 +9,10 @@ const Allfilters = () => {
     // const data = useSelector((content) => content.Product.productItems);
     const brands = getBrands(data);
     const colors = getColors(data);
-    const prices = getMinMaxPrice(data);
+    // const prices = getMinMaxPrice(data);
     const filteredBrand = useSelector((content) => content.filters.brand);
+    const prices = useSelector((content) => content.filters.value);
     const dispatch = useDispatch();
-    console.log(prices);
     const value = useSelector((content) => content.filters.value);
 
     const clickBrandHendle = (event, brands) => {
@@ -24,17 +24,30 @@ const Allfilters = () => {
         dispatch(filterBrand(brands));
     };
 
-    const colorHandle = (event, color) => {
-        var elems = document.querySelectorAll(".color-selector ul li");
-        [].forEach.call(elems, function (el) {
-            el.classList.remove("active");
-        });
-        event.target.classList.add("active");
-        dispatch(filterColor(color));
-    };
-
     return (
         <Fragment>
+            <div className="product-filter">
+                <h6 className="f-w-600">{"Category"}</h6>
+                <div className="checkbox-animated mt-0">
+                    {brands.map((brand, index) => {
+                        return (
+                            <label className="d-block" key={index}>
+                                <input
+                                    className="checkbox_animated"
+                                    onClick={(e) => clickBrandHendle(e, filteredBrand)}
+                                    value={brand}
+                                    defaultChecked={filteredBrand.includes(brand) ? true : false}
+                                    id={brand}
+                                    type="checkbox"
+                                    data-original-title=""
+                                    title=""
+                                />
+                                {brand}
+                            </label>
+                        );
+                    })}
+                </div>
+            </div>
             <div className="product-filter">
                 <h6 className="f-w-600">{"Brand"}</h6>
                 <div className="checkbox-animated mt-0">
@@ -58,22 +71,15 @@ const Allfilters = () => {
                 </div>
             </div>
 
-            <div className="product-filter slider-product">
-                <h6 className="f-w-600">{"Colors"}</h6>
-                <div className="color-selector">
-                    <ul>
-                        {colors.map((color, i) => {
-                            return <li className={color} key={i} title={color} onClick={(e) => colorHandle(e, color)}></li>;
-                        })}
-                    </ul>
-                </div>
-            </div>
-
             <div>
                 <div className="product-filter pb-0">
                     <h6 className="f-w-600">{"Price"}</h6>
-                    <InputRange maxValue={prices.max} minValue={prices.min} value={value} onChange={(value) => dispatch(filterPrice({ value }))} />
-                    {/* <RangeSlider /> */}
+                    {/* <InputRange maxValue={prices.max} minValue={prices.min} value={value} onChange={(value) => dispatch(filterPrice({ value }))} /> */}
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <div>{prices.min}$</div>
+                        <div>{prices.max}$</div>
+                    </div>
+                    <RangeSlider />
                 </div>
             </div>
         </Fragment>

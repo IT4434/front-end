@@ -225,7 +225,7 @@ const Product = (props) => {
                                 <div className={`product-sidebar ${filterSidebar ? "" : "open"}`}>
                                     <div className="filter-section">
                                         <Card>
-                                            <CardHeader>
+                                            <CardHeader style={{ backgroundColor: "inherit", borderBottom: 0 }}>
                                                 <h6 className="mb-0 f-w-600">
                                                     {"Filters"}
                                                     <span className="pull-right">
@@ -369,15 +369,7 @@ const Product = (props) => {
                                                         <h6 className="f-w-600">{"ProductDetails"}</h6>
                                                         <p className="mb-0">{singleProduct.discription}</p>
                                                     </div>
-                                                    {/* <div className="product-size">
-                                                        <ul>
-                                                            {ProductSizeArray.map((items, i) => (
-                                                                <li key={i}>
-                                                                    <Button color="outline-light">{items}</Button>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </div> */}
+
                                                     <div className="product-qnty">
                                                         <h6 className="f-w-600">{"Quantity"}</h6>
                                                         <fieldset>

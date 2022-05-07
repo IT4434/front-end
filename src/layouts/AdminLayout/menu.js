@@ -5,33 +5,33 @@ export const menu = [
     {
         title: "Dashboard",
         icon: <Monitor />,
-        url: `/dashboard`,
+        url: `/admin/dashboard`,
         childs: [],
     },
     {
         title: "Manage",
         icon: <Aperture />,
-        url: `/manage`,
+        url: `/admin/manage`,
         childs: [
             {
                 title: " Users",
-                url: `/users`,
+                url: `/admin/manage/users`,
             },
             {
-                title: " Orders",
-                url: `/orders`,
+                title: " Products",
+                url: `/admin/manage/products`,
             },
             {
                 title: "Payment Detail",
-                url: `/products/payment`,
+                url: `/admin/manage/products/payment`,
             },
             {
                 title: "Order History",
-                url: `/orded`,
+                url: `orded`,
             },
             {
                 title: "Pricing",
-                url: `/pricing`,
+                url: `pricing`,
             },
         ],
     },
