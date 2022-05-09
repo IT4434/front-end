@@ -177,10 +177,10 @@ const Product_detail = (props) => {
                                                     <i className="fa fa-shopping-cart mr-1"></i>
                                                     {"Buy Now"}
                                                 </Button>
-                                                <Button color="primary" className="m-r-10">
+                                                {/* <Button color="primary" className="m-r-10">
                                                     <i className="fa fa-shopping-cart mr-1"></i>
                                                     {"Add To Card"}
-                                                </Button>
+                                                </Button> */}
                                                 <Button color="secondary">
                                                     <i className="fa fa-heart mr-1"></i>
                                                     {"Favorite"}

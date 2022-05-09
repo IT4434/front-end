@@ -165,7 +165,7 @@ const Product = (props) => {
                                         <List />
                                     </a>
                                 </div>
-                                <span className="d-none-productlist filter-toggle" onClick={() => setFilterSidebar(!filterSidebar)}>
+                                <span style={{ height: "50px !important" }} className="d-none-productlist filter-toggle" onClick={() => setFilterSidebar(!filterSidebar)}>
                                     <h6 className="mb-0">
                                         {"Filters"}
                                         <span className="ml-2">
@@ -225,13 +225,11 @@ const Product = (props) => {
                                 <div className={`product-sidebar ${filterSidebar ? "" : "open"}`}>
                                     <div className="filter-section">
                                         <Card>
-                                            <CardHeader style={{ backgroundColor: "inherit", borderBottom: 0 }}>
-                                                <h6 className="mb-0 f-w-600">
-                                                    {"Filters"}
-                                                    <span className="pull-right">
-                                                        <i className="fa fa-chevron-down toggle-data" onClick={onClickFilter}></i>
-                                                    </span>
-                                                </h6>
+                                            <CardHeader style={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "inherit", borderBottom: 0, height: "50px" }}>
+                                                <h6 className="mb-0 f-w-600">{"Filters"}</h6>
+                                                <span className="pull-right">
+                                                    <i className="fa fa-chevron-down toggle-data" onClick={onClickFilter}></i>
+                                                </span>
                                             </CardHeader>
                                             <div className="left-filter">
                                                 <CardBody className="filter-cards-view animate-chk">

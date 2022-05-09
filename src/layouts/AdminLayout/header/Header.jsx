@@ -99,10 +99,9 @@ export default function Header() {
                 </label>
             </div>
             <div className="vchain_header_right">
-                <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px" }} onClick={() => toggleDrawer(!display_cart)}>
-                    {/* <AddShoppingCart color="action" /> */}
+                {/* <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px" }} onClick={() => toggleDrawer(!display_cart)}>
                     <ShoppingCart />
-                </Badge>
+                </Badge> */}
                 {/* <div className="cart-nav cart-box" onClick={() => toggleDrawer(!display_cart)}>
                     <ShoppingCart />
                     <span className="badge badge-pill badge-primary">{"2"}</span>

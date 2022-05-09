@@ -8,15 +8,11 @@ import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 const AddProductDetail = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const img_temp = useSelector((props) => props.manageProduct.img_temp);
     const [data, setData] = useState();
     const [price, setPrice] = useState();
     const [quantity, setQuantity] = useState();
     const [date, setDate] = useState();
     const [color, setColor] = useState();
-    const [brand, setBrand] = useState();
-    const [category, setCategory] = useState();
-    const [description, setDescription] = useState();
 
     const handleSubmit = () => {
         setData({

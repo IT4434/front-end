@@ -25,6 +25,7 @@ import ManageUsers from "./views/Admin/Manage/Users";
 import ManageProducts from "./views/Admin/Manage/Products";
 import AddProductGeneral from "./views/Admin/Manage/Products/components/AddProductGeneral";
 import AddProductDetail from "./views/Admin/Manage/Products/components/AddProductDetail";
+import ShoppingBag from "./views/User/Shoppings/ShoppingBag";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -51,6 +52,11 @@ const routes = [
             { path: "*", element: <Navigate to="/settings" replace={true} /> },
             // { path: "404", element: <NotFound /> }
         ],
+    },
+    {
+        path: "/cart",
+        element: <UserLayout />,
+        children: [{ path: "", element: <ShoppingBag /> }],
     },
     {
         path: "/",
