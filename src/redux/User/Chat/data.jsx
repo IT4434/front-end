@@ -1,0 +1,137 @@
+export const chats = [
+    {
+        id: 0,
+        name: "Johan Deo",
+        thumb: "user/1.jpg",
+        status: "  Out is my favorite",
+        lastSeenDate: "0",
+        online: true,
+        typing: true,
+    },
+    {
+        id: 1,
+        name: "Vincent Porter",
+        thumb: "user/2.png",
+        status: "  Change for anyone.",
+        lastSeenDate: "Last seen today 15:24",
+        online: false,
+        typing: false,
+    },
+    {
+        id: 2,
+        name: "Aiden Chavez",
+        thumb: "user/3.png",
+        status: "  first bun like a sun.",
+        lastSeenDate: "Last seen today 13:24",
+        online: false,
+        typing: false,
+    },
+    {
+        id: 5,
+        name: "Ginger Johnston",
+        thumb: "user/6.jpg",
+        status: "  first bun like a sun.",
+        lastSeenDate: "Last seen today 22:24",
+        online: false,
+        typing: false,
+    },
+    {
+        id: 6,
+        name: "Kori Thomas",
+        thumb: "user/7.jpg",
+        status: "  Change for anyone.",
+        lastSeenDate: "Last seen today 00:24",
+        online: false,
+        typing: false,
+    },
+    {
+        id: 8,
+        name: "Kori Thomas",
+        thumb: "user/9.jpg",
+        status: "  Change for anyone.",
+        lastSeenDate: "Last seen yesterday 06:47",
+        online: false,
+        typing: false,
+    },
+    {
+        id: 9,
+        name: "Erica Hughes",
+        thumb: "user/10.jpg",
+        status: "  Change for anyone.",
+        lastSeenDate: "Last seen yesterday 20:07",
+        online: false,
+        typing: false,
+    },
+    {
+        id: 10,
+        name: "Porter Ginger",
+        thumb: "user/11.png",
+        status: "  Change for anyone.",
+        lastSeenDate: "Last seen yesterday 14:14",
+        online: false,
+        typing: false,
+    },
+];
+export const chatSuccess = {
+    data: [
+        {
+            id: 1,
+            users: [0, 1],
+            lastMessageTime: "18:20",
+            messages: [
+                {
+                    sender: 0,
+                    time: "10:12 am",
+                    text: "Are we meeting today? Project has been already finished and I have results to show you.",
+                },
+                {
+                    sender: 1,
+                    time: "10:14 am",
+                    text: "Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so?.",
+                },
+                {
+                    sender: 1,
+                    time: "10:14 am",
+                    text: "Well I am not sure. The rest of the team.",
+                },
+                {
+                    sender: 0,
+                    time: "10:20 am",
+                    text: "Actually everything was fine. I'm very excited to show this to our team.",
+                },
+            ],
+        },
+        {
+            id: 2,
+            users: [0, 4],
+            lastMessageTime: "10:20",
+            messages: [
+                {
+                    sender: 0,
+                    time: "09:25",
+                    text: "Hello. How are you today?",
+                },
+                {
+                    sender: 4,
+                    time: "09:29",
+                    text: "Hey! I'm fine. Thanks for asking!",
+                },
+                {
+                    sender: 4,
+                    time: "09:36",
+                    text: "Sweet! So, what do you wanna do today?",
+                },
+                {
+                    sender: 0,
+                    time: "10:12",
+                    text: "Nah, I dunno. Play soccer.. or learn more coding perhaps?",
+                },
+                {
+                    sender: 4,
+                    time: "10:30",
+                    text: "I am very busy at the moment.",
+                },
+            ],
+        },
+    ],
+};

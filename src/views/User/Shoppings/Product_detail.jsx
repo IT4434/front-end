@@ -54,7 +54,7 @@ const Product_detail = (props) => {
                         <Card>
                             <Row className="product-page-main">
                                 <Col xl="4">
-                                    <Slider asNavFor={nav2} arrows={false} ref={(slider) => (slider1.current = slider)} className="product-slider">
+                                    <Slider autoplay={true} asNavFor={nav2} arrows={false} ref={(slider) => (slider1.current = slider)} className="product-slider">
                                         {singleItem.variants ? (
                                             singleItem.variants.map((item, i) => {
                                                 return (

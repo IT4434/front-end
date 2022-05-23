@@ -40,8 +40,13 @@ export function fetchUserData() {
                         ></i>
                     </span>
                     <span>
-                        <a href="/admin/manage/products">
+                        <a href="/admin/manage/users/:id/edit">
                             <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
+                        </a>
+                    </span>
+                    <span>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
                         </a>
                     </span>
                 </div>
@@ -61,6 +66,11 @@ export function fetchUserData() {
                     <span>
                         <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
                     </span>
+                    <span>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                        </a>
+                    </span>
                 </div>
             ),
         },
@@ -77,6 +87,11 @@ export function fetchUserData() {
                     </span>
                     <span>
                         <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
+                    </span>
+                    <span>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                        </a>
                     </span>
                 </div>
             ),
@@ -95,6 +110,11 @@ export function fetchUserData() {
                     <span>
                         <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
                     </span>
+                    <span>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                        </a>
+                    </span>
                 </div>
             ),
         },
@@ -111,6 +131,11 @@ export function fetchUserData() {
                     </span>
                     <span>
                         <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
+                    </span>
+                    <span>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                        </a>
                     </span>
                 </div>
             ),
@@ -129,22 +154,10 @@ export function fetchUserData() {
                     <span>
                         <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
                     </span>
-                </div>
-            ),
-        },
-        {
-            avatar: <img src={product_img} style={{ width: 50, height: 50, borderRadius: "100%" }} alt="" />,
-            name: "Red Lipstick",
-            spent: "$10",
-            classify: <div className="font-success">VIP</div>,
-            birth: "2011/4/19",
-            action: (
-                <div>
                     <span>
-                        <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
-                    </span>
-                    <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                        </a>
                     </span>
                 </div>
             ),
@@ -162,6 +175,33 @@ export function fetchUserData() {
                     </span>
                     <span>
                         <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
+                    </span>
+                    <span>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                        </a>
+                    </span>
+                </div>
+            ),
+        },
+        {
+            avatar: <img src={product_img} style={{ width: 50, height: 50, borderRadius: "100%" }} alt="" />,
+            name: "Red Lipstick",
+            spent: "$10",
+            classify: <div className="font-success">VIP</div>,
+            birth: "2011/4/19",
+            action: (
+                <div>
+                    <span>
+                        <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
+                    </span>
+                    <span>
+                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
+                    </span>
+                    <span>
+                        <a href="#">
+                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                        </a>
                     </span>
                 </div>
             ),

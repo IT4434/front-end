@@ -16,6 +16,7 @@ import filters from "src/redux/User/filter/reducer";
 
 import manageProduct from "src/redux/Admin/ManageProducts/reducer";
 import manageUser from "src/redux/Admin/ManageUsers/reducer";
+import Chat from "src/redux/User/Chat/reducer";
 
 export const reducers = combineReducers({
     User,
@@ -25,6 +26,7 @@ export const reducers = combineReducers({
     filters,
     manageProduct,
     manageUser,
+    Chat,
 });
 
 export function* rootSaga() {

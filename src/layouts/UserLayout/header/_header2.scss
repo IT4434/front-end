@@ -1,10 +1,10 @@
-.vchain_header {
+.vchain_header_user {
     z-index: $zIndex_header + 100;
     position: fixed;
     top: 0;
     width: 100%;
     left: 0;
-    padding-left: $sidebar_width;
+    padding-left: 0;
     background-color: white;
     height: $header_height;
     box-shadow: 0px 3px 6px #0000001f;
@@ -93,12 +93,24 @@
 .logo_chinh {
     margin-left: 50px;
 }
+.navbar_user {
+    font-size: large;
+    margin-left: 60px;
+    color: inherit;
+    & a:hover,
+    a.active {
+        color: #1998f4 !important;
+    }
+    a {
+        color: inherit;
+    }
+}
 
 body.dark-only {
     .dark_layout {
         background-color: $bg_color_dark_only;
     }
-    .vchain_header {
+    .vchain_header_user {
         background-color: $bg_color_dark_only !important;
         box-shadow: 0px 3px 6px #0000008f;
         .vchain_header_right {
@@ -117,7 +129,7 @@ body.dark-only {
 }
 
 @media (max-width: 1279px) {
-    .vchain_header {
+    .vchain_header_user {
         padding-left: 0;
         .vchain_header_left {
             .logo_dark_theme {
@@ -132,7 +144,7 @@ body.dark-only {
         }
     }
     body.dark-only {
-        .vchain_header {
+        .vchain_header_user {
             .vchain_header_left {
                 .logo_dark_theme {
                     display: block;

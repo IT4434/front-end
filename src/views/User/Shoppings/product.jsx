@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     Container,
@@ -20,7 +20,7 @@ import {
     InputGroupAddon,
     InputGroupText,
 } from "reactstrap";
-import { Grid, List } from "react-feather";
+import { ChevronDown, ChevronsDown, ChevronUp, Grid, List } from "react-feather";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import errorImg from "../../../assets/images/search-not-found.png";
@@ -29,9 +29,16 @@ import { SORT_BY, SEARCH_BY, ADD_TO_CART, ADD_TO_WISHLIST, watchfetchProducts } 
 import Carousal from "./components/filters/carousal";
 import Allfilters from "./components/filters/allfilters";
 import { data } from "./components/data";
+import Slider from "react-slick";
+import { items2 } from "./components/carousel/carouselComponent.jsx";
+
 const Product = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    useEffect(() => {
+        localStorage.setItem("navbarActive", "home");
+    }, []);
+
     // const data = useSelector((content) => content.Product.productItems);
 
     // eslint-disable-next-line
@@ -145,12 +152,34 @@ const Product = (props) => {
 
     const onClickDetailPage = (product) => {
         const id = product.id;
-        navigate(`$`);
+        navigate("id");
+        localStorage.setItem("navbarActive", "detail");
     };
+    const slider1 = useRef();
+    const slider2 = useRef();
+    const [state, setState] = useState({ nav1: null, nav2: null });
+    useEffect(() => {
+        setState({
+            nav1: slider1.current,
+            nav2: slider2.current,
+        });
+    }, [dispatch]);
+    const { nav1, nav2 } = state;
 
     return (
         <Fragment>
             <Container fluid={true} className="product-wrapper pt-5">
+                <Col sm="12" xl="12" style={{ height: "100%" }}>
+                    <Slider easing="ease-in-out" autoplay={true} autoplaySpeed={3000} asNavFor={nav2} arrows={true} ref={(slider) => (slider1.current = slider)} className="product-slider">
+                        {items2.map((item, i) => {
+                            return (
+                                <div className="item" key={i}>
+                                    <Media src={item.src} style={{ height: "250px", width: "100%" }} alt="" className="img-fluid" />
+                                </div>
+                            );
+                        })}
+                    </Slider>
+                </Col>
                 <div className="product-grid">
                     <div className="feature-products">
                         <Row>
@@ -225,10 +254,21 @@ const Product = (props) => {
                                 <div className={`product-sidebar ${filterSidebar ? "" : "open"}`}>
                                     <div className="filter-section">
                                         <Card>
-                                            <CardHeader style={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "inherit", borderBottom: 0, height: "50px" }}>
+                                            <CardHeader
+                                                onClick={onClickFilter}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    backgroundColor: "inherit",
+                                                    borderBottom: 0,
+                                                    height: "50px",
+                                                }}
+                                            >
                                                 <h6 className="mb-0 f-w-600">{"Filters"}</h6>
-                                                <span className="pull-right">
-                                                    <i className="fa fa-chevron-down toggle-data" onClick={onClickFilter}></i>
+                                                <span className="pull-right" style={{ color: "inherit" }}>
+                                                    {sidebaron ? <ChevronDown /> : <ChevronUp />}
                                                 </span>
                                             </CardHeader>
                                             <div className="left-filter">

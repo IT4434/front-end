@@ -26,6 +26,8 @@ import ManageProducts from "./views/Admin/Manage/Products";
 import AddProductGeneral from "./views/Admin/Manage/Products/components/AddProductGeneral";
 import AddProductDetail from "./views/Admin/Manage/Products/components/AddProductDetail";
 import ShoppingBag from "./views/User/Shoppings/ShoppingBag";
+import Chat from "./views/User/Chat";
+import EditUser from "./views/Admin/Manage/Users/components/EditUser";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -37,7 +39,7 @@ const routes = [
             { path: ":product_id", element: <Product_detail /> },
             { path: "payment", element: <Payment /> },
 
-            { path: "*", element: <Navigate to="/tokens" replace={true} /> },
+            { path: "*", element: <Navigate to="" replace={true} /> },
         ],
     },
 
@@ -59,6 +61,11 @@ const routes = [
         children: [{ path: "", element: <ShoppingBag /> }],
     },
     {
+        path: "/chat",
+        element: <UserLayout />,
+        children: [{ path: "", element: <Chat /> }],
+    },
+    {
         path: "/",
         element: <GuestLayout />,
 
@@ -78,6 +85,7 @@ const routes = [
         children: [
             { path: "dashboard", element: <Dashboard /> },
             { path: "manage/users", element: <ManageUsers /> },
+            { path: "manage/users/:id/edit", element: <EditUser /> },
             { path: "manage/products", element: <ManageProducts /> },
             { path: "manage/products/add_product", element: <AddProductGeneral /> },
             { path: "manage/products/add_product/detail", element: <AddProductDetail /> },

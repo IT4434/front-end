@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, LogIn, Monitor, Moon, ShoppingCart, Star, Sun, User } from "react-feather";
+import { Bell, Grid, LogIn, Monitor, Moon, ShoppingCart, Star, Sun, User } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken } from "src/utils/token";
 import { clearRole } from "src/utils/role";
@@ -26,6 +26,7 @@ export default function Header() {
     const user = useSelector((state) => state.User.user);
     const display_cart = useSelector((state) => state.Product.display_cart);
     const number_cart = useSelector((state) => state.Product.number);
+    const [notificationDropDown, setNotificationDropDown] = useState(false);
 
     const navigate = useNavigate();
     const [moonlight, setMoonlight] = useState(false);
@@ -93,16 +94,48 @@ export default function Header() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const navActive = localStorage.getItem("navbarActive");
+    const handleNav = (param) => {
+        localStorage.setItem("navbarActive", param);
+    };
 
     return (
-        <div className="vchain_header">
+        <div className="vchain_header_user">
             <div className="vchain_header_left">
-                <img className="logo_header logo_light_theme" src={imagePath.LOGO_LIGHT} alt="" height="41.26" width="152.89" />
+                {/* <img className="logo_header logo_light_theme" src={imagePath.LOGO_LIGHT} alt="" height="41.26" width="152.89" />
                 <img className="logo_header logo_dark_theme" src={imagePath.LOGO_DARK} alt="" height="41.26" width="152.89" />
                 <label htmlFor="check_toggle_sidebar" className="toggle_sidebar">
                     <Grid width={16} height={16} />
-                </label>
-                <img className="logo_header logo_chinh" src={"https://asmart.com.vn/wp-content/uploads/2020/11/1200px-Circle_K_logo_2016.svg_-1000x395.png"} alt="" height="41.26" width="152.89" />
+                </label> */}
+                <img
+                    className="logo_header logo_chinh logo_custom"
+                    src={"https://asmart.com.vn/wp-content/uploads/2020/11/1200px-Circle_K_logo_2016.svg_-1000x395.png"}
+                    alt=""
+                    height="41.26"
+                    width="152.89"
+                />
+                <div className="d-flex">
+                    <div className="navbar_user">
+                        <a href="/products" className={navActive == "home" ? "active" : ""} onClick={() => handleNav("home")}>
+                            Home
+                        </a>
+                    </div>
+                    <div className="navbar_user">
+                        <a href="#" className={navActive === "detail" ? "active" : ""}>
+                            Detail
+                        </a>
+                    </div>
+                    <div className="navbar_user">
+                        <a href="/products/payment" className={navActive === "payment" ? "active" : ""} onClick={() => handleNav("payment")}>
+                            Payment
+                        </a>
+                    </div>
+                    <div className="navbar_user">
+                        <a href="/cart" className={navActive === "cart" ? "active" : ""} onClick={() => handleNav("cart")}>
+                            Cart
+                        </a>
+                    </div>
+                </div>
             </div>
             <div className="vchain_header_right">
                 <Star style={{ marginRight: "15px", cursor: "pointer" }} />
@@ -110,11 +143,51 @@ export default function Header() {
                     {/* <AddShoppingCart color="action" /> */}
                     <ShoppingCart />
                 </Badge>
-                {/* <div className="cart-nav cart-box" onClick={() => toggleDrawer(!display_cart)}>
-                    <ShoppingCart />
-                    <span className="badge badge-pill badge-primary">{"2"}</span>
-                </div> */}
 
+                <ul className="nav-menus">
+                    <li className="onhover-dropdown">
+                        <div className="notification-box" onClick={() => setNotificationDropDown(!notificationDropDown)}>
+                            <Bell />
+                            <span className="badge badge-pill badge-secondary">2</span>
+                        </div>
+                        <ul className={`notification-dropdown onhover-show-div ${notificationDropDown ? "active" : ""}`}>
+                            <li>
+                                <Bell />
+                                <h6 className="f-18 mb-0">{"Notification"}</h6>
+                            </li>
+                            <li>
+                                <p>
+                                    <i className="fa fa-circle-o mr-3 font-primary"> </i>
+                                    {"DeliveryProcessing"} <span className="pull-right">{"10 min."}</span>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <i className="fa fa-circle-o mr-3 font-success"></i>
+                                    {"OrderComplete"}
+                                    <span className="pull-right">{"1 hr"}</span>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <i className="fa fa-circle-o mr-3 font-info"></i>
+                                    {"TicketsGenerated"}
+                                    <span className="pull-right">{"3 hr"}</span>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <i className="fa fa-circle-o mr-3 font-danger"></i>
+                                    {"DeliveryComplete"}
+                                    <span className="pull-right">{"6 hr"}</span>
+                                </p>
+                            </li>
+                            <li>
+                                <button className="btn btn-primary">{"CheckAllNotification"}</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
                 <div className="mode" onClick={() => MoonlightToggle()}>
                     {localStorage.getItem("layout_version") == "dark-only" ? <Sun /> : <Moon />}
                 </div>
