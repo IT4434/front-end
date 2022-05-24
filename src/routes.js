@@ -15,7 +15,6 @@ import Verify from "src/views/User/Settings/components/Verify";
 
 // Layout
 import GuestLayout from "src/layouts/GuestLayout";
-import Products from "./views/User/Shoppings/Products";
 import Product_detail from "./views/User/Shoppings/Product_detail";
 import Payment from "./views/User/Shoppings/Payment";
 import AdminLayout from "./layouts/AdminLayout/AdminLayout";
@@ -28,6 +27,7 @@ import AddProductDetail from "./views/Admin/Manage/Products/components/AddProduc
 import ShoppingBag from "./views/User/Shoppings/ShoppingBag";
 import Chat from "./views/User/Chat";
 import EditUser from "./views/Admin/Manage/Users/components/EditUser";
+import Favorite from "./views/User/Shoppings/Favorite";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -64,6 +64,11 @@ const routes = [
         path: "/chat",
         element: <UserLayout />,
         children: [{ path: "", element: <Chat /> }],
+    },
+    {
+        path: "/favorites",
+        element: <UserLayout />,
+        children: [{ path: "", element: <Favorite /> }],
     },
     {
         path: "/",

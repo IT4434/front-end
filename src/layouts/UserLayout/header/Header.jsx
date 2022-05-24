@@ -101,15 +101,20 @@ export default function Header() {
 
     return (
         <div className="vchain_header_user">
-            <div className="vchain_header_left">
+            <div className="vchain_header_left ">
                 {/* <img className="logo_header logo_light_theme" src={imagePath.LOGO_LIGHT} alt="" height="41.26" width="152.89" />
                 <img className="logo_header logo_dark_theme" src={imagePath.LOGO_DARK} alt="" height="41.26" width="152.89" />
                 <label htmlFor="check_toggle_sidebar" className="toggle_sidebar">
                     <Grid width={16} height={16} />
                 </label> */}
                 <img
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                        localStorage.setItem("navbarActive", "home");
+                        navigate("/products");
+                    }}
                     className="logo_header logo_chinh logo_custom"
-                    src={"https://asmart.com.vn/wp-content/uploads/2020/11/1200px-Circle_K_logo_2016.svg_-1000x395.png"}
+                    src={"https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1.png"}
                     alt=""
                     height="41.26"
                     width="152.89"
@@ -135,59 +140,64 @@ export default function Header() {
                             Cart
                         </a>
                     </div>
+                    <div className="navbar_user">
+                        <a href="/favorites" className={navActive === "favorites" ? "active" : ""} onClick={() => handleNav("favorites")}>
+                            Favorites
+                        </a>
+                    </div>
                 </div>
             </div>
             <div className="vchain_header_right">
-                <Star style={{ marginRight: "15px", cursor: "pointer" }} />
+                <Star
+                    style={{ marginRight: "15px", cursor: "pointer" }}
+                    onClick={() => {
+                        localStorage.setItem("navbarActive", "favorites");
+                        navigate("/favorites");
+                    }}
+                />
                 <Badge badgeContent={number_cart} color="primary" style={{ marginRight: "10px", cursor: "pointer" }} onClick={() => toggleDrawer(!display_cart)}>
-                    {/* <AddShoppingCart color="action" /> */}
                     <ShoppingCart />
                 </Badge>
+                <div className="avata_wrapper">
+                    <Badge badgeContent={2} color="primary" style={{ marginRight: "10px", cursor: "pointer" }}>
+                        <Bell />
+                    </Badge>
 
-                <ul className="nav-menus">
-                    <li className="onhover-dropdown">
-                        <div className="notification-box" onClick={() => setNotificationDropDown(!notificationDropDown)}>
-                            <Bell />
-                            <span className="badge badge-pill badge-secondary">2</span>
-                        </div>
-                        <ul className={`notification-dropdown onhover-show-div ${notificationDropDown ? "active" : ""}`}>
-                            <li>
-                                <Bell />
-                                <h6 className="f-18 mb-0">{"Notification"}</h6>
-                            </li>
-                            <li>
-                                <p>
-                                    <i className="fa fa-circle-o mr-3 font-primary"> </i>
-                                    {"DeliveryProcessing"} <span className="pull-right">{"10 min."}</span>
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <i className="fa fa-circle-o mr-3 font-success"></i>
-                                    {"OrderComplete"}
-                                    <span className="pull-right">{"1 hr"}</span>
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <i className="fa fa-circle-o mr-3 font-info"></i>
-                                    {"TicketsGenerated"}
-                                    <span className="pull-right">{"3 hr"}</span>
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <i className="fa fa-circle-o mr-3 font-danger"></i>
-                                    {"DeliveryComplete"}
-                                    <span className="pull-right">{"6 hr"}</span>
-                                </p>
-                            </li>
-                            <li>
-                                <button className="btn btn-primary">{"CheckAllNotification"}</button>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                    <ul className="profile_dropdown notif_custom">
+                        <li className="mt-1 dropdown_opt">
+                            <div className="d-flex" onClick={"RedirectToCart"}>
+                                <img
+                                    className="img-fluid mr-3 img-60 rounded-circle"
+                                    src={"https://w7.pngwing.com/pngs/392/785/png-transparent-coupon-discounts-and-allowances-computer-icons-advertising-rebate-miscellaneous-text-label.png"}
+                                    alt=""
+                                />
+                                <div className="media-body notif_text">
+                                    <span>{"Freeship for all products of Gucci! Buy now!"}</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className="mt-1 dropdown_opt">
+                            <div className="d-flex" onClick={"RedirectToCart"}>
+                                <img
+                                    className="img-fluid mr-3 img-60 rounded-circle"
+                                    src={"https://w7.pngwing.com/pngs/423/371/png-transparent-discounts-and-allowances-computer-icons-coupon-sale-miscellaneous-text-logo.png"}
+                                    alt=""
+                                />
+                                <div className="media-body notif_text">
+                                    <span>{"Sale up to 50% for new member! Let's shopping now"}</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className="mt-1 dropdown_opt" style={{ display: "flex", justifyContent: "center" }}>
+                            <div className="d-flex">
+                                <div className="media-body ">
+                                    <span>{"View All"}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
                 <div className="mode" onClick={() => MoonlightToggle()}>
                     {localStorage.getItem("layout_version") == "dark-only" ? <Sun /> : <Moon />}
                 </div>

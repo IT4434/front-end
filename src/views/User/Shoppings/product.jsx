@@ -170,11 +170,20 @@ const Product = (props) => {
         <Fragment>
             <Container fluid={true} className="product-wrapper pt-5">
                 <Col sm="12" xl="12" style={{ height: "100%" }}>
-                    <Slider easing="ease-in-out" autoplay={true} autoplaySpeed={3000} asNavFor={nav2} arrows={true} ref={(slider) => (slider1.current = slider)} className="product-slider">
+                    <Slider
+                        style={{ paddingLeft: "5%", paddingRight: "5%", marginBottom: "30px" }}
+                        easing="ease-in-out"
+                        autoplay={true}
+                        autoplaySpeed={3000}
+                        asNavFor={nav2}
+                        arrows={true}
+                        ref={(slider) => (slider1.current = slider)}
+                        className="product-slider"
+                    >
                         {items2.map((item, i) => {
                             return (
                                 <div className="item" key={i}>
-                                    <Media src={item.src} style={{ height: "250px", width: "100%" }} alt="" className="img-fluid" />
+                                    <Media src={item.src} style={{ height: "300px", width: "100%" }} alt="" className="img-fluid" />
                                 </div>
                             );
                         })}
@@ -240,8 +249,8 @@ const Product = (props) => {
                             </Col>
                             <Col md="6" className="text-right">
                                 {/* <span className="f-w-600 m-r-5">{"ShowingProducts"}</span> */}
-                                <div className="select2-drpdwn-product select-options d-inline-block" onChange={(e) => filterSortFunc(e.target.value)}>
-                                    <select className="form-control btn-square" name="select">
+                                <div style={{ backgroundColor: "#ddd" }} className="select2-drpdwn-product select-options d-inline-block" onChange={(e) => filterSortFunc(e.target.value)}>
+                                    <select className="form-control btn-square mb-0" name="select">
                                         <option value="Featured">{"Featured"}</option>
                                         <option value="LowestPrices">{"LowestPrices"}</option>
                                         <option value="HighestPrices">{"HighestPrices"}</option>
@@ -249,6 +258,7 @@ const Product = (props) => {
                                 </div>
                             </Col>
                         </Row>
+                        <br />
                         <Row>
                             <Col xl="3">
                                 <div className={`product-sidebar ${filterSidebar ? "" : "open"}`}>

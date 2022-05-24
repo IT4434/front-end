@@ -105,6 +105,13 @@
         color: inherit;
     }
 }
+.notif_custom {
+    width: 350px;
+}
+.notif_text {
+    display: flex;
+    align-items: center;
+}
 
 body.dark-only {
     .dark_layout {
