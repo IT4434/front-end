@@ -28,6 +28,7 @@ import ShoppingBag from "./views/User/Shoppings/ShoppingBag";
 import Chat from "./views/User/Chat";
 import EditUser from "./views/Admin/Manage/Users/components/EditUser";
 import Favorite from "./views/User/Shoppings/Favorite";
+import EditProduct from "./views/Admin/Manage/Products/components/EditProduct";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -94,6 +95,7 @@ const routes = [
             { path: "manage/products", element: <ManageProducts /> },
             { path: "manage/products/add_product", element: <AddProductGeneral /> },
             { path: "manage/products/add_product/detail", element: <AddProductDetail /> },
+            { path: "manage/products/:id/edit", element: <EditProduct /> },
 
             // // {path: "forgot-password", element: <ForgotPassword />},
             // { path: "*", element: <Redirector /> },

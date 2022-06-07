@@ -15,9 +15,9 @@ export default function Sidebar() {
         <>
             <div className="vchain_sidebar">
                 <div className="vchain_logo_wrapper">
-                    <img className="vchain_logo logo_light_theme" src={imagePath.LOGO_LIGHT} alt="" height="41.26" width="152.89" />
-                    <img className="vchain_logo logo_dark_theme" src={imagePath.LOGO_DARK} alt="" height="41.26" width="152.89" />
-                    <img className="vchain_logo logo_short" src={imagePath.LOGO_SHORT} alt="" height="41.26" width="41.26" />
+                    <img className="vchain_logo logo_light_theme" src={"https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1.png"} alt="" height="41.26" width="152.89" />
+                    {/* <img className="vchain_logo logo_dark_theme" src={imagePath.LOGO_DARK} alt="" height="41.26" width="152.89" /> */}
+                    <img className="vchain_logo logo_short" src={"https://upload.wikimedia.org/wikipedia/commons/a/a1/Logo_Hust.png"} alt="" height="41.26" width="41.26" />
                     <label htmlFor="check_toggle_sidebar" className="toggle_sidebar">
                         <Grid width={16} height={16} />
                     </label>

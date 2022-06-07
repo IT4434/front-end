@@ -89,7 +89,7 @@ const Login = (props) => {
                         <div>
                             <div>
                                 <a className="logo" href="#javascript">
-                                    <img className="img-fluid " src={imagePath.LOGO_LIGHT} height="40" width="125" alt="" />
+                                    <img className="img-fluid " src={"https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1.png"} height="40" width="125" alt="" />
                                     {/* <img className="img-fluid for-dark" src={imagePath.LOGO_DARK} height="40" width="125" alt="" /> */}
                                 </a>
                             </div>
