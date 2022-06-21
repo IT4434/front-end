@@ -31,20 +31,21 @@ const Registry = (props) => {
         e.preventDefault();
         try {
             const data_post = {
-                username: state.username,
-                password: state.password,
                 email: state.email,
-                full_name: state.full_name,
-                phone: state.phone
+                password: state.password,
+                password_confirmation: state.password_confirmation,
+                name: state.name,
+                phone: state.phone,
+                address: state.address,
             };
             if (data_post.email === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your email, please!" } });
-            } else if (data_post.username === "") {
-                dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your username, please!" } });
+            } else if (data_post.name === "") {
+                dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your name, please!" } });
             } else if (data_post.password === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your password, please!" } });
-            } else if (data_post.full_name === "") {
-                dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your fullname, please!" } });
+            } else if (data_post.address === "") {
+                dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your address, please!" } });
             } else if (data_post.phone === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your phone number, please!" } });
             } else {
@@ -82,7 +83,7 @@ const Registry = (props) => {
                                     <h4>{"Create your account"}</h4>
                                     <p>{"Enter your personal details to create account"}</p>
                                     <FormGroup>
-                                        <Label className="col-form-label">{"Email Address"}</Label>
+                                        <Label className="col-form-label">{"Email"}</Label>
                                         <Input
                                             className="form-control"
                                             type="email"
@@ -95,7 +96,7 @@ const Registry = (props) => {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label className="col-form-label">{"Username"}</Label>
+                                        <Label className="col-form-label">{"Name"}</Label>
                                         <Input
                                             className="form-control"
                                             type="text"
@@ -124,14 +125,30 @@ const Registry = (props) => {
                                         </div>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label className="col-form-label">{"Fullname"}</Label>
+                                        <Label className="col-form-label">{"Password Confirmation"}</Label>
+                                        <Input
+                                            className="form-control"
+                                            type={togglePassword ? "text" : "password"}
+                                            name="password"
+                                            value={state.password_confirmation}
+                                            onChange={(e) => {
+                                                setState({ ...state, password_confirmation: e.target.value });
+                                            }}
+                                            required
+                                        />
+                                        <div className="show-hide" onClick={() => HideShowPassword(togglePassword)}>
+                                            <span className={togglePassword ? "" : "show"}></span>
+                                        </div>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label className="col-form-label">{"Address"}</Label>
                                         <Input
                                             className="form-control"
                                             type="text"
                                             name="full_name"
-                                            value={state.full_name}
+                                            value={state.address}
                                             onChange={(e) => {
-                                                setState({ ...state, full_name: e.target.value });
+                                                setState({ ...state, address: e.target.value });
                                             }}
                                             required
                                         />

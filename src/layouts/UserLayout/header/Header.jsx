@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Bell, Grid, LogIn, Monitor, Moon, ShoppingCart, Star, Sun, User } from "react-feather";
+import { Bell, Clipboard, Grid, LogIn, Monitor, Moon, ShoppingCart, Star, Sun, User } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken } from "src/utils/token";
 import { clearRole } from "src/utils/role";
@@ -220,6 +220,10 @@ export default function Header() {
                         <li className="dropdown_opt">
                             <User width={17} height={17} />
                             <span>{"Account"} </span>
+                        </li>
+                        <li className="dropdown_opt" onClick={() => navigate("/purchase")}>
+                            <Clipboard width={17} height={17} />
+                            <span>{"Purchase"} </span>
                         </li>
                         <li
                             className="dropdown_opt"

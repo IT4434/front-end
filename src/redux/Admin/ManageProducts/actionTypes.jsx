@@ -1,5 +1,5 @@
 export const UPLOAD_IMG = "UPLOAD_IMG";
-// export const DISPLAY_CART = "DISPLAY_CART";
+export const ADD_PRODUCT_GENERAL = "ADD_PRODUCT_GENERAL";
 // export const NUMBER_CART = "NUMBER_CART";
 // export const WATCH_PRODUCT_LIST = "WATCH_PRODUCT_LIST";
 // export const WATCH_SINGLE_ITEM = "WATCH_SINGLE_ITEM";

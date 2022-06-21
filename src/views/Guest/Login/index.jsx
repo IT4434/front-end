@@ -5,7 +5,6 @@ import { Container, Row, Col, Form, FormGroup, Input, Label, Button } from "reac
 // import Logo from 'src/assets'
 
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "src/services/Guest/login";
 import { setLocalToken, setRemember, setSessionToken } from "src/utils/token";
 import { getRouteByRole, setLocalRole, setSessionRole } from "src/utils/role";
 import { setLocalUser, setSessionUser } from "src/utils/user";
@@ -13,6 +12,7 @@ import { OPEN_ERROR_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { OPEN_WARNING_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { imagePath } from "../../../constant/imagePath";
+import { loginAdmin, loginUser } from "src/services/Guest/login";
 
 const Login = (props) => {
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const Login = (props) => {
     const [togglePassword, setTogglePassword] = useState(false);
     const user = useSelector((state) => state.User.user);
     const [state, setState] = useState({
-        username: "",
+        email: "",
         password: "",
         remember: true,
     });
@@ -37,31 +37,36 @@ const Login = (props) => {
         var response;
         try {
             const data = {
-                username: state.username,
+                email: state.email,
                 password: state.password,
             };
             if (data.email === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your email, please!" } });
-            } else if (data.username === "") {
+            } else if (data.email === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your user name, please!" } });
             } else {
                 if (role === "user") {
-                    response = await login(data);
+                    response = await loginUser(data);
                 } else {
-                    // const response = await login(data);
+                    response = await loginAdmin(data);
+                    console.log("admin", response);
                 }
                 const body = response.data;
-                if (body.status == "success") {
+                if (body.access_token) {
                     if (state.remember) {
-                        setLocalToken(body.data.token);
+                        setLocalToken(body.access_token);
                         setLocalRole("user");
-                        setLocalUser(body.data.user_id);
+                        body.user?.id && setLocalUser(body.user.id);
                         setRemember(true);
-                        // localStorage.setItem("user", JSON.stringify(body.data.user));
+                        if (role === "user") {
+                            navigate("/products");
+                        } else {
+                            navigate("/admin/dashboard");
+                        }
                     } else {
-                        setSessionToken(body.data.token);
+                        setSessionToken(body.access_token);
                         setSessionRole("user");
-                        setSessionUser(body.data.user_id);
+                        setSessionUser(body.user.id);
                         setRemember(false);
                     }
                     // await dispatch(userActions.getProfile({ user_id: body.data.user_id }));
@@ -70,7 +75,7 @@ const Login = (props) => {
                         // navigate(getRouteByRole("user"));
                     }, 900);
                 } else {
-                    dispatch({ type: OPEN_ERROR_ALERT, payload: { message: body.data.message } });
+                    dispatch({ type: OPEN_ERROR_ALERT, payload: { message: "Login Fail!!!" } });
                     console.error(body);
                 }
             }
@@ -78,7 +83,6 @@ const Login = (props) => {
             dispatch({ type: OPEN_ERROR_ALERT, payload: { message: "Login error!" } });
             console.error(error);
         }
-        navigate("/products");
     }
 
     return (
@@ -95,17 +99,17 @@ const Login = (props) => {
                             </div>
                             <div className="login-main">
                                 <Form className="theme-form">
-                                    <h4>{"Login V-chain Platform"}</h4>
+                                    <h4>{"Login Super Market"}</h4>
                                     <p></p>
                                     <FormGroup>
-                                        <Label className="col-form-label">{"Username"}</Label>
+                                        <Label className="col-form-label">{"Email"}</Label>
                                         <Input
                                             className="form-control"
                                             type="text"
                                             name="username"
-                                            value={state.username}
+                                            value={state.email}
                                             onChange={(e) => {
-                                                setState({ ...state, username: e.target.value });
+                                                setState({ ...state, email: e.target.value });
                                             }}
                                             required
                                         />

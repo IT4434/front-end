@@ -41,12 +41,7 @@ export function fetchUserData() {
                     </span>
                     <span>
                         <a href="/admin/manage/users/:id/edit">
-                            <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                        </a>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
+                            <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                         </a>
                     </span>
                 </div>
@@ -64,12 +59,7 @@ export function fetchUserData() {
                         <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
                     </span>
                     <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
-                        </a>
+                        <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                     </span>
                 </div>
             ),
@@ -86,12 +76,7 @@ export function fetchUserData() {
                         <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
                     </span>
                     <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
-                        </a>
+                        <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                     </span>
                 </div>
             ),
@@ -108,12 +93,7 @@ export function fetchUserData() {
                         <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
                     </span>
                     <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
-                        </a>
+                        <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                     </span>
                 </div>
             ),
@@ -130,12 +110,7 @@ export function fetchUserData() {
                         <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
                     </span>
                     <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
-                        </a>
+                        <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                     </span>
                 </div>
             ),
@@ -152,12 +127,7 @@ export function fetchUserData() {
                         <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
                     </span>
                     <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
-                        </a>
+                        <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                     </span>
                 </div>
             ),
@@ -174,12 +144,7 @@ export function fetchUserData() {
                         <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
                     </span>
                     <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
-                        </a>
+                        <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                     </span>
                 </div>
             ),
@@ -196,12 +161,7 @@ export function fetchUserData() {
                         <i className="fa fa-trash" style={{ width: 35, fontSize: 16, padding: 11, color: "#e4566e", cursor: "pointer" }}></i>
                     </span>
                     <span>
-                        <i className="fa fa-pencil" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)" }}></i>
-                    </span>
-                    <span>
-                        <a href="#">
-                            <i className="fa fa-reorder" style={{ width: 35, fontSize: 16, padding: 11, color: "rgb(40, 167, 69)", cursor: "pointer" }}></i>
-                        </a>
+                        <i className="fa fa-lock" style={{ width: 35, fontSize: 16, padding: 11, color: "red", cursor: "pointer" }}></i>
                     </span>
                 </div>
             ),

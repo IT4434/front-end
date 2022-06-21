@@ -3,40 +3,81 @@ import { Container, Row, Col, Card, CardHeader, CardBody, CardFooter, Media, For
 import { useNavigate } from "react-router";
 import { OPEN_WARNING_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { UPLOAD_IMG } from "src/redux/Admin/ManageProducts/actionTypes";
+import { ADD_PRODUCT_GENERAL, UPLOAD_IMG } from "src/redux/Admin/ManageProducts/actionTypes";
 import { Rating } from "@mui/material";
+import axios from "axios";
+import { SERVICE_URL_ADMIN } from "src/constant/config";
+import { getToken } from "src/utils/token";
 
 const AddProductGeneral = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const img_temp = useSelector((props) => props.manageProduct.img_temp);
-    const [data, setData] = useState();
+    const [test_img, setTest_img] = useState();
+    const [categories, setCategories] = useState();
     const [name, setName] = useState();
     const [sale, setSale] = useState();
-    const [soldQuantity, setSoldQuantity] = useState();
-    const [rate, setRate] = useState();
+    const [soldQuantity, setSoldQuantity] = useState(0);
+    const [rate, setRate] = useState(0);
     const [brand, setBrand] = useState();
-    const [category, setCategory] = useState();
+    const [category_id, setCategoryID] = useState();
     const [description, setDescription] = useState();
+    let bodyFormData = new FormData();
+
+    useEffect(() => {
+        axios({
+            method: "GET",
+            url: `${SERVICE_URL_ADMIN}/categories`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            setCategories(res.data);
+            setCategoryID(res.data[0].id);
+            console.log(res.data);
+        });
+    }, []);
 
     const handleSubmit = () => {
-        setData({
-            name: name,
-            sale: sale,
-            sold_quantity: soldQuantity,
-            rating: rate,
-            brand: brand,
-            category: category,
-            description: description,
-            image: img_temp,
+        bodyFormData.append("product_name", name);
+        bodyFormData.append("sale", sale);
+        bodyFormData.append("sold_quantity", soldQuantity);
+        bodyFormData.append("rating", rate);
+        bodyFormData.append("rating_quantity", 0);
+        bodyFormData.append("brand", brand);
+        bodyFormData.append("category_id", category_id);
+        bodyFormData.append("description", description);
+        bodyFormData.append("images", test_img);
+
+        dispatch({
+            type: ADD_PRODUCT_GENERAL,
+            payload: bodyFormData,
+            //  {
+
+            // product_name: name,
+            // sale: sale,
+            // sold_quantity: soldQuantity,
+            // rating: rate,
+            // rating_quantity: 0,
+            // brand: brand,
+            // category_id: category_id,
+            // description: description,
+            // images: test_img,
+            // },
         });
-        navigate("detail");
+        // navigate("detail");
     };
     function uploadImg(e) {
+        bodyFormData.append("images", e.target.files[0]);
+        console.log(bodyFormData);
         const file = e.target.files[0];
+        setTest_img(file);
         let reader = new FileReader();
         reader.onload = function (ee) {
-            dispatch({ type: UPLOAD_IMG, payload: ee.target.result });
+            dispatch({ type: UPLOAD_IMG, payload: file });
+            // ee.target.result
         };
         if (file) {
             reader.readAsDataURL(file);
@@ -104,11 +145,10 @@ const AddProductGeneral = (props) => {
                                         <Col md="5">
                                             <FormGroup>
                                                 <Label className="form-label">{"Category"}</Label>
-                                                <Input type="select" name="select" className="form-control btn-square" onChange={(e) => setCategory(e.target.value)}>
-                                                    <option>{"Phone"}</option>
-                                                    <option>{"TV"}</option>
-                                                    <option>{"Tu Lanh"}</option>
-                                                    <option>{"May Giat"}</option>
+                                                <Input type="select" name="select" className="form-control btn-square">
+                                                    {categories?.map((category, key) => {
+                                                        return <option onClick={(category) => setCategoryID(category.id)}>{category.category_name}</option>;
+                                                    })}
                                                 </Input>
                                             </FormGroup>
                                         </Col>

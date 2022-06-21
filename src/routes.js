@@ -29,6 +29,8 @@ import Chat from "./views/User/Chat";
 import EditUser from "./views/Admin/Manage/Users/components/EditUser";
 import Favorite from "./views/User/Shoppings/Favorite";
 import EditProduct from "./views/Admin/Manage/Products/components/EditProduct";
+import Purchase from "./views/User/Shoppings/Purchase";
+import Purchase_detail from "./views/User/Shoppings/components/Purchase_detail";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -70,6 +72,14 @@ const routes = [
         path: "/favorites",
         element: <UserLayout />,
         children: [{ path: "", element: <Favorite /> }],
+    },
+    {
+        path: "/purchase",
+        element: <UserLayout />,
+        children: [
+            { path: "", element: <Purchase /> },
+            { path: ":purchase_id/detail", element: <Purchase_detail /> },
+        ],
     },
     {
         path: "/",

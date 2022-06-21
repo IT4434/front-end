@@ -1,6 +1,7 @@
-// export const CORE_SERVICE_URL = "https://core.v-chain.vn/v1";
+export const SERVICE_URL_USER = "http://localhost:8000/api";
+export const SERVICE_URL_ADMIN = "http://localhost:8000/api/admin";
 
-// export const ACCOUNT_SERVICE_URL = "https://account.v-chain.vn/v1";
+export const ACCOUNT_SERVICE_URL = "https://account.v-chain.vn/v1";
 
 // export const TOKEN_SERVICE_URL = "https://token.v-chain.vn/v1"
 

@@ -1,15 +1,15 @@
 import axios from "axios";
-import { ACCOUNT_SERVICE_URL } from "src/constant/config";
+import { SERVICE_URL_USER } from "src/constant/config";
 
 export async function registry(params) {
     const response = await axios({
-        method: 'post',
-        url: `${ACCOUNT_SERVICE_URL}/users`,
+        method: "post",
+        url: `${SERVICE_URL_USER}/auth/register`,
         data: params,
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
-        timeout: 30000
-    })
-    return response
+        timeout: 30000,
+    });
+    return response;
 }
