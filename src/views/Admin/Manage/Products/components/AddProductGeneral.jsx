@@ -67,7 +67,7 @@ const AddProductGeneral = (props) => {
             // images: test_img,
             // },
         });
-        // navigate("detail");
+        navigate("detail");
     };
     function uploadImg(e) {
         bodyFormData.append("images", e.target.files[0]);

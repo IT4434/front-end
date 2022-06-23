@@ -27,7 +27,7 @@ export const menu = [
             },
             {
                 title: "Order History",
-                url: `orded`,
+                url: `/admin/manage/order`,
             },
             {
                 title: "Pricing",
