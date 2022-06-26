@@ -16,10 +16,11 @@ const Registry = (props) => {
 
     const [state, setState] = useState({
         email: "",
-        username: "",
+        name: "",
         password: "",
-        full_name: "",
+        password_confirmation: "",
         phone: "",
+        address: ""
     });
 
     const navigate = useNavigate();
@@ -50,10 +51,10 @@ const Registry = (props) => {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your phone number, please!" } });
             } else {
                 const response = await registry(data_post);
-                if (response.data.status == "success") {
-                    dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Sign Up Success! Let's login now." } });
+                if (response.data.success) {
+                    dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Sign Up Success! Please check your mail to confirm." } });
                     setTimeout(() => {
-                        navigate(getRouteByRole("guest"));
+                        navigate("/login");
                     }, 900);
                 } else {
                     dispatch({ type: OPEN_ERROR_ALERT, payload: { message: response.data.data.message } });
@@ -74,8 +75,8 @@ const Registry = (props) => {
                         <div>
                             <div>
                                 <a className="logo" href="#javascript">
-                                    <img className="img-fluid for-light" src={imagePath.LOGO_LIGHT} height="40" width="125" alt="looginpage" />
-                                    <img className="img-fluid for-dark" src={imagePath.LOGO_DARK} height="40" width="125" alt="looginpage" />
+                                    <img className="img-fluid for-light" src={"https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1.png"} height="40" width="125" alt="looginpage" />
+                                    <img className="img-fluid for-dark" src={"https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1.png"} height="40" width="125" alt="looginpage" />
                                 </a>
                             </div>
                             <div className="login-main">
