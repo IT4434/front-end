@@ -47,6 +47,8 @@ const Registry = (props) => {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your password, please!" } });
             } else if (data_post.address === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your address, please!" } });
+            } else if (data_post.password_confirmation !== data_post.password) {
+                dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Password not match!" } });
             } else if (data_post.phone === "") {
                 dispatch({ type: OPEN_WARNING_ALERT, payload: { message: "Enter your phone number, please!" } });
             } else {
@@ -57,8 +59,8 @@ const Registry = (props) => {
                         navigate("/login");
                     }, 900);
                 } else {
-                    dispatch({ type: OPEN_ERROR_ALERT, payload: { message: response.data.data.message } });
-                    console.error(response.data);
+                    dispatch({ type: OPEN_ERROR_ALERT, payload: { message: response } });
+                    console.error(response);
                 }
             }
         } catch (error) {
@@ -102,9 +104,9 @@ const Registry = (props) => {
                                             className="form-control"
                                             type="text"
                                             name="username"
-                                            value={state.username}
+                                            value={state.name}
                                             onChange={(e) => {
-                                                setState({ ...state, username: e.target.value });
+                                                setState({ ...state, name: e.target.value });
                                             }}
                                             required
                                         />
