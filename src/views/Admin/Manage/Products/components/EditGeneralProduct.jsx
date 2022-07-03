@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Container, Row, Col, Card, CardHeader, CardBody, CardFooter, Media, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { OPEN_SUCCESS_ALERT, OPEN_WARNING_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_PRODUCT_GENERAL, UPLOAD_IMG } from "src/redux/Admin/ManageProducts/actionTypes";
@@ -8,8 +8,10 @@ import { Rating } from "@mui/material";
 import axios from "axios";
 import { SERVICE_URL_ADMIN } from "src/constant/config";
 import { getToken } from "src/utils/token";
+import { editGeneralProductSV } from "src/services/Admin/ManageProduct";
 
-const AddProductGeneral = (props) => {
+const EditProductGeneral = (props) => {
+    const { product_id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const img_temp = useSelector((props) => props.manageProduct.img_temp);
@@ -40,50 +42,26 @@ const AddProductGeneral = (props) => {
             console.log(res.data);
         });
     }, []);
-    useEffect(() => {
-        if (product_temp?.id) {
-            navigate("detail");
-        }
-    }, [product_temp]);
 
     const handleSubmit = () => {
-        bodyFormData.append("product_name", name);
-        bodyFormData.append("sale", sale);
-        bodyFormData.append("sold_quantity", soldQuantity);
-        bodyFormData.append("rating", rate);
-        bodyFormData.append("rating_quantity", 0);
-        bodyFormData.append("brand", brand);
-        bodyFormData.append("category_id", category_id);
-        bodyFormData.append("description", description);
-        bodyFormData.append("images", test_img);
+        const data = {
+            id: product_id,
+            product_name: name,
+            brand: brand,
+            sold_quantity: soldQuantity,
+            rating: rate,
+            rating_quantity: 0,
+            category_id: category_id,
+            description: description,
+        };
 
-        dispatch({
-            type: ADD_PRODUCT_GENERAL,
-            payload: bodyFormData,
-        });
+        editGeneralProductSV(data);
         dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Please wait!" } });
-
+        setTimeout(() => {
+            navigate("/admin/manage/products");
+        }, 900);
         // navigate("detail");
     };
-    function uploadImg(e) {
-        bodyFormData.append("images", e.target.files[0]);
-        const file = e.target.files[0];
-        setTest_img(file);
-        let reader = new FileReader();
-        reader.onload = function (ee) {
-            dispatch({ type: UPLOAD_IMG, payload: file });
-            // ee.target.result
-        };
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-        dispatch({
-            type: OPEN_WARNING_ALERT,
-            payload: {
-                message: "Request is being processed",
-            },
-        });
-    }
 
     return (
         <Fragment>
@@ -93,7 +71,7 @@ const AddProductGeneral = (props) => {
                         <Col xl="12">
                             <Form className="card">
                                 <CardHeader>
-                                    <h4 className="card-title mb-0">{"Add New Product (General)"}</h4>
+                                    <h4 className="card-title mb-0">{"Edit Product (General)"}</h4>
                                     <div className="card-options">
                                         <a className="card-options-collapse" href="#javascript">
                                             <i className="fe fe-chevron-up"></i>
@@ -115,7 +93,7 @@ const AddProductGeneral = (props) => {
                                         <Col sm="6" md="6">
                                             <FormGroup>
                                                 <Label className="form-label">{"Sold Quantity"}</Label>
-                                                <Input disabled value={0} className="form-control" type="number" placeholder="Sold Quantity" onChange={(e) => setSoldQuantity(e.target.value)} />
+                                                <Input value={soldQuantity} className="form-control" type="number" placeholder="Sold Quantity" onChange={(e) => setSoldQuantity(e.target.value)} />
                                             </FormGroup>
                                         </Col>
                                         <Col sm="6" md="4">
@@ -150,15 +128,6 @@ const AddProductGeneral = (props) => {
                                         </Col>
                                         <br />
                                         <br />
-                                        <Col md="12">
-                                            <Label className="form-label mt-3">{"Image"}</Label>
-                                            <br />
-                                            <div style={{ display: "inline-block", height: "200px", overflow: "hidden", position: "relative" }}>
-                                                <Input onChange={uploadImg} type="file" id="drop_zone" />
-                                                <br />
-                                                {img_temp ? <Media alt="" src={img_temp} style={{ width: "inherit", height: "inherit" }} /> : ""}
-                                            </div>
-                                        </Col>
                                     </Row>
                                 </CardBody>
                                 <CardFooter className="text-right" style={{ background: "inherit" }}>
@@ -175,4 +144,4 @@ const AddProductGeneral = (props) => {
     );
 };
 
-export default AddProductGeneral;
+export default EditProductGeneral;

@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import DataTable from "react-data-table-component";
-import { fetchUserData, userColumns } from "../components/Userdata.jsx";
 import { Box, Modal, Typography } from "@material-ui/core";
+import TableUser from "./tableData";
 
 const Userlist = () => {
     const [open, setOpen] = React.useState(false);
@@ -20,7 +20,6 @@ const Userlist = () => {
         boxShadow: 24,
         p: 4,
     };
-    const userData = fetchUserData();
 
     return (
         <Fragment>
@@ -34,7 +33,8 @@ const Userlist = () => {
                             </CardHeader>
                             <CardBody>
                                 <div className="table-responsive product-table">
-                                    <DataTable noHeader columns={userColumns} data={userData} />
+                                    {/* <DataTable noHeader columns={userColumns} data={userData} /> */}
+                                    <TableUser />
                                 </div>
                             </CardBody>
                         </Card>

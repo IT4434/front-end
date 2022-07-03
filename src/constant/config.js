@@ -3,7 +3,7 @@ export const SERVICE_URL_ADMIN = "http://localhost:8000/api/admin";
 
 export const ACCOUNT_SERVICE_URL = "https://account.v-chain.vn/v1";
 
-// export const TOKEN_SERVICE_URL = "https://token.v-chain.vn/v1"
+export const IMG_URL = "https://project2storage.s3.ap-southeast-1.amazonaws.com";
 
 // export const V_STORAGE_URL = "https://storage.v-chain.vn/v1";
 

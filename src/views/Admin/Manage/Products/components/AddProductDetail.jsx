@@ -4,25 +4,38 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import "../index.scss";
 import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
+import { ADD_PRODUCT_DETAIL } from "src/redux/Admin/ManageProducts/actionTypes";
 
 const AddProductDetail = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [data, setData] = useState();
+    const product = useSelector((state) => state.manageProduct.product_new);
+    const [sale, setSale] = useState();
+    const [images, setImages] = useState();
     const [price, setPrice] = useState();
     const [quantity, setQuantity] = useState();
     const [date, setDate] = useState();
     const [color, setColor] = useState();
+    let bodyFormData = new FormData();
 
+    console.log(product);
     const handleSubmit = () => {
-        setData({
-            price: price,
-            available_quantity: quantity,
-            manufacturing_date: date,
-            color: color,
+        bodyFormData.append("product_id", product?.id);
+        bodyFormData.append("price", price);
+        bodyFormData.append("available_quantity", quantity);
+        bodyFormData.append("sale", sale);
+        bodyFormData.append("color", color);
+        bodyFormData.append("images", images);
+        bodyFormData.append("manufacturing_date", date);
+        dispatch({
+            type: ADD_PRODUCT_DETAIL,
+            payload: bodyFormData,
         });
-        console.log(data);
         dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Successful!" } });
+
+        setTimeout(() => {
+            navigate("/admin/manage/products");
+        }, 1000);
     };
 
     return (
@@ -45,23 +58,29 @@ const AddProductDetail = (props) => {
                                 </CardHeader>
                                 <CardBody>
                                     <Row>
-                                        <Col lg="4">
+                                        <Col sm="5" md="5">
                                             <FormGroup>
                                                 <Label className="form-label">{"Price "}</Label>
                                                 <Input className="form-control" type="number" placeholder="Price" onChange={(e) => setPrice(e.target.value)} />
                                             </FormGroup>
                                         </Col>
 
-                                        <Col sm="6" md="4">
+                                        <Col sm="4" md="4">
                                             <FormGroup>
                                                 <Label className="form-label">{"Available Quantity"}</Label>
                                                 <Input className="form-control" type="number" placeholder="Available Quantity" onChange={(e) => setQuantity(e.target.value)} />
                                             </FormGroup>
                                         </Col>
-                                        <Col sm="6" md="6">
+                                        <Col sm="5" md="5">
                                             <FormGroup>
                                                 <Label className="form-label">{"Date of Manufacture"}</Label>
                                                 <Input className="form-control" type="date" placeholder="Date of Manufacture" onChange={(e) => setDate(e.target.value)} />
+                                            </FormGroup>
+                                        </Col>
+                                        <Col sm="4" md="4">
+                                            <FormGroup>
+                                                <Label className="form-label">{"Sale"}</Label>
+                                                <Input className="form-control" type="number" placeholder="Sale" onChange={(e) => setSale(e.target.value)} />
                                             </FormGroup>
                                         </Col>
 
@@ -88,6 +107,13 @@ const AddProductDetail = (props) => {
                                                     </div>
                                                 </div>
                                             </FormGroup>
+                                        </Col>
+                                        <Col md="12">
+                                            <Label className="form-label mt-3">{"Image"}</Label>
+                                            <br />
+                                            <div style={{ display: "inline-block", height: "200px", overflow: "hidden", position: "relative" }}>
+                                                <Input onChange={(e) => setImages(e.target.files[0])} type="file" id="drop_zone" />
+                                            </div>
                                         </Col>
 
                                         <br />

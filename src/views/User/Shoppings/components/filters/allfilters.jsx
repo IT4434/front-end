@@ -1,27 +1,98 @@
+import axios from "axios";
 import React, { Fragment } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
-import { filterBrand, filterColor, filterPrice } from "src/redux/User/filter/action";
-import { getBrands, getColors, getMinMaxPrice } from "src/services/User/products";
-import { data } from "../data";
+import { SERVICE_URL_ADMIN, SERVICE_URL_USER } from "src/constant/config";
+import { BRAND, CATEGORY, filterCategory, filterColor, filterPrice, FILTER_BRAND, FILTER_CATEGORY } from "src/redux/User/filter/action";
+import { getToken } from "src/utils/token";
 import RangeSlider from "../Slider";
 const Allfilters = () => {
-    // const data = useSelector((content) => content.Product.productItems);
-    const brands = getBrands(data);
-    const colors = getColors(data);
-    // const prices = getMinMaxPrice(data);
-    const filteredBrand = useSelector((content) => content.filters.brand);
+    async function getAllProduct() {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/products`,
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            let arr = [];
+            res.data?.map((item) => {
+                if (!arr.includes(item.brand)) {
+                    arr.push(item.brand);
+                }
+            });
+            setBrands(arr);
+            dispatch({ type: BRAND, brand: arr });
+        });
+    }
+    async function getCategories() {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_ADMIN}/categories`,
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            let arr = [];
+            res.data.map((item) => {
+                if (!arr.includes(item.category_name)) {
+                    arr.push(item.category_name);
+                }
+            });
+            setCategories(arr);
+            dispatch({ type: CATEGORY, category: arr });
+        });
+    }
+    useEffect(() => {
+        getAllProduct();
+        getCategories();
+    }, []);
+
+    const [brands, setBrands] = useState();
+    const [categories, setCategories] = useState();
+    const filteredBrand = useSelector((content) => content.filters.filter_brand);
+    const filteredCategory = useSelector((content) => content.filters.filter_category);
+
     const prices = useSelector((content) => content.filters.value);
     const dispatch = useDispatch();
     const value = useSelector((content) => content.filters.value);
 
-    const clickBrandHendle = (event, brands) => {
-        var index = brands.indexOf(event.target.value);
+    const clickBrandHandle = (event, temp) => {
+        const index = temp.indexOf(event.target.value);
+        if (event.target.checked === true) {
+            if (!temp.includes(event.target.value)) {
+                temp.push(event.target.value);
+            }
+        } else {
+            if (temp.includes(event.target.value)) {
+                temp.splice(index, 1);
+            }
+        }
 
-        if (event.target.checked === true) brands.push(event.target.value);
-        else brands.splice(index, 1);
-
-        dispatch(filterBrand(brands));
+        dispatch({ type: FILTER_BRAND, filter_brand: temp });
+    };
+    const clickCategoryHandle = (event, temp) => {
+        const index = temp.indexOf(event.target.value);
+        if (event.target.checked) {
+            if (!temp.includes(event.target.value)) {
+                temp.push(event.target.value);
+            }
+        } else {
+            if (temp.includes(event.target.value)) {
+                temp.splice(index, 1);
+            }
+        }
+        dispatch({ type: FILTER_CATEGORY, filter_category: temp });
     };
 
     return (
@@ -29,20 +100,20 @@ const Allfilters = () => {
             <div className="product-filter">
                 <h6 className="f-w-600">{"Category"}</h6>
                 <div className="checkbox-animated mt-0">
-                    {brands.map((brand, index) => {
+                    {categories?.map((category, index) => {
                         return (
                             <label className="d-block" key={index}>
                                 <input
+                                    onClick={(e) => clickCategoryHandle(e, filteredCategory)}
                                     className="checkbox_animated"
-                                    onClick={(e) => clickBrandHendle(e, filteredBrand)}
-                                    value={brand}
-                                    defaultChecked={filteredBrand.includes(brand) ? true : false}
-                                    id={brand}
+                                    value={category}
+                                    defaultChecked={false}
+                                    id={category}
                                     type="checkbox"
                                     data-original-title=""
                                     title=""
                                 />
-                                {brand}
+                                {category}
                             </label>
                         );
                     })}
@@ -51,14 +122,14 @@ const Allfilters = () => {
             <div className="product-filter">
                 <h6 className="f-w-600">{"Brand"}</h6>
                 <div className="checkbox-animated mt-0">
-                    {brands.map((brand, index) => {
+                    {brands?.map((brand, index) => {
                         return (
                             <label className="d-block" key={index}>
                                 <input
                                     className="checkbox_animated"
-                                    onClick={(e) => clickBrandHendle(e, filteredBrand)}
+                                    onClick={(e) => clickBrandHandle(e, filteredBrand)}
                                     value={brand}
-                                    defaultChecked={filteredBrand.includes(brand) ? true : false}
+                                    defaultChecked={false}
                                     id={brand}
                                     type="checkbox"
                                     data-original-title=""

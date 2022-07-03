@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CORE_SERVICE_URL } from "src/constant/config";
+import { CORE_SERVICE_URL, SERVICE_URL_ADMIN, SERVICE_URL_USER } from "src/constant/config";
 import { getToken } from "src/utils/token";
 
 export const getBrands = (products) => {
@@ -75,3 +75,35 @@ export const getVisibleproducts = (data, { brand, color, value, sortBy, searchBy
             }
         });
 };
+
+export async function getAllProduct(payload) {
+    const response = await axios({
+        method: "GET",
+        url: `${SERVICE_URL_USER}/products`,
+        headers: {
+            // "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        timeout: 30000,
+    });
+    return response;
+}
+
+export async function getCategories() {
+    const response = await axios({
+        method: "GET",
+        url: `${SERVICE_URL_ADMIN}/categories`,
+        headers: {
+            // "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        timeout: 30000,
+    });
+    return response;
+}

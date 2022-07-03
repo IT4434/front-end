@@ -32,6 +32,8 @@ import EditProduct from "./views/Admin/Manage/Products/components/EditProduct";
 import Purchase from "./views/User/Shoppings/Purchase";
 import Purchase_detail from "./views/User/Shoppings/components/Purchase_detail";
 import Order from "./views/Admin/Manage/Orders";
+import EditProductGeneral from "./views/Admin/Manage/Products/components/EditGeneralProduct";
+import ManageCategories from "./views/Admin/Manage/Categories";
 const UserLayout = React.lazy(() => import("./layouts/UserLayout/UserLayout"));
 
 const routes = [
@@ -106,8 +108,10 @@ const routes = [
             { path: "manage/products", element: <ManageProducts /> },
             { path: "manage/products/add_product", element: <AddProductGeneral /> },
             { path: "manage/products/add_product/detail", element: <AddProductDetail /> },
-            { path: "manage/products/:id/edit", element: <EditProduct /> },
+            { path: "manage/products/edit_general/:product_id", element: <EditProductGeneral /> },
+            { path: "manage/products/:product_id/edit", element: <EditProduct /> },
             { path: "manage/order", element: <Order /> },
+            { path: "manage/categories", element: <ManageCategories /> },
             // // {path: "forgot-password", element: <ForgotPassword />},
             // { path: "*", element: <Redirector /> },
             // // { path: "404", element: <NotFound /> },

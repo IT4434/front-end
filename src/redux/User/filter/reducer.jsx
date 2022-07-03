@@ -1,7 +1,10 @@
-import { FILTER_BRAND, FILTER_COLOR, FILTER_PRICE, SEARCH_BY, SORT_BY } from "./action";
+import { BRAND, CATEGORY, FILTER_BRAND, FILTER_CATEGORY, FILTER_COLOR, FILTER_PRICE, SEARCH_BY, SORT_BY } from "./action";
 const filtersReducerDefaultState = {
-    brand: ["Diesel", "Hudson", "Lee"],
-    value: { min: 0, max: 1000 },
+    brand: [],
+    category: [],
+    filter_brand: [],
+    filter_category: [],
+    value: { min: 0, max: 10000 },
     sortBy: "",
     searchBy: "",
 };
@@ -11,7 +14,22 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
         case FILTER_BRAND:
             return {
                 ...state,
+                filter_brand: action.filter_brand,
+            };
+        case BRAND:
+            return {
+                ...state,
                 brand: action.brand,
+            };
+        case CATEGORY:
+            return {
+                ...state,
+                category: action.category,
+            };
+        case FILTER_CATEGORY:
+            return {
+                ...state,
+                filter_category: action.filter_category,
             };
         case FILTER_COLOR:
             return {

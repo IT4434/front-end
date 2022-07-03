@@ -22,17 +22,17 @@ export const menu = [
                 url: `/admin/manage/products`,
             },
             {
-                title: "Payment Detail",
-                url: `/admin/manage/products/payment`,
+                title: "Category",
+                url: `/admin/manage/categories`,
             },
-            {
-                title: "Order History",
-                url: `/admin/manage/order`,
-            },
-            {
-                title: "Pricing",
-                url: `pricing`,
-            },
+            // {
+            //     title: "Order History",
+            //     url: `/admin/manage/order`,
+            // },
+            // {
+            //     title: "Pricing",
+            //     url: `pricing`,
+            // },
         ],
     },
     {

@@ -31,16 +31,70 @@ import Allfilters from "./components/filters/allfilters";
 import { data } from "./components/data";
 import Slider from "react-slick";
 import { items2 } from "./components/carousel/carouselComponent.jsx";
+import { IMG_URL, SERVICE_URL_USER } from "src/constant/config";
+import { getToken } from "src/utils/token";
+import axios from "axios";
 
 const Product = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [allProduct, setAllProduct] = useState();
+    const [productData, setProductData] = useState();
+
     useEffect(() => {
+        getAllProduct();
         localStorage.setItem("navbarActive", "home");
     }, []);
 
     // const data = useSelector((content) => content.Product.productItems);
+    async function getAllProduct() {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/products`,
+            headers: {
+                // "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            // setAllProduct(res.data);
+            setProductData(res.data);
+            let temp_arr = [];
+            res.data.map((product) => {
+                if (product.details.length > 0) {
+                    product.details.map((item) => {
+                        const t = getRndInteger(500, 1500);
+                        let temp = {
+                            id: product.id,
+                            img: item.images?.length > 0 ? `${IMG_URL}/${item.images[0].image_path}` : "",
+                            name: product.product_name,
+                            note: product.description,
+                            discription: product.description,
+                            discountPrice: t,
+                            status: "none",
+                            price: item.price,
+                            stock: "In stock",
+                            review: "(250 review)",
+                            category: product.category_id,
+                            colors: [item.color],
+                            size: ["M", "L", "XL"],
+                            tags: [product.brand],
+                        };
+                        temp_arr.push(temp);
+                    });
+                    setAllProduct(temp_arr);
+                }
+            });
+            console.log(allProduct);
+        });
+    }
 
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
     // eslint-disable-next-line
     const [layoutColumns, setLayoutColumns] = useState(3);
 
@@ -53,14 +107,50 @@ const Product = (props) => {
     const [filterSidebar, setFilterSidebar] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const filters = useSelector((content) => content.filters);
-    const products = getVisibleproducts(data, filters);
+    // const products = allProduct && getVisibleproducts(allProduct, filters);
 
     useEffect(() => {
         dispatch(watchfetchProducts());
     }, [dispatch]);
 
+    async function Search(payload) {
+        const response = await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/search-products/`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: getToken(),
+            },
+            // data: payload.data,
+            params: payload,
+            timeout: 30000,
+        }).then((res) => {
+            setProductData(res.data);
+            console.log(res.data);
+        });
+        return response;
+    }
+
     const filterSortFunc = (event) => {
-        dispatch({ type: SORT_BY, sort_by: event });
+        // dispatch({ type: SORT_BY, sort_by: event });
+        productData.map((product) => {
+            if (product.details.length > 0) {
+            }
+        });
+        let arr1 = productData.filter((product) => product.details.length > 0);
+        arr1 = arr1.sort(function (a, b) {
+            if (event == "LowestPrices") {
+                return a.details[0].price - b.details[0].price;
+            } else {
+                if (event === "HighestPrices") {
+                    return b.details[0].price - a.details[0].price;
+                } else {
+                    return;
+                }
+            }
+        });
+        let arr2 = productData.filter((product) => product.details.length === 0);
+        setProductData([...arr1, ...arr2]);
     };
 
     const gridLayout = () => {
@@ -105,7 +195,7 @@ const Product = (props) => {
 
     const onOpenModal = (productId) => {
         setOpen(true);
-        data.forEach((product, i) => {
+        productData.forEach((product, i) => {
             if (product.id === productId) {
                 setSingleProduct(product);
             }
@@ -137,7 +227,7 @@ const Product = (props) => {
 
     const addcart = (product, qty) => {
         dispatch({ type: ADD_TO_CART, payload: { product, qty } });
-        navigate(`$`);
+        navigate(``);
     };
 
     const addWishList = (product) => {
@@ -146,6 +236,7 @@ const Product = (props) => {
     };
 
     const handleSearchKeyword = (keyword) => {
+        Search({ search: keyword });
         setSearchKeyword(keyword);
         dispatch({ type: SEARCH_BY, search: keyword });
     };
@@ -313,159 +404,177 @@ const Product = (props) => {
                     </div>
 
                     <div className="product-wrapper-grid">
-                        {searchKeyword.length > 0 ? (
+                        {/* {searchKeyword.length > 0 ? (
                             <div className="search-not-found text-center">
                                 <div>
                                     <img className="img-fluid second-search" src={errorImg} alt="" />
                                     <p>{"NotFoundData"}</p>
                                 </div>
                             </div>
-                        ) : (
-                            <Row className="gridRow">
-                                {products
-                                    ? products.map((item, i) => (
-                                          <div className={`${layoutColumns === 3 ? "col-xl-3 col-sm-6 xl-4 col-grid-box" : "col-xl-" + layoutColumns}`} key={i}>
-                                              <Card>
-                                                  <div className="product-box">
-                                                      <div className="product-img">
-                                                          {item.status === "sale" ? <span className="ribbon ribbon-danger">{item.status}</span> : ""}
-                                                          {item.status === "50%" ? <span className="ribbon ribbon-success ribbon-right">{item.status}</span> : ""}
-                                                          {item.status === "gift" ? (
-                                                              <span className="ribbon ribbon-secondary ribbon-vertical-left">
-                                                                  {" "}
-                                                                  <i className="icon-gift"></i>
-                                                              </span>
-                                                          ) : (
-                                                              ""
-                                                          )}
-                                                          {item.status === "love" ? (
-                                                              <span className="ribbon ribbon-bookmark ribbon-vertical-right ribbon-info">
-                                                                  <i className="icon-heart"></i>
-                                                              </span>
-                                                          ) : (
-                                                              ""
-                                                          )}
-                                                          {item.status === "Hot" ? <span className="ribbon ribbon ribbon-clip ribbon-warning">{item.status}</span> : ""}
-                                                          <img className="img-fluid" src={"https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"} alt="" />
-                                                          <div className="product-hover">
-                                                              <ul>
-                                                                  <li>
-                                                                      <Link to={`$`}>
-                                                                          <Button color="default" onClick={() => addcart(item, quantity)}>
-                                                                              <i className="icon-shopping-cart"></i>
-                                                                          </Button>
-                                                                      </Link>
-                                                                  </li>
-                                                                  <li>
-                                                                      <Button color="default" data-toggle="modal" onClick={() => onOpenModal(item.id)}>
-                                                                          <i className="icon-eye"></i>
+                        ) : ( */}
+                        <Row className="gridRow">
+                            {productData
+                                ? productData.map((item, i) => (
+                                      <div className={`${layoutColumns === 3 ? "col-xl-3 col-sm-6 xl-4 col-grid-box" : "col-xl-" + layoutColumns}`} key={i}>
+                                          <Card>
+                                              <div className="product-box">
+                                                  <div className="product-img">
+                                                      {item.status === "sale" ? <span className="ribbon ribbon-danger">{item.status}</span> : ""}
+                                                      {item.status === "50%" ? <span className="ribbon ribbon-success ribbon-right">{item.status}</span> : ""}
+                                                      {item.status === "gift" ? (
+                                                          <span className="ribbon ribbon-secondary ribbon-vertical-left">
+                                                              {" "}
+                                                              <i className="icon-gift"></i>
+                                                          </span>
+                                                      ) : (
+                                                          ""
+                                                      )}
+                                                      {item.status === "love" ? (
+                                                          <span className="ribbon ribbon-bookmark ribbon-vertical-right ribbon-info">
+                                                              <i className="icon-heart"></i>
+                                                          </span>
+                                                      ) : (
+                                                          ""
+                                                      )}
+                                                      {item.status === "Hot" ? <span className="ribbon ribbon ribbon-clip ribbon-warning">{item.status}</span> : ""}
+                                                      <img
+                                                          className="img-fluid"
+                                                          src={
+                                                              item.images.length > 0
+                                                                  ? `${IMG_URL}/${item.images[0].image_path}`
+                                                                  : item.details?.length > 0 && item.details[0].images.length > 0
+                                                                  ? `${IMG_URL}/${item.details[0].images[0].image_path}`
+                                                                  : "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
+                                                          }
+                                                          alt=""
+                                                      />
+                                                      <div className="product-hover">
+                                                          <ul>
+                                                              <li>
+                                                                  <Link to={`$`}>
+                                                                      <Button color="default" onClick={() => addcart(item, quantity)}>
+                                                                          <i className="icon-shopping-cart"></i>
                                                                       </Button>
-                                                                  </li>
-                                                                  <li>
-                                                                      <Link to={`$`}>
-                                                                          <Button color="default" onClick={() => addWishList(item)}>
-                                                                              <i className="icon-heart"></i>
-                                                                          </Button>
-                                                                      </Link>
-                                                                  </li>
-                                                              </ul>
-                                                          </div>
-                                                      </div>
-                                                      <div className="product-details">
-                                                          <div className="rating">
-                                                              <i className="fa fa-star"></i>
-                                                              <i className="fa fa-star"></i>
-                                                              <i className="fa fa-star"></i>
-                                                              <i className="fa fa-star"></i>
-                                                              <i className="fa fa-star"></i>
-                                                          </div>
-                                                          <h4 onClick={() => onClickDetailPage(item)} className="font-primary">
-                                                              {item.name}
-                                                          </h4>
-                                                          <p>{item.note}</p>
-                                                          <div className="product-price">
-                                                              {"$"} {item.price}
-                                                              <del>
-                                                                  {"$"} {item.discountPrice}
-                                                              </del>
-                                                          </div>
+                                                                  </Link>
+                                                              </li>
+                                                              <li>
+                                                                  <Button color="default" data-toggle="modal" onClick={() => onOpenModal(item.id)}>
+                                                                      <i className="icon-eye"></i>
+                                                                  </Button>
+                                                              </li>
+                                                              <li>
+                                                                  <Link to={`$`}>
+                                                                      <Button color="default" onClick={() => addWishList(item)}>
+                                                                          <i className="icon-heart"></i>
+                                                                      </Button>
+                                                                  </Link>
+                                                              </li>
+                                                          </ul>
                                                       </div>
                                                   </div>
-                                              </Card>
-                                          </div>
-                                      ))
-                                    : ""}
+                                                  <div className="product-details">
+                                                      <div className="rating">
+                                                          <i className="fa fa-star"></i>
+                                                          <i className="fa fa-star"></i>
+                                                          <i className="fa fa-star"></i>
+                                                          <i className="fa fa-star"></i>
+                                                          <i className="fa fa-star"></i>
+                                                      </div>
+                                                      <h4 onClick={() => onClickDetailPage(item)} className="font-primary">
+                                                          {item.product_name}
+                                                      </h4>
+                                                      <p>{item.note}</p>
+                                                      <div className="product-price">
+                                                          {item.details?.length > 0 ? (
+                                                              <>
+                                                                  {"$"} {item.details.length > 0 && item.details[0].price}
+                                                                  <del>{item.details[0].sale}%</del>
+                                                              </>
+                                                          ) : (
+                                                              <span>Out of stock</span>
+                                                          )}
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </Card>
+                                      </div>
+                                  ))
+                                : ""}
 
-                                <Modal className="modal-lg modal-dialog-centered product-modal" isOpen={open}>
-                                    <ModalBody>
-                                        <ModalHeader toggle={onCloseModal}>
-                                            <div className="product-box row">
-                                                <Col lg="6" className="product-img">
-                                                    <Media className="img-fluid" src={"https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"} alt="" />
-                                                </Col>
-                                                <Col lg="6" className="product-details  text-left">
-                                                    <h4>{singleProduct.category}</h4>
-                                                    <div className="product-price">
-                                                        {"$"}
-                                                        {singleProduct.price}
-                                                        <del>
-                                                            {"$"}
-                                                            {singleProduct.discountPrice}
-                                                        </del>
-                                                    </div>
-                                                    <div className="product-view">
-                                                        <h6 className="f-w-600">{"ProductDetails"}</h6>
-                                                        <p className="mb-0">{singleProduct.discription}</p>
-                                                    </div>
+                            <Modal className="modal-lg modal-dialog-centered product-modal" isOpen={open}>
+                                <ModalBody>
+                                    <ModalHeader toggle={onCloseModal}>
+                                        <div className="product-box row">
+                                            <Col lg="6" className="product-img">
+                                                <Media className="img-fluid" src={"https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"} alt="" />
+                                            </Col>
+                                            <Col lg="6" className="product-details  text-left">
+                                                <h4>{singleProduct.product_name}</h4>
+                                                <div className="product-price">
+                                                    {singleProduct.details?.length > 0 ? (
+                                                        <>
+                                                            {"$"} {singleProduct.details.length > 0 && singleProduct.details[0].price}
+                                                            <del>
+                                                                {"$"} {getRndInteger(500, 1500)}
+                                                            </del>
+                                                        </>
+                                                    ) : (
+                                                        <span>Out of stock</span>
+                                                    )}
+                                                </div>
+                                                <div className="product-view">
+                                                    <h6 className="f-w-600">{"ProductDetails"}</h6>
+                                                    <p className="mb-0">{singleProduct.description}</p>
+                                                </div>
 
-                                                    <div className="product-qnty">
-                                                        <h6 className="f-w-600">{"Quantity"}</h6>
-                                                        <fieldset>
-                                                            <InputGroup className="bootstrap-touchspin">
-                                                                <InputGroupAddon addonType="prepend">
-                                                                    <Button color="primary btn-square" className="bootstrap-touchspin-down" onClick={minusQty}>
-                                                                        <i className="fa fa-minus"></i>
-                                                                    </Button>
-                                                                </InputGroupAddon>
-                                                                <InputGroupAddon addonType="prepend">
-                                                                    <InputGroupText className="bootstrap-touchspin-prefix" style={{ display: "none" }}></InputGroupText>
-                                                                </InputGroupAddon>
-                                                                <Input
-                                                                    className="touchspin text-center"
-                                                                    type="text"
-                                                                    name="quantity"
-                                                                    value={quantity}
-                                                                    onChange={(e) => changeQty(e)}
-                                                                    style={{ display: "block" }}
-                                                                />
-                                                                <InputGroupAddon addonType="append">
-                                                                    <InputGroupText className="bootstrap-touchspin-postfix" style={{ display: "none" }}></InputGroupText>
-                                                                </InputGroupAddon>
-                                                                <InputGroupAddon addonType="append" className="ml-0">
-                                                                    <Button color="primary btn-square" className="bootstrap-touchspin-up" onClick={plusQty}>
-                                                                        <i className="fa fa-plus"></i>
-                                                                    </Button>
-                                                                </InputGroupAddon>
-                                                            </InputGroup>
-                                                        </fieldset>
-                                                        <div className="addcart-btn">
-                                                            <Link to={`$`}>
-                                                                <Button color="primary" className="mr-2 mt-2" onClick={() => addcart(singleProduct, quantity)}>
-                                                                    {"AddToCart"}
+                                                <div className="product-qnty">
+                                                    <h6 className="f-w-600">{"Quantity"}</h6>
+                                                    <fieldset>
+                                                        <InputGroup className="bootstrap-touchspin">
+                                                            <InputGroupAddon addonType="prepend">
+                                                                <Button color="primary btn-square" className="bootstrap-touchspin-down" onClick={minusQty}>
+                                                                    <i className="fa fa-minus"></i>
                                                                 </Button>
-                                                            </Link>
-                                                            <Button onClick={() => onClickDetailPage(singleProduct)} color="primary" className="mr-2 mt-2">
-                                                                {"ViewDetails"}
+                                                            </InputGroupAddon>
+                                                            <InputGroupAddon addonType="prepend">
+                                                                <InputGroupText className="bootstrap-touchspin-prefix" style={{ display: "none" }}></InputGroupText>
+                                                            </InputGroupAddon>
+                                                            <Input
+                                                                className="touchspin text-center"
+                                                                type="text"
+                                                                name="quantity"
+                                                                value={quantity}
+                                                                onChange={(e) => changeQty(e)}
+                                                                style={{ display: "block" }}
+                                                            />
+                                                            <InputGroupAddon addonType="append">
+                                                                <InputGroupText className="bootstrap-touchspin-postfix" style={{ display: "none" }}></InputGroupText>
+                                                            </InputGroupAddon>
+                                                            <InputGroupAddon addonType="append" className="ml-0">
+                                                                <Button color="primary btn-square" className="bootstrap-touchspin-up" onClick={plusQty}>
+                                                                    <i className="fa fa-plus"></i>
+                                                                </Button>
+                                                            </InputGroupAddon>
+                                                        </InputGroup>
+                                                    </fieldset>
+                                                    <div className="addcart-btn">
+                                                        <Link to={``}>
+                                                            <Button color="primary" className="mr-2 mt-2" onClick={() => addcart(singleProduct, quantity)}>
+                                                                {"AddToCart"}
                                                             </Button>
-                                                        </div>
+                                                        </Link>
+                                                        <Button onClick={() => onClickDetailPage(singleProduct)} color="primary" className="mr-2 mt-2">
+                                                            {"ViewDetails"}
+                                                        </Button>
                                                     </div>
-                                                </Col>
-                                            </div>
-                                        </ModalHeader>
-                                    </ModalBody>
-                                </Modal>
-                            </Row>
-                        )}
+                                                </div>
+                                            </Col>
+                                        </div>
+                                    </ModalHeader>
+                                </ModalBody>
+                            </Modal>
+                        </Row>
+                        // ) }
                     </div>
                 </div>
             </Container>
