@@ -107,3 +107,51 @@ export async function getCategories() {
     });
     return response;
 }
+
+export async function getListFav() {
+    const response = await axios({
+        method: "GET",
+        url: `${SERVICE_URL_USER}/favorite/list`,
+        headers: {
+            // "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        timeout: 30000,
+    });
+    return response;
+}
+export async function unFav(payload) {
+    const response = await axios({
+        method: "POST",
+        url: `${SERVICE_URL_USER}/favorite/remove`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        data: payload,
+        timeout: 30000,
+    });
+    return response;
+}
+
+export async function getCart() {
+    const response = await axios({
+        method: "GET",
+        url: `${SERVICE_URL_USER}/carts`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        timeout: 30000,
+    });
+    return response;
+}

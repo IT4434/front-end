@@ -134,9 +134,9 @@ const AddProductGeneral = (props) => {
                                         <Col md="5">
                                             <FormGroup>
                                                 <Label className="form-label">{"Category"}</Label>
-                                                <Input type="select" name="select" className="form-control btn-square">
+                                                <Input type="select" name="select" className="form-control btn-square" onChange={(e) => setCategoryID(e.target.value)}>
                                                     {categories?.map((category, key) => {
-                                                        return <option onClick={(category) => setCategoryID(category.id)}>{category.category_name}</option>;
+                                                        return <option value={category.id}>{category.category_name}</option>;
                                                     })}
                                                 </Input>
                                             </FormGroup>

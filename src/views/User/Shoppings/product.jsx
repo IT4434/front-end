@@ -25,7 +25,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import errorImg from "../../../assets/images/search-not-found.png";
 import { getVisibleproducts } from "src/services/User/products";
-import { SORT_BY, SEARCH_BY, ADD_TO_CART, ADD_TO_WISHLIST, watchfetchProducts } from "src/redux/User/Products/actionTypes";
+import { SORT_BY, SEARCH_BY, ADD_TO_CART, ADD_TO_WISHLIST, watchfetchProducts, GET_LIST } from "src/redux/User/Products/actionTypes";
 import Carousal from "./components/filters/carousal";
 import Allfilters from "./components/filters/allfilters";
 import { data } from "./components/data";
@@ -34,19 +34,40 @@ import { items2 } from "./components/carousel/carouselComponent.jsx";
 import { IMG_URL, SERVICE_URL_USER } from "src/constant/config";
 import { getToken } from "src/utils/token";
 import axios from "axios";
+import { addToCart, addToFav } from "src/services/Admin/ManageProduct";
+import { OPEN_INFO_ALERT, OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 
 const Product = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [allProduct, setAllProduct] = useState();
-    const [productData, setProductData] = useState();
+    const filter_brand = useSelector((state) => state.filters.filter_brand);
+    const filter_category = useSelector((state) => state.filters.filter_category);
+    const productData = useSelector((state) => state.Product.productItems);
+    const value = useSelector((state) => state.filters.value);
 
     useEffect(() => {
         getAllProduct();
         localStorage.setItem("navbarActive", "home");
     }, []);
 
-    // const data = useSelector((content) => content.Product.productItems);
+    let temp = [];
+
+    async function getProductByCategory(payload) {
+        const res = await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/products/categories/${payload}`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        });
+        return res.data;
+    }
     async function getAllProduct() {
         await axios({
             method: "GET",
@@ -61,7 +82,8 @@ const Product = (props) => {
             timeout: 30000,
         }).then((res) => {
             // setAllProduct(res.data);
-            setProductData(res.data);
+            dispatch({ type: GET_LIST, payload: res.data });
+            // setProductData(res.data);
             let temp_arr = [];
             res.data.map((product) => {
                 if (product.details.length > 0) {
@@ -88,7 +110,6 @@ const Product = (props) => {
                     setAllProduct(temp_arr);
                 }
             });
-            console.log(allProduct);
         });
     }
 
@@ -121,18 +142,16 @@ const Product = (props) => {
                 "Content-Type": "application/json",
                 Authorization: getToken(),
             },
-            // data: payload.data,
             params: payload,
             timeout: 30000,
         }).then((res) => {
-            setProductData(res.data);
+            dispatch({ type: GET_LIST, payload: res.data });
             console.log(res.data);
         });
         return response;
     }
 
     const filterSortFunc = (event) => {
-        // dispatch({ type: SORT_BY, sort_by: event });
         productData.map((product) => {
             if (product.details.length > 0) {
             }
@@ -150,7 +169,8 @@ const Product = (props) => {
             }
         });
         let arr2 = productData.filter((product) => product.details.length === 0);
-        setProductData([...arr1, ...arr2]);
+        // setProductData([...arr1, ...arr2]);
+        dispatch({ type: GET_LIST, payload: [...arr1, ...arr2] });
     };
 
     const gridLayout = () => {
@@ -225,14 +245,17 @@ const Product = (props) => {
         }
     };
 
-    const addcart = (product, qty) => {
-        dispatch({ type: ADD_TO_CART, payload: { product, qty } });
-        navigate(``);
+    const handleAddToCart = (item, qty) => {
+        if (item.details.length !== 0) {
+            addToCart({ product_id: item.details[0].id, quantity: qty });
+            dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to favorite success" } });
+        } else {
+            dispatch({ type: OPEN_INFO_ALERT, payload: { message: "Out of stock!!!" } });
+        }
     };
-
-    const addWishList = (product) => {
-        dispatch({ type: ADD_TO_WISHLIST, payload: { product } });
-        navigate(`$`);
+    const addToFavorite = (item) => {
+        addToFav({ product_id: item.id });
+        dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to favorite success" } });
     };
 
     const handleSearchKeyword = (keyword) => {
@@ -414,7 +437,7 @@ const Product = (props) => {
                         ) : ( */}
                         <Row className="gridRow">
                             {productData
-                                ? productData.map((item, i) => (
+                                ? productData?.map((item, i) => (
                                       <div className={`${layoutColumns === 3 ? "col-xl-3 col-sm-6 xl-4 col-grid-box" : "col-xl-" + layoutColumns}`} key={i}>
                                           <Card>
                                               <div className="product-box">
@@ -451,11 +474,9 @@ const Product = (props) => {
                                                       <div className="product-hover">
                                                           <ul>
                                                               <li>
-                                                                  <Link to={`$`}>
-                                                                      <Button color="default" onClick={() => addcart(item, quantity)}>
-                                                                          <i className="icon-shopping-cart"></i>
-                                                                      </Button>
-                                                                  </Link>
+                                                                  <Button color="default" onClick={() => handleAddToCart(item, 1)}>
+                                                                      <i className="icon-shopping-cart"></i>
+                                                                  </Button>
                                                               </li>
                                                               <li>
                                                                   <Button color="default" data-toggle="modal" onClick={() => onOpenModal(item.id)}>
@@ -463,11 +484,9 @@ const Product = (props) => {
                                                                   </Button>
                                                               </li>
                                                               <li>
-                                                                  <Link to={`$`}>
-                                                                      <Button color="default" onClick={() => addWishList(item)}>
-                                                                          <i className="icon-heart"></i>
-                                                                      </Button>
-                                                                  </Link>
+                                                                  <Button color="default" onClick={() => addToFavorite(item)}>
+                                                                      <i className="icon-heart"></i>
+                                                                  </Button>
                                                               </li>
                                                           </ul>
                                                       </div>
@@ -559,7 +578,7 @@ const Product = (props) => {
                                                     </fieldset>
                                                     <div className="addcart-btn">
                                                         <Link to={``}>
-                                                            <Button color="primary" className="mr-2 mt-2" onClick={() => addcart(singleProduct, quantity)}>
+                                                            <Button color="primary" className="mr-2 mt-2" onClick={() => handleAddToCart(singleProduct, quantity)}>
                                                                 {"AddToCart"}
                                                             </Button>
                                                         </Link>
@@ -574,7 +593,7 @@ const Product = (props) => {
                                 </ModalBody>
                             </Modal>
                         </Row>
-                        // ) }
+                        {/* // ) } */}
                     </div>
                 </div>
             </Container>

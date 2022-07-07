@@ -5,7 +5,7 @@ import { Button, Col, Input, Media, Row } from "reactstrap";
 import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 import DialogSelectColor from "./DialogSelectColor";
 
-export default function ShoppingBag_Cart() {
+export default function ShoppingBag_Cart({ item }) {
     const [number, setNumber] = useState(1);
     const dispatch = useDispatch();
     const handleDelete = () => {
@@ -39,7 +39,7 @@ export default function ShoppingBag_Cart() {
                     <Button color="" className="m-r-10 btn-add" onClick={() => setNumber(number - 1)} disabled={number < 2 ? true : false}>
                         {"-"}
                     </Button>
-                    <span style={{ fontWeight: "500", marginLeft: "10px", marginRight: "20px" }}>{number}</span>
+                    <span style={{ fontWeight: "500", marginLeft: "10px", marginRight: "20px" }}>{item.quantity}</span>
                     <Button color="" className="m-r-10 btn-add" onClick={() => setNumber(number + 1)}>
                         {"+"}
                     </Button>
