@@ -44,16 +44,16 @@ export default function EditProduct() {
     }, []);
 
     const handleSubmit = () => {
-        // bodyFormData.append("product_id", product?.id);
+        console.log(detailProduct);
         bodyFormData.append("_method", "PUT");
         bodyFormData.append("id", product_id);
-        bodyFormData.append("price", price);
-        bodyFormData.append("available_quantity", quantity);
-        bodyFormData.append("sale", sale);
-        bodyFormData.append("color", color);
-        bodyFormData.append("images", images);
+        bodyFormData.append("price", !price ? detailProduct.price : price);
+        bodyFormData.append("available_quantity", !quantity ? detailProduct.available_quantity : quantity);
+        bodyFormData.append("sale", !sale ? detailProduct.sale : sale);
+        bodyFormData.append("color", !color ? detailProduct.color : color);
+        bodyFormData.append("images", !images ? detailProduct.images[0] : images);
         bodyFormData.append("product_id", product?.id);
-        bodyFormData.append("manufacturing_date", date);
+        bodyFormData.append("manufacturing_date", !date ? detailProduct.manufacturing_date : date);
         dispatch({
             type: EDIT_PRODUCT,
             payload: bodyFormData,

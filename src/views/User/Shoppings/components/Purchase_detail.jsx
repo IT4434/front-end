@@ -13,6 +13,8 @@ import RepeatIcon from "@mui/icons-material/Repeat";
 import Typography from "@mui/material/Typography";
 import { Fragment } from "react";
 import { Card, CardBody, CardHeader, Col, Media, Row } from "reactstrap";
+import { AutoFixHigh, HourglassTopTwoTone, LocalShippingTwoTone } from "@mui/icons-material";
+import { CheckCircle } from "@material-ui/icons";
 
 function CustomizedTimeline() {
     return (
@@ -24,15 +26,15 @@ function CustomizedTimeline() {
                 <TimelineSeparator>
                     <TimelineConnector />
                     <TimelineDot>
-                        <FastfoodIcon />
+                        <HourglassTopTwoTone />
                     </TimelineDot>
                     <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: "12px", px: 2 }}>
                     <Typography variant="h6" component="span">
-                        Eat
+                        Waiting
                     </Typography>
-                    <Typography>Because you need strength</Typography>
+                    <Typography>Your product is waiting for approve</Typography>
                 </TimelineContent>
             </TimelineItem>
             <TimelineItem>
@@ -42,45 +44,51 @@ function CustomizedTimeline() {
                 <TimelineSeparator>
                     <TimelineConnector />
                     <TimelineDot color="primary">
-                        <LaptopMacIcon />
+                        <CheckCircle />
                     </TimelineDot>
                     <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: "12px", px: 2 }}>
                     <Typography variant="h6" component="span">
-                        Code
+                        Approve
                     </Typography>
-                    <Typography>Because it&apos;s awesome!</Typography>
+                    <Typography>Your product is approved</Typography>
                 </TimelineContent>
             </TimelineItem>
             <TimelineItem>
+                <TimelineOppositeContent sx={{ m: "auto 0" }} variant="body2" color="text.secondary">
+                    11:00 am
+                </TimelineOppositeContent>
                 <TimelineSeparator>
                     <TimelineConnector />
                     <TimelineDot color="primary" variant="outlined">
-                        <HotelIcon />
+                        <AutoFixHigh />
                     </TimelineDot>
                     <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: "12px", px: 2 }}>
                     <Typography variant="h6" component="span">
-                        Sleep
+                        Prepare
                     </Typography>
-                    <Typography>Because you need rest</Typography>
+                    <Typography>Your product is preparing</Typography>
                 </TimelineContent>
             </TimelineItem>
             <TimelineItem>
+                <TimelineOppositeContent sx={{ m: "auto 0" }} variant="body2" color="text.secondary">
+                    11:30 am
+                </TimelineOppositeContent>
                 <TimelineSeparator>
                     <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
                     <TimelineDot color="secondary">
-                        <RepeatIcon />
+                        <LocalShippingTwoTone />
                     </TimelineDot>
                     <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: "12px", px: 2 }}>
                     <Typography variant="h6" component="span">
-                        Repeat
+                        Shipping
                     </Typography>
-                    <Typography>Because this is the life you love!</Typography>
+                    <Typography>Your product is shipping</Typography>
                 </TimelineContent>
             </TimelineItem>
         </Timeline>

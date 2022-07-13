@@ -11,15 +11,27 @@ import { useState } from "react";
 import axios from "axios";
 import { IMG_URL, SERVICE_URL_USER } from "src/constant/config";
 import { getToken } from "src/utils/token";
-import { addToFav } from "src/services/Admin/ManageProduct";
-import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
+import { addToCart, addToFav } from "src/services/Admin/ManageProduct";
+import { OPEN_INFO_ALERT, OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
+import { ADD_TO_CART, SELECTED_CART, TOTAL_PRICE } from "src/redux/User/Products/actionTypes";
 
 export default function ShoppingBag() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const filters = useSelector((content) => content.filters);
+    const selectedCart = useSelector((content) => content.Product.selected_cart);
     const [products, setProducts] = useState();
+    const [number, setNumber] = useState(selectedCart);
+    const totalPrice = useSelector((state) => state.Product.total_price);
     const [cart, setCart] = useState();
+    const [totalPayment, setTotalPayment] = useState(0);
+
+    const handleChangeCart = (item) => {
+        var total = 0;
+        cart.map((item) => {
+            total += item.product_detail.price * item.quantity;
+        });
+        setTotalPayment(total);
+    };
 
     async function getAllProduct(payload) {
         const response = await axios({
@@ -48,7 +60,32 @@ export default function ShoppingBag() {
                 Authorization: getToken(),
             },
             timeout: 30000,
-        }).then((res) => setCart(res.data));
+        }).then((res) => {
+            setCart(res.data);
+            dispatch({ type: ADD_TO_CART, payload: res.data });
+            let temp = 0;
+            res.data.map((item) => {
+                temp += item.quantity * item.product_detail?.price;
+                dispatch({ type: TOTAL_PRICE, payload: temp });
+            });
+        });
+    }
+    async function createOrder(payload) {
+        await axios({
+            method: "POST",
+            url: `${SERVICE_URL_USER}/orders`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            data: payload,
+            timeout: 30000,
+        }).then((res) => {
+            dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Successful!!!" } });
+        });
     }
     useEffect(() => {
         getAllProduct();
@@ -63,16 +100,35 @@ export default function ShoppingBag() {
         addToFav({ product_id: item.id });
         dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to favorite success" } });
     };
+    const handleAddToCart = (item, qty) => {
+        if (item.details.length !== 0) {
+            addToCart({ product_id: item.details[0].id, quantity: qty });
+            dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to cart success" } });
+        } else {
+            dispatch({ type: OPEN_INFO_ALERT, payload: { message: "Out of stock!!!" } });
+        }
+    };
+    const handleSubmitOrder = () => {
+        let temp = [];
+        const user = JSON.parse(localStorage.getItem("user"));
+        console.log(user);
+        cart?.map((item) => {
+            temp.push({ product_id: item.product_detail?.id, quantity: item.quantity });
+        });
+        const data = {
+            shipping_address: user?.address,
+            order_details: temp,
+        };
+        createOrder(data);
+    };
 
     return (
         <>
             <Card className="">
                 <CardHeader style={{ padding: "20px !important" }}>
-                    <Row style={{ display: "flex", alignItems: "center" }}>
-                        <Col sm={1} md={1} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}></Col>
-                        {"   "}
-                        <Col sm={3} md={3} style={{ display: "flex", alignItems: "center" }}>
-                            <h6>{"Product Name"}</h6>
+                    <Row style={{ display: "flex", alignItems: "center", paddingLeft: "15px" }}>
+                        <Col sm={4} md={4} style={{ display: "flex", alignItems: "center" }}>
+                            <h6>{"Product "}</h6>
                         </Col>
                         <Col sm={2} md={2}>
                             <h6>{"Classify"}</h6>
@@ -95,29 +151,16 @@ export default function ShoppingBag() {
                     {cart?.map((item) => {
                         return <ShoppingBag_Cart item={item} />;
                     })}
-                    {/* <ShoppingBag_Cart />
-                    <ShoppingBag_Cart />
-                    <ShoppingBag_Cart />
-                    <ShoppingBag_Cart /> */}
                 </CardBody>
                 <CardFooter style={{ padding: "20px !important", backgroundColor: "inherit" }}>
                     <Row style={{ display: "flex", alignItems: "center" }}>
-                        <Col sm={1} md={1} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <Input type="checkbox" />
-                        </Col>
-                        <Col sm={2} md={2}>
-                            <h6 className="mt-2">{`Select All (${1})`}</h6>
-                        </Col>
-                        <Col sm={2} md={2}>
-                            <Button color="danger" style={{ paddingLeft: "16px", paddingRight: "16px" }}>
-                                Delete All
-                            </Button>
-                        </Col>
+                        <Col sm={2} md={2}></Col>
+                        <Col sm={2} md={2}></Col>
                         <Col sm={4} md={4} style={{ display: "flex", justifyContent: "right", alignItems: "center" }}>
-                            <h6 className="mt-2">{`Total Payment (${1} Products): 500$`}</h6>
+                            <h6 className="mt-2">{`Total Payment : ${totalPrice}$`}</h6>
                         </Col>
                         <Col sm={3} md={3} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <Button color="danger" style={{ paddingLeft: "36px", paddingRight: "36px" }}>
+                            <Button color="danger" onClick={() => handleSubmitOrder()} style={{ paddingLeft: "36px", paddingRight: "36px" }}>
                                 Pay
                             </Button>
                         </Col>
@@ -168,15 +211,11 @@ export default function ShoppingBag() {
                                                   <div className="product-hover">
                                                       <ul>
                                                           <li>
-                                                              <Button color="default">
+                                                              <Button color="default" onClick={() => handleAddToCart(item, 1)}>
                                                                   <i className="icon-shopping-cart"></i>
                                                               </Button>
                                                           </li>
-                                                          <li>
-                                                              <Button color="default" data-toggle="modal">
-                                                                  <i className="icon-eye"></i>
-                                                              </Button>
-                                                          </li>
+
                                                           <li>
                                                               <Button color="default" onClick={() => addToFavorite(item)}>
                                                                   <i className="icon-heart"></i>

@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Card, Button, Media, CardBody, CardHeader, InputGroup, Input, InputGroupAddon } from "reactstrap";
 import Slider from "react-slick";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import Ratings from "react-ratings-declarative";
 import { Truck, Gift, CreditCard, Clock, Smile } from "react-feather";
@@ -10,10 +10,15 @@ import img from "../../../assets/images/logo_ether.png";
 import { Rating } from "@mui/material";
 import "./index.scss";
 import { DISPLAY_CART } from "src/redux/User/product/action";
+import { SERVICE_URL_USER } from "src/constant/config";
+import axios from "axios";
+import { getToken } from "src/utils/token";
 const Product_detail = (props) => {
     const navigate = useNavigate();
     const [state, setState] = useState({ nav1: null, nav2: null });
     const [rating, setRating] = useState(0);
+    const product_id = useParams().product_id;
+    const [product_detail, setProduct_detail] = useState();
     // eslint-disable-next-line
     const [quantity, Setquantity] = useState(1);
     const [number, setNumber] = useState(1);
@@ -22,7 +27,27 @@ const Product_detail = (props) => {
     const slider1 = useRef();
     const slider2 = useRef();
     const dispatch = useDispatch();
+    async function getDetail(product_id) {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/products/${product_id}`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            setProduct_detail(res.data);
+        });
+    }
 
+    useEffect(() => {
+        getDetail(product_id);
+    }, []);
+    console.log(product_detail);
     useEffect(() => {
         setState({
             nav1: slider1.current,
@@ -33,13 +58,6 @@ const Product_detail = (props) => {
 
     const addcart = (product, qty) => {};
 
-    const buyProduct = (product, qty) => {};
-
-    const addWishList = (product) => {};
-
-    const changeRating = (newRating) => {
-        setRating(newRating);
-    };
     const toggleDrawer = (open) => {
         dispatch({ type: DISPLAY_CART, payload: open });
     };
@@ -55,8 +73,8 @@ const Product_detail = (props) => {
                             <Row className="product-page-main">
                                 <Col xl="4">
                                     <Slider autoplay={true} asNavFor={nav2} arrows={false} ref={(slider) => (slider1.current = slider)} className="product-slider">
-                                        {singleItem.variants ? (
-                                            singleItem.variants.map((item, i) => {
+                                        {product_detail?.details ? (
+                                            product_detail.details.map((item, i) => {
                                                 return (
                                                     <div className="item" key={i}>
                                                         <Media src={img} style={{ width: "1000px" }} alt="" className="img-fluid" />

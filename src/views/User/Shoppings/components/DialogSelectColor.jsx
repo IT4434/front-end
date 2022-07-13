@@ -50,9 +50,9 @@ SimpleDialog.propTypes = {
     selectedValue: PropTypes.string.isRequired,
 };
 
-export default function DialogSelectColor() {
+export default function DialogSelectColor({ color }) {
     const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(colors[1]);
+    const [selectedValue, setSelectedValue] = React.useState(color);
 
     const handleClickOpen = () => {
         setOpen(true);

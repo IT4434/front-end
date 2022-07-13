@@ -6,8 +6,8 @@ export const WATCH_SINGLE_ITEM = "WATCH_SINGLE_ITEM";
 export const SEARCH_BY = "SEARCH_BY";
 export const SORT_BY = "SORT_BY";
 export const ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
-// export const SEARCH_BY = "SEARCH_BY";
-// export const SEARCH_BY = "SEARCH_BY";
+export const SELECTED_CART = "SELECTED_CART";
+export const TOTAL_PRICE = "TOTAL_PRICE";
 export const GET_SINGLE_ITEM = "GET_SINGLE_ITEM";
 
 export const GET_LIST = "GET_LIST";

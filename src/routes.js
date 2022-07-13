@@ -126,7 +126,7 @@ function Redirector(props) {
     if (!role) {
         to = "/login";
     } else if (role === ROLE.USER) {
-        to = "/products";
+        to = "/login";
     } else if (role === ROLE.ADMIN) {
         to = "/admin/dashboard";
     }

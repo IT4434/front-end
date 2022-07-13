@@ -87,11 +87,11 @@ export async function deleteGeneralProduct(payload) {
 
 export async function editGeneralProductSV(payload) {
     const response = await axios({
-        method: "PUT",
-        url: `${SERVICE_URL_ADMIN}/products/${payload.id}`,
+        method: "POST",
+        url: `${SERVICE_URL_ADMIN}/products/${payload.get("id")}`,
         headers: {
-            "Content-Type": "application/json",
-            // "Content-Type": "multipart/form-data",
+            // "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Accept: "application/json",
             type: "formData",
             Authorization: getToken(),

@@ -208,13 +208,13 @@ export default function Header() {
                         style={{ objectFit: "cover" }}
                         width={40}
                         height={40}
-                        src={user.avatar || "https://www.cyberlearning.ro/wp-content/uploads/learn-press-profile/5/591b6db105e1e6f3dfadecc9234d484a.jpg"}
+                        src={user?.avatar || "https://www.cyberlearning.ro/wp-content/uploads/learn-press-profile/5/591b6db105e1e6f3dfadecc9234d484a.jpg"}
                         alt=""
                     />
                     <div className="avata_title">
-                        <b>{user.name || "No name"}</b>
+                        <b>{user?.name || "No name"}</b>
                         <p className="mb-0 font-roboto">
-                            {user.role == "user" ? "User" : "Admin"} <i className="middle fa fa-angle-down"></i>
+                            {user?.role == "user" ? "User" : "Admin"} <i className="middle fa fa-angle-down"></i>
                         </p>
                     </div>
                     <ul className="profile_dropdown">

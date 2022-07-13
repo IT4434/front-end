@@ -25,7 +25,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import errorImg from "../../../assets/images/search-not-found.png";
 import { getVisibleproducts } from "src/services/User/products";
-import { SORT_BY, SEARCH_BY, ADD_TO_CART, ADD_TO_WISHLIST, watchfetchProducts, GET_LIST } from "src/redux/User/Products/actionTypes";
+import { SORT_BY, SEARCH_BY, ADD_TO_CART, ADD_TO_WISHLIST, watchfetchProducts, GET_LIST, TOTAL_PRICE } from "src/redux/User/Products/actionTypes";
 import Carousal from "./components/filters/carousal";
 import Allfilters from "./components/filters/allfilters";
 import { data } from "./components/data";
@@ -132,7 +132,30 @@ const Product = (props) => {
 
     useEffect(() => {
         dispatch(watchfetchProducts());
+        getCart();
     }, [dispatch]);
+
+    async function getCart() {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/carts`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            dispatch({ type: ADD_TO_CART, payload: res.data });
+            let temp = 0;
+            res.data.map((item) => {
+                temp += item.quantity * item.product_detail?.price;
+                dispatch({ type: TOTAL_PRICE, payload: temp });
+            });
+        });
+    }
 
     async function Search(payload) {
         const response = await axios({
@@ -226,29 +249,14 @@ const Product = (props) => {
         setOpen(false);
     };
 
-    const minusQty = () => {
-        if (quantity > 1) {
-            setStock("InStock");
-            setQuantity(quantity - 1);
-        }
-    };
-
     const changeQty = (e) => {
         setQuantity(parseInt(e.target.value));
     };
 
-    const plusQty = () => {
-        if (quantity >= 1) {
-            setQuantity(quantity + 1);
-        } else {
-            setStock("Out of Stock !");
-        }
-    };
-
     const handleAddToCart = (item, qty) => {
-        if (item.details.length !== 0) {
+        if (item.details?.length !== 0) {
             addToCart({ product_id: item.details[0].id, quantity: qty });
-            dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to favorite success" } });
+            dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to cart success" } });
         } else {
             dispatch({ type: OPEN_INFO_ALERT, payload: { message: "Out of stock!!!" } });
         }
@@ -265,8 +273,7 @@ const Product = (props) => {
     };
 
     const onClickDetailPage = (product) => {
-        const id = product.id;
-        navigate("id");
+        navigate(`${product.id}`);
         localStorage.setItem("navbarActive", "detail");
     };
     const slider1 = useRef();
@@ -427,14 +434,6 @@ const Product = (props) => {
                     </div>
 
                     <div className="product-wrapper-grid">
-                        {/* {searchKeyword.length > 0 ? (
-                            <div className="search-not-found text-center">
-                                <div>
-                                    <img className="img-fluid second-search" src={errorImg} alt="" />
-                                    <p>{"NotFoundData"}</p>
-                                </div>
-                            </div>
-                        ) : ( */}
                         <Row className="gridRow">
                             {productData
                                 ? productData?.map((item, i) => (
@@ -525,7 +524,17 @@ const Product = (props) => {
                                     <ModalHeader toggle={onCloseModal}>
                                         <div className="product-box row">
                                             <Col lg="6" className="product-img">
-                                                <Media className="img-fluid" src={"https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"} alt="" />
+                                                <Media
+                                                    className="img-fluid"
+                                                    src={
+                                                        singleProduct?.images?.length > 0
+                                                            ? `${IMG_URL}/${singleProduct.images[0].image_path}`
+                                                            : singleProduct.details?.length > 0 && singleProduct.details[0].images.length > 0
+                                                            ? `${IMG_URL}/${singleProduct.details[0].images[0].image_path}`
+                                                            : "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
+                                                    }
+                                                    alt=""
+                                                />
                                             </Col>
                                             <Col lg="6" className="product-details  text-left">
                                                 <h4>{singleProduct.product_name}</h4>
@@ -533,9 +542,7 @@ const Product = (props) => {
                                                     {singleProduct.details?.length > 0 ? (
                                                         <>
                                                             {"$"} {singleProduct.details.length > 0 && singleProduct.details[0].price}
-                                                            <del>
-                                                                {"$"} {getRndInteger(500, 1500)}
-                                                            </del>
+                                                            <del>{singleProduct.details[0].sale}%</del>
                                                         </>
                                                     ) : (
                                                         <span>Out of stock</span>
@@ -551,7 +558,12 @@ const Product = (props) => {
                                                     <fieldset>
                                                         <InputGroup className="bootstrap-touchspin">
                                                             <InputGroupAddon addonType="prepend">
-                                                                <Button color="primary btn-square" className="bootstrap-touchspin-down" onClick={minusQty}>
+                                                                <Button
+                                                                    color="primary btn-square"
+                                                                    disabled={quantity < 2 ? true : false}
+                                                                    className="bootstrap-touchspin-down"
+                                                                    onClick={() => setQuantity(quantity - 1)}
+                                                                >
                                                                     <i className="fa fa-minus"></i>
                                                                 </Button>
                                                             </InputGroupAddon>
@@ -570,18 +582,16 @@ const Product = (props) => {
                                                                 <InputGroupText className="bootstrap-touchspin-postfix" style={{ display: "none" }}></InputGroupText>
                                                             </InputGroupAddon>
                                                             <InputGroupAddon addonType="append" className="ml-0">
-                                                                <Button color="primary btn-square" className="bootstrap-touchspin-up" onClick={plusQty}>
+                                                                <Button color="primary btn-square" className="bootstrap-touchspin-up" onClick={() => setQuantity(quantity + 1)}>
                                                                     <i className="fa fa-plus"></i>
                                                                 </Button>
                                                             </InputGroupAddon>
                                                         </InputGroup>
                                                     </fieldset>
                                                     <div className="addcart-btn">
-                                                        <Link to={``}>
-                                                            <Button color="primary" className="mr-2 mt-2" onClick={() => handleAddToCart(singleProduct, quantity)}>
-                                                                {"AddToCart"}
-                                                            </Button>
-                                                        </Link>
+                                                        <Button color="primary" className="mr-2 mt-2" onClick={() => handleAddToCart(singleProduct, quantity)}>
+                                                            {"AddToCart"}
+                                                        </Button>
                                                         <Button onClick={() => onClickDetailPage(singleProduct)} color="primary" className="mr-2 mt-2">
                                                             {"ViewDetails"}
                                                         </Button>

@@ -155,3 +155,19 @@ export async function getCart() {
     });
     return response;
 }
+
+export async function deleteCart(product_id) {
+    const response = await axios({
+        method: "DELETE",
+        url: `${SERVICE_URL_USER}/carts/remove/${product_id}`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        timeout: 30000,
+    });
+    return response;
+}
