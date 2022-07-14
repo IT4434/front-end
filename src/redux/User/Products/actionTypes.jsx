@@ -9,6 +9,7 @@ export const ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
 export const SELECTED_CART = "SELECTED_CART";
 export const TOTAL_PRICE = "TOTAL_PRICE";
 export const GET_SINGLE_ITEM = "GET_SINGLE_ITEM";
+export const SELECTED_COLOR = "SELECTED_COLOR";
 
 export const GET_LIST = "GET_LIST";
 export const fetchProducts = (product) => ({

@@ -1,4 +1,4 @@
-import { ADD_TO_CART, DISPLAY_CART, GET_LIST, GET_SINGLE_ITEM, NUMBER_CART, SELECTED_CART, TOTAL_PRICE, WATCH_PRODUCT_LIST } from "./actionTypes";
+import { ADD_TO_CART, DISPLAY_CART, GET_LIST, GET_SINGLE_ITEM, NUMBER_CART, SELECTED_CART, SELECTED_COLOR, TOTAL_PRICE, WATCH_PRODUCT_LIST } from "./actionTypes";
 
 const initial_state = {
     cart: null,
@@ -7,12 +7,15 @@ const initial_state = {
     productItems: [],
     selected_cart: [],
     total_price: 0,
+    color: "",
 };
 // eslint-disable-next-line
 export default (state = initial_state, action) => {
     switch (action.type) {
         case ADD_TO_CART:
             return { ...state, cart: action.payload };
+        case SELECTED_COLOR:
+            return { ...state, color: action.payload };
         case TOTAL_PRICE:
             return { ...state, total_price: action.payload };
         case SELECTED_CART:

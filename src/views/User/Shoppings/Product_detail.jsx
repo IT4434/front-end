@@ -1,26 +1,29 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import { Container, Row, Col, Card, Button, Media, CardBody, CardHeader, InputGroup, Input, InputGroupAddon } from "reactstrap";
+import { Container, Row, Col, Card, Media, Button, CardBody, CardHeader, InputGroup, Input, InputGroupAddon } from "reactstrap";
 import Slider from "react-slick";
 import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import Ratings from "react-ratings-declarative";
 import { Truck, Gift, CreditCard, Clock, Smile } from "react-feather";
 import { singleItem } from "./components/singleItem";
 import img from "../../../assets/images/logo_ether.png";
 import { Rating } from "@mui/material";
 import "./index.scss";
 import { DISPLAY_CART } from "src/redux/User/product/action";
-import { SERVICE_URL_USER } from "src/constant/config";
+import { IMG_URL, SERVICE_URL_USER } from "src/constant/config";
 import axios from "axios";
 import { getToken } from "src/utils/token";
+import { SELECTED_COLOR } from "src/redux/User/Products/actionTypes";
+import { OPEN_INFO_ALERT, OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
+import { addToCart, addToFav } from "src/services/Admin/ManageProduct";
 const Product_detail = (props) => {
     const navigate = useNavigate();
     const [state, setState] = useState({ nav1: null, nav2: null });
     const [rating, setRating] = useState(0);
     const product_id = useParams().product_id;
     const [product_detail, setProduct_detail] = useState();
+    const selectedColor = useSelector((state) => state.Product.color);
     // eslint-disable-next-line
-    const [quantity, Setquantity] = useState(1);
+    const [img_slide, setImgSlide] = useState();
     const [number, setNumber] = useState(1);
     const display_cart = useSelector((state) => state.Product.display_cart);
 
@@ -41,8 +44,38 @@ const Product_detail = (props) => {
             timeout: 30000,
         }).then((res) => {
             setProduct_detail(res.data);
+            let temp = [];
+            res.data?.details.map((item, key) => {
+                temp.push(item.images[0]?.image_path);
+            });
+            while (temp.length < 4) {
+                temp.push(res.data.details[0]?.images[0]?.image_path);
+            }
+            setImgSlide(temp);
         });
     }
+    const addToFavorite = () => {
+        product_detail?.details.map((item, key) => {
+            if (item.color === selectedColor) {
+                addToFav({ product_id: item.id });
+            }
+        });
+        dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to favorite success" } });
+    };
+    const handleAddToCart = () => {
+        let flag = false;
+
+        product_detail?.details.map((item, key) => {
+            if (item.color === selectedColor) {
+                addToCart({ product_id: item.id, quantity: number });
+                dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Add to cart success" } });
+                flag = true;
+            }
+            if (!flag) {
+                dispatch({ type: OPEN_INFO_ALERT, payload: { message: "Out of stock!!!" } });
+            }
+        });
+    };
 
     useEffect(() => {
         getDetail(product_id);
@@ -56,11 +89,10 @@ const Product_detail = (props) => {
     }, [dispatch]);
     const { nav1, nav2 } = state;
 
-    const addcart = (product, qty) => {};
-
-    const toggleDrawer = (open) => {
-        dispatch({ type: DISPLAY_CART, payload: open });
+    const handleSelectColor = (item) => {
+        dispatch({ type: SELECTED_COLOR, payload: item.color });
     };
+
     const avt_temp =
         "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.15752-9/279506892_357962046171200_7563227832826377298_n.jpg?_nc_cat=105&ccb=1-6&_nc_sid=ae9488&_nc_ohc=ILAsc11W5UoAX9qcaYU&_nc_oc=AQlrYKcGpoYW3gpKUoGQqbcUXS-7m1iJWZeuHkKsn1fXDV3I6iQ8RfTwRocTJKDKYzc&tn=eM5rTJ4veMqDO5eX&_nc_ht=scontent.fhan14-1.fna&oh=03_AVKWEF-LjjXvjbAkVNlxc5IRwgixA_xCbgajhb2o30Mjww&oe=629BFAAA";
 
@@ -77,7 +109,18 @@ const Product_detail = (props) => {
                                             product_detail.details.map((item, i) => {
                                                 return (
                                                     <div className="item" key={i}>
-                                                        <Media src={img} style={{ width: "1000px" }} alt="" className="img-fluid" />
+                                                        <Media
+                                                            src={
+                                                                item.images.length > 0
+                                                                    ? `${IMG_URL}/${item.images[0].image_path}`
+                                                                    : item.details?.length > 0 && item.details[0].images.length > 0
+                                                                    ? `${IMG_URL}/${item.details[0].images[0].image_path}`
+                                                                    : "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
+                                                            }
+                                                            style={{ width: "1000px" }}
+                                                            alt=""
+                                                            className="img-fluid"
+                                                        />
                                                     </div>
                                                 );
                                             })
@@ -92,31 +135,51 @@ const Product_detail = (props) => {
                                         swipeToSlide={true}
                                         focusOnSelect={true}
                                         infinite={true}
-                                        className="small-slick"
+                                        className="small-slick customer"
+                                        style={{ display: "flex", width: "100%" }}
                                     >
-                                        {singleItem?.variants
-                                            ? singleItem?.variants.map((item, i) => {
-                                                  return (
-                                                      <div className="item" key={i}>
-                                                          <Media src={img} alt="" className="img-fluid" />
-                                                      </div>
-                                                  );
-                                              })
-                                            : ""}
+                                        {img_slide?.map((item, i) => {
+                                            console.log(img_slide);
+                                            return (
+                                                <div className="item" key={i} style={{ width: "100%", display: "flex" }}>
+                                                    <Media
+                                                        src={
+                                                            `${IMG_URL}/${item}`
+                                                            //   item.images.length > 0
+                                                            //       ? `${IMG_URL}/${item.images[0].image_path}`
+                                                            //       : item.details?.length > 0 && item.details[0].images.length > 0
+                                                            //       ? `${IMG_URL}/${item.details[0].images[0].image_path}`
+                                                            //       : "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
+                                                        }
+                                                        alt=""
+                                                        className="img-fluid"
+                                                    />
+                                                </div>
+                                            );
+                                        })}
                                     </Slider>
                                 </Col>
                                 <Col xl="5 xl-100">
                                     <Card>
                                         <CardBody>
                                             <div className="product-page-details">
-                                                <h3>{"Women Pink shirt."}</h3>
+                                                <h3>{product_detail?.product_name}</h3>
                                             </div>
                                             <div className="product-price f-28">
                                                 {"$"}
-                                                {singleItem?.price}
+
+                                                {product_detail?.details.map((item, key) => {
+                                                    if (item.color === selectedColor) {
+                                                        return item.price;
+                                                    }
+                                                })}
                                                 <del>
-                                                    {"$"}
-                                                    {singleItem?.discountPrice}
+                                                    {product_detail?.details.map((item, key) => {
+                                                        if (item.color === selectedColor) {
+                                                            return item.sale;
+                                                        }
+                                                    })}
+                                                    %
                                                 </del>
                                             </div>
                                             <ul className="product-color m-t-15">
@@ -127,7 +190,7 @@ const Product_detail = (props) => {
                                                 <li className="bg-warning"></li>
                                             </ul>
                                             <hr />
-                                            <p>{singleItem.discription}</p>
+                                            <p>{product_detail?.description}</p>
                                             <hr />
                                             <div>
                                                 <table className="product-page-width">
@@ -137,28 +200,41 @@ const Product_detail = (props) => {
                                                                 {" "}
                                                                 <b>{"Brand"} &nbsp;&nbsp;&nbsp;:</b>
                                                             </td>
-                                                            <td>{"Pixelstrap"}</td>
+                                                            <td>{product_detail?.brand}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 {" "}
                                                                 <b>{"Availability"} &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;</b>
                                                             </td>
-                                                            <td className="txt-success">{singleItem?.stock}</td>
+                                                            <td className="txt-success">
+                                                                {" "}
+                                                                {product_detail?.details.map((item, key) => {
+                                                                    if (item.color === selectedColor) {
+                                                                        return item.available_quantity;
+                                                                    }
+                                                                })}
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 {" "}
                                                                 <b>{"Seller"} &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;</b>
                                                             </td>
-                                                            <td>{"ABC"}</td>
+                                                            <td>{"Nguyen Huy Quang"}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 {" "}
-                                                                <b>{"Fabric"} &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;</b>
+                                                                <b>{"Manufacturing_date"} &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;</b>
                                                             </td>
-                                                            <td>{"Cotton"}</td>
+                                                            <td>
+                                                                {product_detail?.details.map((item, key) => {
+                                                                    if (item.color === selectedColor) {
+                                                                        return item.manufacturing_date.slice(0, 10);
+                                                                    }
+                                                                })}
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -167,7 +243,24 @@ const Product_detail = (props) => {
 
                                             <Row>
                                                 <Col md="6">
-                                                    <h6 className="product-title">{"Rate Now"}</h6>
+                                                    {/* <h6 className="product-title">{"Rate Now"}</h6> */}
+                                                    {product_detail?.details.map((item, key) => {
+                                                        return (
+                                                            <Button
+                                                                color="red"
+                                                                id={key}
+                                                                className="mr-1 btn-color"
+                                                                style={{
+                                                                    border: `${item.color} solid 1px`,
+                                                                    color: selectedColor !== item.color ? item.color : "white",
+                                                                    backgroundColor: selectedColor === item.color ? item.color : "",
+                                                                }}
+                                                                onClick={() => handleSelectColor(item)}
+                                                            >
+                                                                {item?.color}
+                                                            </Button>
+                                                        );
+                                                    })}
                                                 </Col>
                                                 <Col md="6">
                                                     <div className="d-flex">
@@ -178,12 +271,8 @@ const Product_detail = (props) => {
                                             </Row>
                                             <hr />
                                             <div className="m-t-15">
-                                                <Button color="primary" className="m-r-10" style={{ display: number > 0 ? "none" : "" }} onClick={() => setNumber(1)}>
-                                                    <i className="fa fa-shopping-basket mr-1"></i>
-                                                    {"AddToCart"}
-                                                </Button>
                                                 <span style={{ marginLeft: "10px", marginRight: "16.5px", display: number < 1 ? "none" : "" }}>
-                                                    <Button color="" className="m-r-10 btn-add" onClick={() => setNumber(number - 1)}>
+                                                    <Button color="" className="m-r-10 btn-add" disabled={number === 1 ? true : false} onClick={() => setNumber(number - 1)}>
                                                         {"-"}
                                                     </Button>
                                                     <span style={{ fontWeight: "500", marginLeft: "10px", marginRight: "20px" }}>{number}</span>
@@ -191,15 +280,12 @@ const Product_detail = (props) => {
                                                         {"+"}
                                                     </Button>
                                                 </span>
-                                                <Button color="success" className="m-r-10" onClick={() => toggleDrawer(!display_cart)}>
+                                                <Button color="success" className="m-r-10" onClick={() => handleAddToCart()}>
                                                     <i className="fa fa-shopping-cart mr-1"></i>
-                                                    {"Buy Now"}
+                                                    {"Add To Cart"}
                                                 </Button>
-                                                {/* <Button color="primary" className="m-r-10">
-                                                    <i className="fa fa-shopping-cart mr-1"></i>
-                                                    {"Add To Card"}
-                                                </Button> */}
-                                                <Button color="secondary">
+
+                                                <Button color="secondary" onClick={() => addToFavorite()}>
                                                     <i className="fa fa-heart mr-1"></i>
                                                     {"Favorite"}
                                                 </Button>
