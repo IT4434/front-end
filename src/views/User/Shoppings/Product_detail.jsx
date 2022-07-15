@@ -26,10 +26,13 @@ const Product_detail = (props) => {
     const [img_slide, setImgSlide] = useState();
     const [number, setNumber] = useState(1);
     const display_cart = useSelector((state) => state.Product.display_cart);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
 
     const slider1 = useRef();
     const slider2 = useRef();
     const dispatch = useDispatch();
+
     async function getDetail(product_id) {
         await axios({
             method: "GET",
@@ -77,10 +80,39 @@ const Product_detail = (props) => {
         });
     };
 
+    async function getCommentsOfProduct(product_id) {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/comments/products/${product_id}`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            setComments(res.data);
+        });
+    }
+
+    async function postComment(product_id) {
+        await axios.post(`${SERVICE_URL_USER}/comments/products/${product_id}`, {
+            body: newComment,
+            rating: rating,
+        }).then((res) =>{
+            getCommentsOfProduct(product_id);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     useEffect(() => {
         getDetail(product_id);
+        getCommentsOfProduct(product_id);
     }, []);
-    console.log(product_detail);
+
     useEffect(() => {
         setState({
             nav1: slider1.current,
@@ -95,6 +127,7 @@ const Product_detail = (props) => {
 
     const avt_temp =
         "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.15752-9/279506892_357962046171200_7563227832826377298_n.jpg?_nc_cat=105&ccb=1-6&_nc_sid=ae9488&_nc_ohc=ILAsc11W5UoAX9qcaYU&_nc_oc=AQlrYKcGpoYW3gpKUoGQqbcUXS-7m1iJWZeuHkKsn1fXDV3I6iQ8RfTwRocTJKDKYzc&tn=eM5rTJ4veMqDO5eX&_nc_ht=scontent.fhan14-1.fna&oh=03_AVKWEF-LjjXvjbAkVNlxc5IRwgixA_xCbgajhb2o30Mjww&oe=629BFAAA";
+
 
     return (
         <Fragment>
@@ -264,7 +297,7 @@ const Product_detail = (props) => {
                                                 </Col>
                                                 <Col md="6">
                                                     <div className="d-flex">
-                                                        <Rating defaultValue={2} size="small" />
+                                                        <Rating defaultValue={2} size="small" precision={0.5} readOnly/>
                                                         <span>{"ProductReview"}</span>
                                                     </div>
                                                 </Col>
@@ -365,7 +398,29 @@ const Product_detail = (props) => {
                             </CardHeader>
                             <CardBody>
                                 <div className="social-chat">
-                                    <div className="your-msg">
+                                    {comments.map((comment, index) => {
+                                        let img_avt = (comment?.commenter?.images) ? 'https://project2storage.s3.ap-southeast-1.amazonaws.com' + comment.commenter.images : avt_temp;
+                                        return (
+                                            <div className="your-msg" key={index}>
+                                                <Media>
+                                                    <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" 
+                                                    src={img_avt} />
+                                                    <Media body>
+                                                        <span className="f-w-600">
+                                                            {comment?.commenter?.name}{" "}
+                                                            <span>
+                                                                <div className="d-flex">
+                                                                    <Rating defaultValue={comment.rating} size="small" readOnly/>
+                                                                </div>
+                                                            </span>
+                                                        </span>
+                                                        <p>{comment?.body}</p>
+                                                    </Media>
+                                                </Media>
+                                            </div>
+                                        )
+                                    })}
+                                    {/* <div className="your-msg">
                                         <Media>
                                             <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
                                             <Media body>
@@ -420,7 +475,7 @@ const Product_detail = (props) => {
                                                 <p>{"we are doing dance and singing songs, please vote our post which is very good for all young peoples"}</p>
                                             </Media>
                                         </Media>
-                                    </div>
+                                    </div> */}
                                     <div className="text-center mb-4">
                                         <a href="#javascript" style={{ color: "#7366ff" }}>
                                             {" "}
@@ -432,10 +487,18 @@ const Product_detail = (props) => {
                                     <Media>
                                         <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
                                         <Media body>
+                                            <Row>
+                                                <Col md="6">
+                                                    <div className="d-flex">
+                                                        <Rating defaultValue={5} size="small" onChange={(e, newVal) => setRating(newVal)}/>
+                                                    </div>
+                                                </Col>
+                                            </Row>
                                             <InputGroup className="text-box">
-                                                <Input className="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Post Your commnets" />
+                                                <Input className="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Post Your commnets" 
+                                                onChange={(e) => setNewComment(e.target.value)}/>
                                                 <InputGroupAddon addonType="append">
-                                                    <Button color="transparent">
+                                                    <Button color="transparent" onClick={() => postComment(product_id)}>
                                                         <Smile />
                                                     </Button>
                                                 </InputGroupAddon>
