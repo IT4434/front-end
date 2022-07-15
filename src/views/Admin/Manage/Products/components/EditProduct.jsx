@@ -22,6 +22,12 @@ export default function EditProduct() {
     const [date, setDate] = useState();
     const [color, setColor] = useState();
     let bodyFormData = new FormData();
+    const colorList = [
+        {color: "Green", type: "radio-success"},
+        {color: "Red", type: "radio-danger"},
+        {color: "Black", type: "radio-dark"},
+        {color: "White", type: ""},
+    ];
 
     async function getDetailProduct(payload) {
         const response = await axios({
@@ -111,33 +117,37 @@ export default function EditProduct() {
                                     </div>
                                     <Col>
                                         <h3 className="mb-1">{product?.product_name}</h3>
-                                        <p className="mb-4">{"User"}</p>
+                                        {/* <p className="mb-4">{"User"}</p> */}
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col sm="5" md="5">
                                         <FormGroup>
                                             <Label className="form-label">{"Price "}</Label>
-                                            <Input className="form-control" type="number" placeholder="Price" onChange={(e) => setPrice(e.target.value)} />
+                                            <Input className="form-control" type="number" placeholder="Price" onChange={(e) => setPrice(e.target.value)} 
+                                            value={detailProduct?.price} />
                                         </FormGroup>
                                     </Col>
 
                                     <Col sm="4" md="4">
                                         <FormGroup>
                                             <Label className="form-label">{"Available Quantity"}</Label>
-                                            <Input className="form-control" type="number" placeholder="Available Quantity" onChange={(e) => setQuantity(e.target.value)} />
+                                            <Input className="form-control" type="number" placeholder="Available Quantity" onChange={(e) => setQuantity(e.target.value)}
+                                            value={detailProduct?.available_quantity} />
                                         </FormGroup>
                                     </Col>
                                     <Col sm="5" md="5">
                                         <FormGroup>
                                             <Label className="form-label">{"Date of Manufacture"}</Label>
-                                            <Input className="form-control" type="date" placeholder="Date of Manufacture" onChange={(e) => setDate(e.target.value)} />
+                                            <Input className="form-control" type="date" placeholder="Date of Manufacture" onChange={(e) => setDate(e.target.value)}
+                                            value={detailProduct?.manufacturing_date} />
                                         </FormGroup>
                                     </Col>
                                     <Col sm="4" md="4">
                                         <FormGroup>
                                             <Label className="form-label">{"Sale"}</Label>
-                                            <Input className="form-control" type="number" placeholder="Sale" onChange={(e) => setSale(e.target.value)} />
+                                            <Input className="form-control" type="number" placeholder="Sale" onChange={(e) => setSale(e.target.value)}
+                                            value={detailProduct?.sale} />
                                         </FormGroup>
                                     </Col>
 
@@ -146,22 +156,51 @@ export default function EditProduct() {
                                             <Label className="form-label">{"Color"}</Label>
                                             <br />
                                             <div className="color-radio">
-                                                <div className="radio radio-success">
-                                                    <Input id="green" type="radio" name="red" value="green" onChange={(e) => setColor("green")} />
+                                                {colorList.map((object, index) => {
+                                                    if (detailProduct?.color === object.color) {
+                                                        console.log(object.color);
+                                                        return (
+                                                            <div className={"radio " + object.type} key={index}>
+                                                                <Input id={object.color} type="radio" name="color" value={object.color} 
+                                                                onChange={(e) => setColor(object.color)} checked />
+                                                                <Label for={object.color}>{object.color}</Label>
+                                                            </div>
+                                                        )
+                                                    };
+
+                                                    return (
+                                                        <div className={"radio " + object.type} key={index}>
+                                                            <Input id={object.color} type="radio" name="color" value={object.color} 
+                                                            onChange={(e) => setColor(object.color)} />
+                                                            <Label for={object.color}>{object.color}</Label>
+                                                        </div>
+                                                    );
+                                                })}
+
+                                                {/* <div className="radio radio-success">
+                                                    <Input id="green" type="radio" name="red" value="green" onChange={(e) => setColor("Green")} 
+                                                    // checked={(detailProduct?.color === "Green" ? true : false)} 
+                                                    />
                                                     <Label for="green">Green</Label>
                                                 </div>
                                                 <div className="radio radio-danger">
-                                                    <Input id="red" type="radio" name="red" value="red" onChange={(e) => setColor("red")} />
+                                                    <Input id="red" type="radio" name="red" value="red" onChange={(e) => setColor("Red")}
+                                                    // checked={(detailProduct?.color === "Red" ? true : false)} 
+                                                    />
                                                     <Label for="red">Red</Label>
                                                 </div>
                                                 <div className="radio radio-dark">
-                                                    <Input id="black" type="radio" name="red" value="black" onChange={(e) => setColor("black")} />
+                                                    <Input id="black" type="radio" name="red" value="black" onChange={(e) => setColor("Black")} 
+                                                    // checked={(detailProduct?.color === "Black" ? true : false)} 
+                                                    />
                                                     <Label for="black">Black</Label>
                                                 </div>
                                                 <div className="radio radio-dark">
-                                                    <Input id="white" type="radio" name="red" value="white" onChange={(e) => setColor("white")} />
+                                                    <Input id="white" type="radio" name="red" value="white" onChange={(e) => setColor("White")} 
+                                                    // checked={(detailProduct?.color === "White" ? true : false)} 
+                                                    />
                                                     <Label for="white">White</Label>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </FormGroup>
                                     </Col>
