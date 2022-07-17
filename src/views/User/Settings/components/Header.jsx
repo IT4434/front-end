@@ -15,14 +15,14 @@ export default function HeaderSetting() {
             {/* <Button variant="text" className={category === "notification" ? `active` : `btn-header`} onClick={() => handleCategory("notification")}>
                 Notification
             </Button> */}
-            <Button variant="text" className={category === "account" ? `active` : `btn-header`} onClick={() => handleCategory("account")}>
+            {/* <Button variant="text" className={category === "account" ? `active` : `btn-header`} onClick={() => handleCategory("account")}>
                 Account
-            </Button>
+            </Button> */}
             <Button variant="text" className={category === "password" ? `active` : `btn-header`} onClick={() => handleCategory("password")}>
-                Password
+                Change Password
             </Button>
             <Button variant="text" className={category === "email" ? `active` : `btn-header`} onClick={() => handleCategory("email")}>
-                Email
+                Forgot password
             </Button>
 
             {/* <Button variant="text" className={category === "plan" ? `active` : `btn-header`} onClick={() => handleCategory("plan")}>

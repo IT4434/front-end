@@ -3,31 +3,28 @@ import { Container, Row, Col, Card, Media, Button, CardBody, CardHeader, InputGr
 import Slider from "react-slick";
 import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { Truck, Gift, CreditCard, Clock, Smile } from "react-feather";
+import { Truck, Gift, CreditCard, Clock, Send } from "react-feather";
 import { singleItem } from "./components/singleItem";
-import img from "../../../assets/images/logo_ether.png";
-import { Rating } from "@mui/material";
 import "./index.scss";
-import { DISPLAY_CART } from "src/redux/User/product/action";
 import { IMG_URL, SERVICE_URL_USER } from "src/constant/config";
 import axios from "axios";
 import { getToken } from "src/utils/token";
 import { SELECTED_COLOR } from "src/redux/User/Products/actionTypes";
 import { OPEN_INFO_ALERT, OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { addToCart, addToFav } from "src/services/Admin/ManageProduct";
+import { Rating } from "@mui/material";
 const Product_detail = (props) => {
     const navigate = useNavigate();
     const [state, setState] = useState({ nav1: null, nav2: null });
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState();
     const product_id = useParams().product_id;
     const [product_detail, setProduct_detail] = useState();
     const selectedColor = useSelector((state) => state.Product.color);
     // eslint-disable-next-line
     const [img_slide, setImgSlide] = useState();
     const [number, setNumber] = useState(1);
-    const display_cart = useSelector((state) => state.Product.display_cart);
     const [comments, setComments] = useState([]);
-    const [newComment, setNewComment] = useState('');
+    const [newComment, setNewComment] = useState("");
 
     const slider1 = useRef();
     const slider2 = useRef();
@@ -47,6 +44,7 @@ const Product_detail = (props) => {
             timeout: 30000,
         }).then((res) => {
             setProduct_detail(res.data);
+            setRating(res.data.rating);
             let temp = [];
             res.data?.details.map((item, key) => {
                 temp.push(item.images[0]?.image_path);
@@ -98,14 +96,17 @@ const Product_detail = (props) => {
     }
 
     async function postComment(product_id) {
-        await axios.post(`${SERVICE_URL_USER}/comments/products/${product_id}`, {
-            body: newComment,
-            rating: rating,
-        }).then((res) =>{
-            getCommentsOfProduct(product_id);
-        }).catch((error) => {
-            console.log(error);
-        });
+        await axios
+            .post(`${SERVICE_URL_USER}/comments/products/${product_id}`, {
+                body: newComment,
+                rating: rating,
+            })
+            .then((res) => {
+                getCommentsOfProduct(product_id);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     useEffect(() => {
@@ -124,11 +125,8 @@ const Product_detail = (props) => {
     const handleSelectColor = (item) => {
         dispatch({ type: SELECTED_COLOR, payload: item.color });
     };
-
-    const avt_temp =
-        "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.15752-9/279506892_357962046171200_7563227832826377298_n.jpg?_nc_cat=105&ccb=1-6&_nc_sid=ae9488&_nc_ohc=ILAsc11W5UoAX9qcaYU&_nc_oc=AQlrYKcGpoYW3gpKUoGQqbcUXS-7m1iJWZeuHkKsn1fXDV3I6iQ8RfTwRocTJKDKYzc&tn=eM5rTJ4veMqDO5eX&_nc_ht=scontent.fhan14-1.fna&oh=03_AVKWEF-LjjXvjbAkVNlxc5IRwgixA_xCbgajhb2o30Mjww&oe=629BFAAA";
-
-
+    console.log("product_detail", product_detail);
+    const avt_temp = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeeUl9IZDN97pBQNgeunx6dD1df-4g7vkPFw&usqp=CAU";
     return (
         <Fragment>
             <Container fluid={true}>
@@ -172,7 +170,6 @@ const Product_detail = (props) => {
                                         style={{ display: "flex", width: "100%" }}
                                     >
                                         {img_slide?.map((item, i) => {
-                                            console.log(img_slide);
                                             return (
                                                 <div className="item" key={i} style={{ width: "100%", display: "flex" }}>
                                                     <Media
@@ -297,8 +294,8 @@ const Product_detail = (props) => {
                                                 </Col>
                                                 <Col md="6">
                                                     <div className="d-flex">
-                                                        <Rating defaultValue={2} size="small" precision={0.5} readOnly/>
-                                                        <span>{"ProductReview"}</span>
+                                                        <Rating defaultValue={product_detail?.rating || 4} size="small" precision={0.5} readOnly />
+                                                        <span>{"Product Review"}</span>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -399,18 +396,18 @@ const Product_detail = (props) => {
                             <CardBody>
                                 <div className="social-chat">
                                     {comments.map((comment, index) => {
-                                        let img_avt = (comment?.commenter?.images) ? 'https://project2storage.s3.ap-southeast-1.amazonaws.com' + comment.commenter.images : avt_temp;
+                                        console.log("comment", comment);
+                                        let img_avt = comment?.commenter?.images ? `${IMG_URL}/comment.commenter.images` : avt_temp;
                                         return (
                                             <div className="your-msg" key={index}>
                                                 <Media>
-                                                    <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" 
-                                                    src={img_avt} />
+                                                    <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={img_avt} />
                                                     <Media body>
                                                         <span className="f-w-600">
                                                             {comment?.commenter?.name}{" "}
                                                             <span>
                                                                 <div className="d-flex">
-                                                                    <Rating defaultValue={comment.rating} size="small" readOnly/>
+                                                                    <Rating defaultValue={comment.rating} size="small" readOnly className="star-gold" />
                                                                 </div>
                                                             </span>
                                                         </span>
@@ -418,64 +415,9 @@ const Product_detail = (props) => {
                                                     </Media>
                                                 </Media>
                                             </div>
-                                        )
+                                        );
                                     })}
-                                    {/* <div className="your-msg">
-                                        <Media>
-                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
-                                            <Media body>
-                                                <span className="f-w-600">
-                                                    {"JasonBorne"}{" "}
-                                                    <span>
-                                                        {"1 Year Ago"} <i className="fa fa-reply font-primary"></i>
-                                                    </span>
-                                                </span>
-                                                <p>{"we are doing dance and singing songs, please vote our post which is very good for all young peoples"}</p>
-                                            </Media>
-                                        </Media>
-                                    </div>
-                                    <div className="other-msg">
-                                        <Media>
-                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
-                                            <Media body>
-                                                <span className="f-w-600">
-                                                    {"AlexendraDhadio"}{" "}
-                                                    <span>
-                                                        {"1 Month Ago"} <i className="fa fa-reply font-primary"></i>
-                                                    </span>
-                                                </span>
-                                                <p>{"ohh yeah very good car and its features i will surely vote for it"} </p>
-                                            </Media>
-                                        </Media>
-                                    </div>
-                                    <div className="other-msg">
-                                        <Media>
-                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
-                                            <Media body>
-                                                <span className="f-w-600">
-                                                    {"OliviaJon"}{" "}
-                                                    <span>
-                                                        {"15 Days Ago"} <i className="fa fa-reply font-primary"></i>
-                                                    </span>
-                                                </span>
-                                                <p>{"ohh yeah very good car and its features i will surely vote for it"} </p>
-                                            </Media>
-                                        </Media>
-                                    </div>
-                                    <div className="your-msg">
-                                        <Media>
-                                            <Media className="img-50 img-fluid m-r-20 rounded-circle" alt="" src={avt_temp} />
-                                            <Media body>
-                                                <span className="f-w-600">
-                                                    {"IssaBell"}{" "}
-                                                    <span>
-                                                        {"1 Year Ago"} <i className="fa fa-reply font-primary"></i>
-                                                    </span>
-                                                </span>
-                                                <p>{"we are doing dance and singing songs, please vote our post which is very good for all young peoples"}</p>
-                                            </Media>
-                                        </Media>
-                                    </div> */}
+
                                     <div className="text-center mb-4">
                                         <a href="#javascript" style={{ color: "#7366ff" }}>
                                             {" "}
@@ -490,16 +432,21 @@ const Product_detail = (props) => {
                                             <Row>
                                                 <Col md="6">
                                                     <div className="d-flex">
-                                                        <Rating defaultValue={5} size="small" onChange={(e, newVal) => setRating(newVal)}/>
+                                                        <Rating defaultValue={5} size="small" onChange={(e, newVal) => setRating(newVal)} />
                                                     </div>
                                                 </Col>
                                             </Row>
                                             <InputGroup className="text-box">
-                                                <Input className="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Post Your commnets" 
-                                                onChange={(e) => setNewComment(e.target.value)}/>
+                                                <Input
+                                                    className="form-control input-txt-bx"
+                                                    type="text"
+                                                    name="message-to-send"
+                                                    placeholder="Post Your commnets"
+                                                    onChange={(e) => setNewComment(e.target.value)}
+                                                />
                                                 <InputGroupAddon addonType="append">
                                                     <Button color="transparent" onClick={() => postComment(product_id)}>
-                                                        <Smile />
+                                                        <Send />
                                                     </Button>
                                                 </InputGroupAddon>
                                             </InputGroup>

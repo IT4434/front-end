@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import { Container, Row, Col, Card, CardHeader, CardBody, Label } from "reactstrap";
+import { Container, Row, Col, Card, CardHeader, CardBody, Label, Button } from "reactstrap";
 import DataTable from "react-data-table-component";
-import { Box, Button, FormGroup, Input, Modal, Typography } from "@material-ui/core";
+import { Box, FormGroup, Input, Modal } from "@material-ui/core";
 import TableCategories from "./components/tableData";
 import { Plus } from "react-feather";
 import { useState } from "react";

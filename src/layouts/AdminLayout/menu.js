@@ -25,6 +25,10 @@ export const menu = [
                 title: "Category",
                 url: `/admin/manage/categories`,
             },
+            {
+                title: "Order",
+                url: `/admin/manage/order`,
+            },
             // {
             //     title: "Order History",
             //     url: `/admin/manage/order`,
@@ -35,12 +39,12 @@ export const menu = [
             // },
         ],
     },
-    {
-        title: "Settings",
-        icon: <Settings />,
-        url: `/settings`,
-        childs: [],
-    },
+    // {
+    //     title: "Settings",
+    //     icon: <Settings />,
+    //     url: `/settings`,
+    //     childs: [],
+    // },
     {
         title: "Help",
         icon: (

@@ -120,7 +120,7 @@ export default function Header() {
                         alt=""
                     />
                     <div className="avata_title">
-                        <b>{user.full_name || "No name"}</b>
+                        <b>{user.full_name || "Admin"}</b>
                         <p className="mb-0 font-roboto">
                             {user.role == "user" ? "User" : "Admin"} <i className="middle fa fa-angle-down"></i>
                         </p>

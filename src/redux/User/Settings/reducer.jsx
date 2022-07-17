@@ -19,7 +19,7 @@ import { PROFILE } from "./actionTypes";
 import { CATEGORY } from "./actionTypes";
 
 const initial_state = {
-    category: "account",
+    category: "email",
     profile: "",
     alert: "",
     logout: false,

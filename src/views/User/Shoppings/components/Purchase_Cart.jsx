@@ -11,13 +11,12 @@ export default function Purchase_Cart({ item, status }) {
     const [number, setNumber] = useState(1);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     return (
         <Fragment>
             <Row className="mb-3">
                 <Col sm={1} md={1} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}></Col>
 
-                <Col sm={3} md={3} onClick={() => navigate(`:purchase_id/detail`)} style={{ display: "flex", alignItems: "center" }}>
+                <Col sm={3} md={3} onClick={() => navigate(`${item.product_detail?.product?.id}/detail`)} style={{ display: "flex", alignItems: "center" }}>
                     <Media
                         style={{ height: "80px", width: "80px" }}
                         src={

@@ -40,11 +40,11 @@ const AddProductGeneral = (props) => {
             console.log(res.data);
         });
     }, []);
-    useEffect(() => {
-        if (product_temp?.id) {
-            navigate("detail");
-        }
-    }, [product_temp]);
+    // useEffect(() => {
+    //     if (product_temp?.id) {
+    //         navigate("detail");
+    //     }
+    // }, [product_temp]);
 
     const handleSubmit = () => {
         bodyFormData.append("product_name", name);
@@ -63,7 +63,7 @@ const AddProductGeneral = (props) => {
         });
         dispatch({ type: OPEN_SUCCESS_ALERT, payload: { message: "Please wait!" } });
 
-        // navigate("detail");
+        navigate("detail");
     };
     function uploadImg(e) {
         bodyFormData.append("images", e.target.files[0]);

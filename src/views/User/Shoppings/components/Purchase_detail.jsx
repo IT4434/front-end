@@ -15,6 +15,11 @@ import { Fragment } from "react";
 import { Card, CardBody, CardHeader, Col, Media, Row } from "reactstrap";
 import { AutoFixHigh, HourglassTopTwoTone, LocalShippingTwoTone } from "@mui/icons-material";
 import { CheckCircle } from "@material-ui/icons";
+import { useParams } from "react-router";
+import { IMG_URL, SERVICE_URL_USER } from "src/constant/config";
+import { getToken } from "src/utils/token";
+import axios from "axios";
+import { useEffect } from "react";
 
 function CustomizedTimeline() {
     return (
@@ -73,7 +78,7 @@ function CustomizedTimeline() {
                     <Typography>Your product is preparing</Typography>
                 </TimelineContent>
             </TimelineItem>
-            <TimelineItem>
+            {/* <TimelineItem>
                 <TimelineOppositeContent sx={{ m: "auto 0" }} variant="body2" color="text.secondary">
                     11:30 am
                 </TimelineOppositeContent>
@@ -90,12 +95,35 @@ function CustomizedTimeline() {
                     </Typography>
                     <Typography>Your product is shipping</Typography>
                 </TimelineContent>
-            </TimelineItem>
+            </TimelineItem> */}
         </Timeline>
     );
 }
 
 export default function Purchase_detail() {
+    const product_id = useParams().purchase_id;
+    const [productData, setProductData] = React.useState();
+    async function getProduct(payload) {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_USER}/products/${payload}`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            console.log(res.data);
+            setProductData(res.data);
+        });
+    }
+    useEffect(() => {
+        getProduct(product_id);
+    }, []);
+
     return (
         <Fragment>
             <Row>
@@ -108,7 +136,13 @@ export default function Purchase_detail() {
                             <Row>
                                 <Col md={4}>
                                     <Media
-                                        src={"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/ba/29/5c/img-worlds-of-adventure.jpg?w=1200&h=-1&s=1"}
+                                        src={
+                                            productData?.images.length > 0
+                                                ? // ? `${IMG_URL}/${productData?.images[0].image_path}`
+                                                  // : productData?.details?.length > 0 && productData?.details[0].images.length > 0
+                                                  `${IMG_URL}/${productData?.details[0].images[0].image_path}`
+                                                : "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
+                                        }
                                         style={{ width: "100%" }}
                                         alt=""
                                         className="img-fluid"

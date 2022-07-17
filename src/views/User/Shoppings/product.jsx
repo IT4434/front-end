@@ -36,6 +36,7 @@ import { getToken } from "src/utils/token";
 import axios from "axios";
 import { addToCart, addToFav } from "src/services/Admin/ManageProduct";
 import { OPEN_INFO_ALERT, OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
+import { Rating } from "@mui/material";
 
 const Product = (props) => {
     const navigate = useNavigate();
@@ -405,10 +406,15 @@ const Product = (props) => {
                                             <div className="left-filter">
                                                 <CardBody className="filter-cards-view animate-chk">
                                                     <Allfilters />
+                                                    <br />
                                                     <Carousal />
-                                                    <div className="product-filter text-center mt-2">
-                                                        <Media className="img-fluid banner-product m-auto" src={"https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"} alt="" />
-                                                    </div>
+                                                    {/* <div className="product-filter text-center mt-2">
+                                                        <Media
+                                                            className="img-fluid banner-product m-auto"
+                                                            src={"https://hanoicomputercdn.com/media/banner/06_Juldeb6f9166ebe1f5064d0671eeb038b04.png"}
+                                                            alt=""
+                                                        />
+                                                    </div> */}
                                                 </CardBody>
                                             </div>
                                         </Card>
@@ -492,11 +498,7 @@ const Product = (props) => {
                                                   </div>
                                                   <div className="product-details">
                                                       <div className="rating">
-                                                          <i className="fa fa-star"></i>
-                                                          <i className="fa fa-star"></i>
-                                                          <i className="fa fa-star"></i>
-                                                          <i className="fa fa-star"></i>
-                                                          <i className="fa fa-star"></i>
+                                                          <Rating defaultValue={item?.rating || 4} size="small" precision={0.5} readOnly />
                                                       </div>
                                                       <h4 onClick={() => onClickDetailPage(item)} className="font-primary">
                                                           {item.product_name}
@@ -509,7 +511,7 @@ const Product = (props) => {
                                                                   <del>{item.details[0].sale}%</del>
                                                               </>
                                                           ) : (
-                                                              <span>Out of stock</span>
+                                                              <div style={{ color: "#ccc !important" }}>Out of stock</div>
                                                           )}
                                                       </div>
                                                   </div>

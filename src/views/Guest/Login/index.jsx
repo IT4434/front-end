@@ -13,6 +13,7 @@ import { OPEN_WARNING_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { imagePath } from "../../../constant/imagePath";
 import { loginAdmin, loginUser } from "src/services/Guest/login";
+import { CATEGORY } from "src/redux/User/Settings/actionTypes";
 
 const Login = (props) => {
     const dispatch = useDispatch();
@@ -30,6 +31,10 @@ const Login = (props) => {
 
     const HideShowPassword = (tPassword) => {
         setTogglePassword(!tPassword);
+    };
+    const handleForgotPass = () => {
+        dispatch({ type: CATEGORY, payload: "email" });
+        navigate("/settings");
     };
 
     async function hdLogin(e) {
@@ -176,10 +181,14 @@ const Login = (props) => {
                                         <Input type="submit" color="primary" className="btn btn-primary" onClick={hdLogin} value="Login"></Input>
                                     </div>
 
+                                    <div style={{ cursor: "pointer" }} className="mt-4 mb-0" onClick={() => handleForgotPass()}>
+                                        {"Forgot Password?"}
+                                    </div>
+
                                     <p className="mt-4 mb-0">
                                         {"Don't have account?"}
                                         <a className="ml-2" href="/registry">
-                                            {"CreateAccount"}
+                                            {"Create Account"}
                                         </a>
                                     </p>
                                 </Form>

@@ -1,5 +1,6 @@
 import React from "react";
+import OrderList from "./components/OrderList";
 
 export default function Order() {
-    return <div>Order</div>;
+    return <OrderList />;
 }

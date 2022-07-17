@@ -152,3 +152,53 @@ export async function addToFav(payload) {
     });
     return response;
 }
+
+export async function handleLockUser(payload) {
+    const response = await axios({
+        method: "POST",
+        url: `${SERVICE_URL_ADMIN}/users/${payload.user_id}`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        data: payload,
+        timeout: 30000,
+    });
+    return response;
+}
+
+export async function deleteOrder(payload) {
+    const response = await axios({
+        method: "DELETE",
+        url: `${SERVICE_URL_ADMIN}/orders/${payload}`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        data: payload,
+        timeout: 30000,
+    });
+    return response;
+}
+export async function updateOrder(payload) {
+    const response = await axios({
+        method: "PUT",
+        url: `${SERVICE_URL_ADMIN}/orders/${payload.order_id}`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        data: payload,
+        timeout: 30000,
+    });
+    return response;
+}

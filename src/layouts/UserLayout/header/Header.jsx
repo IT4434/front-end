@@ -24,7 +24,8 @@ export default function Header() {
         }
     }, []);
     // const user = useSelector((state) => state.User.user);
-    const user = localStorage.getItem("user");
+    // const user = localStorage.getItem("user");
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
     const display_cart = useSelector((state) => state.Product.display_cart);
     const number_cart = useSelector((state) => state.Product.number);
     const [notificationDropDown, setNotificationDropDown] = useState(false);
@@ -214,11 +215,13 @@ export default function Header() {
                     <div className="avata_title">
                         <b>{user?.name || "No name"}</b>
                         <p className="mb-0 font-roboto">
-                            {user?.role == "user" ? "User" : "Admin"} <i className="middle fa fa-angle-down"></i>
+                            {/* {user?.role == "user" ? "User" : "Admin"}  */}
+                            User
+                            <i className="middle fa fa-angle-down"></i>
                         </p>
                     </div>
                     <ul className="profile_dropdown">
-                        <li className="dropdown_opt">
+                        <li className="dropdown_opt" onClick={() => navigate("/settings")}>
                             <User width={17} height={17} />
                             <span>{"Account"} </span>
                         </li>

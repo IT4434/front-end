@@ -26,7 +26,7 @@ export async function loginAdmin(params) {
         },
         timeout: 30000,
     });
-    // localStorage.setItem("user", JSON.stringify(response.data.data.user));
+    localStorage.setItem("admin", JSON.stringify(response.data.user));
     return response;
 }
 

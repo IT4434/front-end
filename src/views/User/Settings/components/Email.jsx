@@ -7,6 +7,10 @@ import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { SEND_VERIFY } from "src/redux/User/Settings/actionTypes";
 import { VERIFY_EMAIL } from "src/redux/User/Settings/actionTypes";
+import { SERVICE_URL_USER } from "src/constant/config";
+import axios from "axios";
+import { getToken } from "src/utils/token";
+import { OPEN_INFO_ALERT } from "src/redux/User/Alerts/actionTypes";
 
 export default function Email() {
     const dispatch = useDispatch();
@@ -16,9 +20,28 @@ export default function Email() {
     const [displayVerify, setDisplayVerify] = useState(false);
     const [email, setEmail] = useState(currentEmail === "" ? tempEmail : currentEmail);
     const [otp, setOtp] = useState();
+
+    async function forgotPassword(payload) {
+        await axios({
+            method: "POST",
+            url: `${SERVICE_URL_USER}/auth/password/forget`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            data: payload,
+            timeout: 30000,
+        }).then((res) => {
+            dispatch({ type: OPEN_INFO_ALERT, payload: { message: "Please check your email!" } });
+        });
+    }
     const handleEmail = (e) => {
-        setDisplayVerify(!displayVerify);
-        dispatch({ type: SEND_VERIFY, payload: { user_id: user.user_id } });
+        // setDisplayVerify(!displayVerify);
+        // dispatch({ type: SEND_VERIFY, payload: { user_id: user.user_id } });
+        forgotPassword({ email: email });
     };
     const handleVerifyOTP = () => {
         dispatch({ type: VERIFY_EMAIL, payload: { user_id: user.user_id, otp: otp, email: email } });
@@ -26,7 +49,8 @@ export default function Email() {
     return (
         <>
             <Row className="d-center mt-5">
-                <h1>{currentEmail === "" ? "Verify" : "Change"} Email</h1>
+                {/* <h1>{currentEmail === "" ? "Verify" : "Change"} Email</h1> */}
+                <h1>Forgot Password</h1>
             </Row>
 
             <Col className="col-md-12 d-center" style={{ display: displayVerify ? "none" : "" }}>
@@ -35,9 +59,11 @@ export default function Email() {
                         <TextField onChange={(e) => setEmail(e.target.value)} size="small" label="Email" variant="filled" fullWidth defaultValue={currentEmail === "" ? tempEmail : currentEmail} />
                         <br />
                         <br />
-                        <Button variant="contained" color="primary" onClick={(e) => handleEmail()}>
-                            Verify
-                        </Button>
+                        <div style={{ display: "flex", justifyContent: "right" }}>
+                            <Button variant="contained" color="primary" onClick={(e) => handleEmail()}>
+                                Submit
+                            </Button>
+                        </div>
                     </Col>
                 </Row>
             </Col>
