@@ -14,6 +14,7 @@ import { getToken } from "src/utils/token";
 import { useEffect } from "react";
 import { OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { useDispatch } from "react-redux";
+import TablePurchase from "./components/tablePurchase";
 
 export default function Purchase() {
     const navigate = useNavigate();
@@ -21,10 +22,7 @@ export default function Purchase() {
     const filters = useSelector((content) => content.filters);
     const [purchase, setPurchase] = useState();
     const [totalPrice, setTotalPrice] = useState();
-    const handleDetail = () => {
-        navigate("/products/:product_id");
-        localStorage.setItem("navbarActive", "detail");
-    };
+
     async function getPurchase() {
         const response = await axios({
             method: "GET",
@@ -55,50 +53,12 @@ export default function Purchase() {
     return (
         <>
             <Card className="">
-                <CardHeader style={{ padding: "20px !important" }}>
-                    <Row style={{ display: "flex", alignItems: "center" }}>
-                        <Col sm={1} md={1} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}></Col>
-                        {"   "}
-                        <Col sm={3} md={3} style={{ display: "flex", alignItems: "center" }}>
-                            <h6>{"Product Name"}</h6>
-                        </Col>
-                        <Col sm={2} md={2}></Col>
-                        <Col sm={2} md={2} style={{ display: "flex", alignItems: "center" }}>
-                            <h6>{"Status"}</h6>
-                        </Col>
-                        <Col sm={2} md={2} style={{ display: "flex", alignItems: "center" }}>
-                            <h6>{"Quantity"}</h6>
-                        </Col>
-                        <Col sm={1} md={1} style={{ display: "flex", alignItems: "center" }}>
-                            <h6>{"Total Price"}</h6>
-                        </Col>
-                        <Col sm={1} md={1} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}></Col>
-                    </Row>
-                </CardHeader>
+                <CardHeader style={{ padding: "20px !important" }}>Purchase</CardHeader>
                 <CardBody>
-                    {purchase?.map((product) => {
-                        return (
-                            <div>
-                                {product?.order_detail?.map((item) => {
-                                    return <Purchase_Cart item={item} status={product.order_status} />;
-                                })}
-                            </div>
-                        );
-                    })}
+                    <div className="table-responsive product-table">
+                        <TablePurchase />
+                    </div>
                 </CardBody>
-                <CardFooter style={{ padding: "20px !important", backgroundColor: "inherit" }}>
-                    <Row style={{ display: "flex", alignItems: "center" }}>
-                        <Col sm={1} md={1} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}></Col>
-                        <Col sm={2} md={2}></Col>
-                        <Col sm={2} md={2}></Col>
-                        <Col sm={4} md={4} style={{ display: "flex", justifyContent: "right", alignItems: "center" }}></Col>
-                        <Col sm={3} md={3} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <Button color="danger" style={{ paddingLeft: "36px", paddingRight: "36px" }} onClick={() => handleSubmit()}>
-                                Received All
-                            </Button>
-                        </Col>
-                    </Row>
-                </CardFooter>
             </Card>
         </>
     );

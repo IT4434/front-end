@@ -5,9 +5,19 @@ import { Container, Row, Col, Card, CardBody, CardHeader, Table } from "reactstr
 import CountUp from "react-countup";
 import { Monthlysales, columnCharts, totalearning, Riskfactorchart } from "./chartsData/apex-charts-data";
 import { withGoogleMap, GoogleMap, withScriptjs } from "react-google-maps";
+import { useEffect } from "react";
+import { SERVICE_URL_ADMIN } from "src/constant/config";
+import { getToken } from "src/utils/token";
+import axios from "axios";
 
 const Dashboard = (props) => {
     // eslint-disable-next-line
+    const [bestSeller, setBestSeller] = useState();
+    const img = [
+        "https://kddi-h.assetsadobe3.com/is/image/content/dam/au-com/mobile/mb_img_58.jpg?scl=1",
+        "https://t-mobile.scene7.com/is/image/Tmusprod/fg-OnePlus-N20-5G-nologo-2?wid=750&hei=750&fmt=png-alpha",
+        "https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/a16/series/A16-middlebanner-blue-640x480-mobile.jpg.thumb.webp",
+    ];
     const [location, setlocation] = useState({
         address: false,
         mapPosition: {
@@ -23,6 +33,25 @@ const Dashboard = (props) => {
     const BasicMap = withScriptjs(
         withGoogleMap((props) => <GoogleMap google={props.google} defaultZoom={15} defaultCenter={{ lat: location.mapPosition.lat, lng: location.mapPosition.lng }}></GoogleMap>)
     );
+    async function getBestSeller() {
+        await axios({
+            method: "GET",
+            url: `${SERVICE_URL_ADMIN}/statics/month-top-product?month=06/2022`,
+            headers: {
+                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
+                Accept: "application/json",
+                type: "formData",
+                Authorization: getToken(),
+            },
+            timeout: 30000,
+        }).then((res) => {
+            setBestSeller(res.data);
+        });
+    }
+    useEffect(() => {
+        getBestSeller();
+    }, []);
 
     const settings = {
         className: "center",
@@ -240,7 +269,7 @@ const Dashboard = (props) => {
                     <Col xl="4 xl-50" className="box-col-12">
                         <Card>
                             <CardHeader className="card-no-border">
-                                <h5>{"NewProduct"}</h5>
+                                <h5>{"New Products"}</h5>
                                 <div className="card-header-right">
                                     <ul className="list-unstyled card-option">
                                         <li>
@@ -280,7 +309,7 @@ const Dashboard = (props) => {
                                                                 alt=""
                                                             />
                                                             <div className="media-body">
-                                                                <span>{"HikeShoes"}</span>
+                                                                <span>{"LG G63"}</span>
                                                                 <p className="font-roboto">{"100 item"}</p>
                                                             </div>
                                                         </div>
@@ -290,8 +319,8 @@ const Dashboard = (props) => {
                                                         <span>{"PIX001"}</span>
                                                     </td>
                                                     <td>
-                                                        <p>{"-51%"}</p>
-                                                        <span>{"$99.00"}</span>
+                                                        <p>{"-10%"}</p>
+                                                        <span>{"$100.00"}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -305,8 +334,8 @@ const Dashboard = (props) => {
                                                                 alt=""
                                                             />
                                                             <div className="media-body">
-                                                                <span>{"TreePot"}</span>
-                                                                <p className="font-roboto">{"105 item"}</p>
+                                                                <span>{"Samsung 12"}</span>
+                                                                <p className="font-roboto">{"12345 items"}</p>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -315,8 +344,8 @@ const Dashboard = (props) => {
                                                         <span>{"PIX002"}</span>
                                                     </td>
                                                     <td>
-                                                        <p>{"-78%"}</p>
-                                                        <span>{"$66.00"}</span>
+                                                        <p>{"-12%"}</p>
+                                                        <span>{"$123456.00"}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -330,8 +359,8 @@ const Dashboard = (props) => {
                                                                 alt=""
                                                             />
                                                             <div className="media-body">
-                                                                <span>{"Bag"}</span>
-                                                                <p className="font-roboto">{"604 item"}</p>
+                                                                <span>{"PC Acer Predator"}</span>
+                                                                <p className="font-roboto">{"123 item"}</p>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -340,58 +369,8 @@ const Dashboard = (props) => {
                                                         <span>{"PIX003"}</span>
                                                     </td>
                                                     <td>
-                                                        <p>{"-04%"}</p>
-                                                        <span>{"$116.00"}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className="media">
-                                                            <img
-                                                                className="img-fluid m-r-15 rounded-circle"
-                                                                src={
-                                                                    "https://scontent.fhan5-7.fna.fbcdn.net/v/t1.15752-9/278618197_4948876248501115_249196509047614764_n.png?stp=cp0_dst-png&_nc_cat=100&ccb=1-5&_nc_sid=ae9488&_nc_ohc=Kv5dxfga5WAAX-G8ZPo&_nc_ht=scontent.fhan5-7.fna&oh=03_AVJ1Jzbfg1oovx80laieKMdX8oAy3H038C8ENgUoJZ6X9Q&oe=628EB306"
-                                                                }
-                                                                alt=""
-                                                            />
-                                                            <div className="media-body">
-                                                                <span>{"Watch"}</span>
-                                                                <p className="font-roboto">{"541 item"}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p>{"CouponCode"}</p>
-                                                        <span>{"PIX004"}</span>
-                                                    </td>
-                                                    <td>
-                                                        <p>{"-60%"}</p>
-                                                        <span>{"$99.00"}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className="media">
-                                                            <img
-                                                                className="img-fluid m-r-15 rounded-circle"
-                                                                src={
-                                                                    "https://scontent.fhan5-7.fna.fbcdn.net/v/t1.15752-9/278618197_4948876248501115_249196509047614764_n.png?stp=cp0_dst-png&_nc_cat=100&ccb=1-5&_nc_sid=ae9488&_nc_ohc=Kv5dxfga5WAAX-G8ZPo&_nc_ht=scontent.fhan5-7.fna&oh=03_AVJ1Jzbfg1oovx80laieKMdX8oAy3H038C8ENgUoJZ6X9Q&oe=628EB306"
-                                                                }
-                                                                alt=""
-                                                            />
-                                                            <div className="media-body">
-                                                                <span>{"TShirt"}</span>
-                                                                <p className="font-roboto">{"999 item"}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p>{"CouponCode"}</p>
-                                                        <span>{"PIX005"}</span>
-                                                    </td>
-                                                    <td>
-                                                        <p>{"-50%"}</p>
-                                                        <span>{"$58.00"}</span>
+                                                        <p>{"-12%"}</p>
+                                                        <span>{"$123.00"}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -605,107 +584,6 @@ const Dashboard = (props) => {
                     <Col xl="9 xl-100" className="box-col-12">
                         <Row>
                             <Col xl="12">
-                                <Card className="offer-box">
-                                    <CardBody className="p-0">
-                                        <div className="offer-slider">
-                                            <div className="carousel slide" id="carouselExampleCaptions" data-ride="carousel">
-                                                <div className="carousel-inner">
-                                                    <Slider {...settings}>
-                                                        <div className="carousel-item active">
-                                                            <div className="selling-slide row">
-                                                                <div className="col-xl-4 col-md-6">
-                                                                    <div className="d-flex">
-                                                                        <div className="left-content">
-                                                                            <p>{"Much More Selling product"}</p>
-                                                                            <h4 className="f-w-600">{"Best Selling Product"}</h4>
-                                                                            <span className="badge badge-white badge-pill">{"78% offer"}</span>
-                                                                            <span className="badge badge-dotted badge-pill ml-2">
-                                                                                {"CouponCode"} : {"12345"}
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xl-4 col-md-12">
-                                                                    <div className="center-img">
-                                                                        <img className="img-fluid" src={"https://backtowork.initiatives.qld.gov.au/wp-content/uploads/2017/09/300x300.png"} alt="..." />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xl-4 col-md-6">
-                                                                    <div className="d-flex">
-                                                                        <div className="right-content">
-                                                                            <p>{"Money back Guarrantee"}</p>
-                                                                            <h4 className="f-w-600">{"Women Straight Kurta"}</h4>
-                                                                            <span className="badge badge-white badge-pill">{"$100.00"}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="carousel-item">
-                                                            <div className="selling-slide row">
-                                                                <div className="col-xl-4 col-md-6">
-                                                                    <div className="d-flex">
-                                                                        <div className="left-content">
-                                                                            <p>{"Money back Guarrantee"}</p>
-                                                                            <h4 className="f-w-600">{"Women Straight Kurta"}</h4>
-                                                                            <span className="badge badge-white badge-pill">{"$100.00"}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xl-4 col-md-12">
-                                                                    <div className="center-img">
-                                                                        <img className="img-fluid" src={"https://backtowork.initiatives.qld.gov.au/wp-content/uploads/2017/09/300x300.png"} alt="..." />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xl-4 col-md-6">
-                                                                    <div className="d-flex">
-                                                                        <div className="right-content">
-                                                                            <p>{"Money back Guarrantee"}</p>
-                                                                            <h4 className="f-w-600">{"Nike Air Shoes"}</h4>
-                                                                            <span className="badge badge-white badge-pill">{"$120.55"}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="carousel-item">
-                                                            <div className="selling-slide row">
-                                                                <div className="col-xl-4 col-md-6">
-                                                                    <div className="d-flex">
-                                                                        <div className="left-content">
-                                                                            <p>{"Maximum Selling product"}</p>
-                                                                            <h4 className="f-w-600">{"Best Selling Product"}</h4>
-                                                                            <span className="badge badge-white badge-pill">{"50% offer"}</span>
-                                                                            <span className="badge badge-dotted badge-pill ml-2">
-                                                                                {"CouponCode"} : {"21546"}
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xl-4 col-md-12">
-                                                                    <div className="center-img">
-                                                                        <img className="img-fluid" src={"https://backtowork.initiatives.qld.gov.au/wp-content/uploads/2017/09/300x300.png"} alt="..." />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xl-4 col-md-6">
-                                                                    <div className="d-flex">
-                                                                        <div className="right-content">
-                                                                            <p>{"Money back Guarrantee"}</p>
-                                                                            <h4 className="f-w-600">{"Nike Air Shoes"}</h4>
-                                                                            <span className="badge badge-white badge-pill">{"$120.55"}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </Slider>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col xl="12">
                                 <Card>
                                     <CardBody>
                                         <div className="best-seller-table responsive-tbl">
@@ -714,161 +592,39 @@ const Dashboard = (props) => {
                                                     <Table borderless>
                                                         <thead>
                                                             <tr>
-                                                                <th className="f-22">{"BestSeller"}</th>
-                                                                <th>{"Date"}</th>
-                                                                <th>{"Product"}</th>
-                                                                <th>{"Country"}</th>
+                                                                <th className="f-22">{"Best Seller"}</th>
+                                                                <th>{"Brand"}</th>
+                                                                <th>{"Description"}</th>
+                                                                <th>{"Sold Quantity"}</th>
                                                                 <th>{"Total"}</th>
                                                                 <th className="text-right">{"Status"}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <div className="d-inline-block align-middle">
-                                                                        <img
-                                                                            className="img-40 m-r-15 rounded-circle align-top"
-                                                                            src={"https://www.cliffrailwaylynton.co.uk/wp-content/uploads/2018/01/250x250-Placeholder.png"}
-                                                                            alt=""
-                                                                        />
-                                                                        <div className="status-circle bg-primary"></div>
-                                                                        <div className="d-inline-block">
-                                                                            <span>{"Johnketer"}</span>
-                                                                            <p className="font-roboto">{"2019"}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td>{"06 August"}</td>
-                                                                <td>{"CAP"}</td>
-                                                                <td>
-                                                                    <i className="flag-icon flag-icon-gb"></i>
-                                                                </td>
-                                                                <td>
-                                                                    {" "}
-                                                                    <span className="label">{"$5,08,652"}</span>
-                                                                </td>
-                                                                <td className="text-right">
-                                                                    <i className="fa fa-check-circle"></i>
-                                                                    {"Done"}
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div className="d-inline-block align-middle">
-                                                                        <img
-                                                                            className="img-40 m-r-15 rounded-circle align-top"
-                                                                            src={"https://www.cliffrailwaylynton.co.uk/wp-content/uploads/2018/01/250x250-Placeholder.png"}
-                                                                            alt=""
-                                                                        />
-                                                                        <div className="status-circle bg-primary"></div>
-                                                                        <div className="d-inline-block">
-                                                                            <span>{"HerryVenter"}</span>
-                                                                            <p className="font-roboto">{"2020"}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td>{"21 March"}</td>
-                                                                <td>{"Branded Shoes"}</td>
-                                                                <td>
-                                                                    <i className="flag-icon flag-icon-us"></i>
-                                                                </td>
-                                                                <td>
-                                                                    {" "}
-                                                                    <span className="label">{"$59,105"}</span>
-                                                                </td>
-                                                                <td className="text-right">
-                                                                    <i className="fa fa-check-circle"></i>
-                                                                    {"Pending"}
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div className="d-inline-block align-middle">
-                                                                        <img
-                                                                            className="img-40 m-r-15 rounded-circle align-top"
-                                                                            src={"https://backtowork.initiatives.qld.gov.au/wp-content/uploads/2017/09/300x300.png"}
-                                                                            alt=""
-                                                                        />
-                                                                        <div className="status-circle bg-primary"></div>
-                                                                        <div className="d-inline-block">
-                                                                            <span>{"LoainDeo"}</span>
-                                                                            <p className="font-roboto">{"2020"}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td>{"09 March"}</td>
-                                                                <td>{"Headphone"}</td>
-                                                                <td>
-                                                                    <i className="flag-icon flag-icon-za"></i>
-                                                                </td>
-                                                                <td>
-                                                                    {" "}
-                                                                    <span className="label">{"$10,155"}</span>
-                                                                </td>
-                                                                <td className="text-right">
-                                                                    <i className="fa fa-check-circle"></i>
-                                                                    {"Success"}
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div className="d-inline-block align-middle">
-                                                                        <img
-                                                                            className="img-40 m-r-15 rounded-circle align-top"
-                                                                            src={"https://www.cliffrailwaylynton.co.uk/wp-content/uploads/2018/01/250x250-Placeholder.png"}
-                                                                            alt=""
-                                                                        />
-                                                                        <div className="status-circle bg-primary"></div>
-                                                                        <div className="d-inline-block">
-                                                                            <span>{"HorenHors"}</span>
-                                                                            <p className="font-roboto">{"2020"}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td>{"14 February"}</td>
-                                                                <td>{"Cell Phone"}</td>
-                                                                <td>
-                                                                    <i className="flag-icon flag-icon-at"></i>
-                                                                </td>
-                                                                <td>
-                                                                    {" "}
-                                                                    <span className="label">{"$90,568"}</span>
-                                                                </td>
-                                                                <td className="text-right">
-                                                                    {" "}
-                                                                    <i className="fa fa-check-circle"></i>
-                                                                    {"InProcess"}
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div className="d-inline-block align-middle">
-                                                                        <img
-                                                                            className="img-40 m-r-15 rounded-circle align-top"
-                                                                            src={"https://www.cliffrailwaylynton.co.uk/wp-content/uploads/2018/01/250x250-Placeholder.png"}
-                                                                            alt=""
-                                                                        />
-                                                                        <div className="status-circle bg-primary"></div>
-                                                                        <div className="d-inline-block">
-                                                                            <span>{"FenterJessy"}</span>
-                                                                            <p className="font-roboto">{"2021"}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td>{"12 January"}</td>
-                                                                <td>{"Earings"}</td>
-                                                                <td>
-                                                                    <i className="flag-icon flag-icon-br"></i>
-                                                                </td>
-                                                                <td>
-                                                                    {" "}
-                                                                    <span className="label">{"$10,652"}</span>
-                                                                </td>
-                                                                <td className="text-right">
-                                                                    <i className="fa fa-check-circle"></i>
-                                                                    {"Pending"}
-                                                                </td>
-                                                            </tr>
+                                                            {bestSeller?.map((product, key) => {
+                                                                return (
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div className="d-inline-block align-middle">
+                                                                                <img className="img-40 m-r-15 rounded-circle align-top" src={img[key]} alt="" />
+                                                                                <div className="status-circle bg-primary"></div>
+                                                                                <div className="d-inline-block">
+                                                                                    <span>{product?.product_name}</span>
+                                                                                    <p className="font-roboto">{product?.id}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>{product?.brand}</td>
+                                                                        <td>{product?.description}</td>
+                                                                        <td>{product?.sold_quantity}</td>
+                                                                        <td>{product?.total}</td>
+                                                                        <td className="text-right">
+                                                                            <i className="fa fa-check-circle"></i>
+                                                                            {"Stocking"}
+                                                                        </td>
+                                                                    </tr>
+                                                                );
+                                                            })}
                                                         </tbody>
                                                     </Table>
                                                 </div>

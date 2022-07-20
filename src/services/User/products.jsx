@@ -171,3 +171,19 @@ export async function deleteCart(product_id) {
     });
     return response;
 }
+export async function receivedOrder(payload) {
+    const response = await axios({
+        method: "PUT",
+        url: `${SERVICE_URL_USER}/orders/${payload.id}/confirms`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        data: payload,
+        timeout: 30000,
+    });
+    return response;
+}
