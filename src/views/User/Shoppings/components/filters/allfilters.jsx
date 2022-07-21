@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
 import { SERVICE_URL_ADMIN, SERVICE_URL_USER } from "src/constant/config";
+import { OPEN_INFO_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { BRAND, CATEGORY, filterCategory, filterColor, filterPrice, FILTER_BRAND, FILTER_CATEGORY } from "src/redux/User/filter/action";
 import { GET_LIST } from "src/redux/User/Products/actionTypes";
 import { getToken } from "src/utils/token";
@@ -28,12 +29,16 @@ const Allfilters = () => {
 
     let temp = [];
     const handleFilter = () => {
-        if (filteredCategory.length != 0) {
-            productData?.map((product) => {
-                if (filteredCategory.includes(product.category_id.toString())) {
+        if (filteredCategory.length > 0) {
+            productData?.map((product, key) => {
+                const id_temp = product.category_id.toString();
+                if (filteredCategory.includes(id_temp)) {
                     temp.push(product);
                 }
             });
+            if (temp.length === 0) {
+                dispatch({ type: OPEN_INFO_ALERT, payload: { message: "No products match" } });
+            }
         }
         if (filteredBrand.length > 0) {
             productData?.map((product) => {
@@ -43,6 +48,9 @@ const Allfilters = () => {
             });
         }
         if ((filteredCategory.length === 0 && filteredBrand.length === 0) || temp.length === 0) {
+            if (temp.length === 0) {
+                dispatch({ type: OPEN_INFO_ALERT, payload: { message: "No products match" } });
+            }
             dispatch({ type: GET_LIST, payload: productData });
         } else {
             let arr = [];
@@ -87,7 +95,7 @@ const Allfilters = () => {
     async function getCategories() {
         await axios({
             method: "GET",
-            url: `${SERVICE_URL_ADMIN}/categories`,
+            url: `${SERVICE_URL_USER}/categories`,
             headers: {
                 "Content-Type": "multipart/form-data",
                 Accept: "application/json",
@@ -103,6 +111,7 @@ const Allfilters = () => {
                 }
             });
             setCategories(arr);
+
             dispatch({ type: CATEGORY, category: arr });
         });
     }

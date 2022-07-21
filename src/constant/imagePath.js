@@ -17,11 +17,11 @@ import empty_folder from "src/assets/images/folderEmpty.ico";
 import sawtooth_logo from "src/assets/images/sawtooth_logo.png";
 import ether_logo from "src/assets/images/logo_ether.png";
 import fabric_logo from "src/assets/images/fabric_logo.png";
-import bsc_logo from "src/assets/images/bsc_logo.png"
-import ftm_logo from "src/assets/images/fantom_logo.png"
-import logo_light from "src/assets/images/logo/logo_chinh_A.png";
-import logo_dark from "src/assets/images/logo/logo_tren_nen_toi_A.png";
-import logo_short from "src/assets/images/logo/logo_chinh.png";
+import bsc_logo from "src/assets/images/bsc_logo.png";
+import ftm_logo from "src/assets/images/fantom_logo.png";
+// import logo_light from "src/assets/images/logo/logo_chinh_A.png";
+// import logo_dark from "src/assets/images/logo/logo_tren_nen_toi_A.png";
+// import logo_short from "src/assets/images/logo/logo_chinh.png";
 
 export const imagePath = {
     ".jpg": icon_file_img,
@@ -52,7 +52,7 @@ export const imagePath = {
     bsc: bsc_logo,
     ftm: ftm_logo,
 
-    LOGO_LIGHT: logo_light,
-    LOGO_DARK: logo_dark,
-    LOGO_SHORT: logo_short,
+    // LOGO_LIGHT: logo_light,
+    // LOGO_DARK: logo_dark,
+    // LOGO_SHORT: logo_short,
 };

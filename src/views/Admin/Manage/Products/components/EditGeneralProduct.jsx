@@ -24,7 +24,7 @@ const EditProductGeneral = (item) => {
     const [soldQuantity, setSoldQuantity] = useState(product?.sold_quantity);
     const [rate, setRate] = useState(0);
     const [brand, setBrand] = useState("");
-    const [category_id, setCategoryID] = useState("");
+    const [category_id, setCategoryID] = useState();
     const [description, setDescription] = useState("");
     let bodyFormData = new FormData();
 
@@ -40,7 +40,6 @@ const EditProductGeneral = (item) => {
         }).then((res) => {
             setCategories(res.data);
             setCategoryID(res.data[0].id);
-            console.log(res.data);
         });
         getProduct(product_id);
     }, []);
@@ -67,7 +66,7 @@ const EditProductGeneral = (item) => {
         bodyFormData.append("sold_quantity", !soldQuantity ? product?.sold_quantity : soldQuantity);
         bodyFormData.append("rating", rate);
         bodyFormData.append("rating_quantity", 0);
-        bodyFormData.append("category_id", category_id === "" ? product?.category_id : category_id);
+        bodyFormData.append("category_id", category_id || product?.category_id);
         bodyFormData.append("description", description === "" ? product?.description : description);
         bodyFormData.append("images", test_img);
 
@@ -139,9 +138,9 @@ const EditProductGeneral = (item) => {
                                         <Col md="5">
                                             <FormGroup>
                                                 <Label className="form-label">{"Category"}</Label>
-                                                <Input type="select" name="select" className="form-control btn-square">
+                                                <Input type="select" name="select" className="form-control btn-square" onChange={(e) => setCategoryID(e.target.value)}>
                                                     {categories?.map((category, key) => {
-                                                        return <option onClick={(category) => setCategoryID(category.id)}>{category.category_name}</option>;
+                                                        return <option value={category.id}>{category.category_name}</option>;
                                                     })}
                                                 </Input>
                                             </FormGroup>

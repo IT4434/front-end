@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { LAYOUT } from "src/redux/User/Settings/actionTypes";
 import { useEffect } from "react";
 import { userActions } from "src/redux/Guest/reducer";
-import { imagePath } from "../../../constant/imagePath";
 import { Badge, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { DISPLAY_CART } from "../../../redux/User/Products/actionTypes";
 import { alpha, FormControl, InputBase, styled } from "@mui/material";
@@ -92,8 +91,8 @@ export default function Header() {
     return (
         <div className="vchain_header">
             <div className="vchain_header_left">
-                <img className="logo_header logo_light_theme" src={imagePath.LOGO_LIGHT} alt="" height="41.26" width="152.89" />
-                <img className="logo_header logo_dark_theme" src={imagePath.LOGO_DARK} alt="" height="41.26" width="152.89" />
+                <img className="logo_header logo_light_theme" src={"https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1.png"} alt="" height="41.26" width="152.89" />
+                <img className="logo_header logo_dark_theme" src={"https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1.png"} alt="" height="41.26" width="152.89" />
                 <label htmlFor="check_toggle_sidebar" className="toggle_sidebar">
                     <Grid width={16} height={16} />
                 </label>

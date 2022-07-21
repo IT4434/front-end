@@ -187,3 +187,20 @@ export async function receivedOrder(payload) {
     });
     return response;
 }
+
+export async function clearCart(payload) {
+    const response = await axios({
+        method: "DELETE",
+        url: `${SERVICE_URL_USER}/carts/clear`,
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            type: "formData",
+            Authorization: getToken(),
+        },
+        data: payload,
+        timeout: 30000,
+    });
+    return response;
+}

@@ -14,6 +14,7 @@ import { getToken } from "src/utils/token";
 import { addToCart, addToFav } from "src/services/Admin/ManageProduct";
 import { OPEN_INFO_ALERT, OPEN_SUCCESS_ALERT } from "src/redux/User/Alerts/actionTypes";
 import { ADD_TO_CART, SELECTED_CART, TOTAL_PRICE } from "src/redux/User/Products/actionTypes";
+import { clearCart } from "src/services/User/products";
 
 export default function ShoppingBag() {
     const navigate = useNavigate();
@@ -111,7 +112,6 @@ export default function ShoppingBag() {
     const handleSubmitOrder = () => {
         let temp = [];
         const user = JSON.parse(localStorage.getItem("user"));
-        console.log(user);
         cart?.map((item) => {
             temp.push({ product_id: item.product_detail?.id, quantity: item.quantity });
         });
@@ -120,6 +120,10 @@ export default function ShoppingBag() {
             order_details: temp,
         };
         createOrder(data);
+        clearCart();
+        setTimeout(() => {
+            navigate("/purchase");
+        }, 900);
     };
 
     return (
