@@ -6,7 +6,7 @@ import CountUp from "react-countup";
 import { Monthlysales, columnCharts, totalearning, Riskfactorchart } from "./chartsData/apex-charts-data";
 import { withGoogleMap, GoogleMap, withScriptjs } from "react-google-maps";
 import { useEffect } from "react";
-import { SERVICE_URL_ADMIN } from "src/constant/config";
+import { IMG_URL, SERVICE_URL_ADMIN } from "src/constant/config";
 import { getToken } from "src/utils/token";
 import axios from "axios";
 
@@ -36,7 +36,7 @@ const Dashboard = (props) => {
     async function getBestSeller() {
         await axios({
             method: "GET",
-            url: `${SERVICE_URL_ADMIN}/statics/month-top-product?month=06/2022`,
+            url: `${SERVICE_URL_ADMIN}/statics/month-top-product?month=07/2022`,
             headers: {
                 "Content-Type": "application/json",
                 // "Content-Type": "multipart/form-data",
@@ -606,11 +606,11 @@ const Dashboard = (props) => {
                                                                     <tr>
                                                                         <td>
                                                                             <div className="d-inline-block align-middle">
-                                                                                <img className="img-40 m-r-15 rounded-circle align-top" src={img[key]} alt="" />
+                                                                                <img className="img-40 m-r-15 rounded-circle align-top" src={`${IMG_URL}/${product.images[0].image_path}`} alt="" />
                                                                                 <div className="status-circle bg-primary"></div>
                                                                                 <div className="d-inline-block">
                                                                                     <span>{product?.product_name}</span>
-                                                                                    <p className="font-roboto">{product?.id}</p>
+                                                                                    {/* <p className="font-roboto">{product?.id}</p> */}
                                                                                 </div>
                                                                             </div>
                                                                         </td>

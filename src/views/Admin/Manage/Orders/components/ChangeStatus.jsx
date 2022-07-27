@@ -24,6 +24,7 @@ export default function ChangeStatus({ prop }) {
                     <option value={"Pending"}>Pending</option>
                     <option value={"Shipping"}>Shipping</option>
                     <option value={"Completed"}>Completed</option>
+                    <option value={"Cancel"}>Cancel</option>
                 </NativeSelect>
             </FormControl>
         </Box>

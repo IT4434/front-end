@@ -134,7 +134,7 @@ export default function TablePurchase() {
                                             </TableHead>
                                             <TableBody>
                                                 {row?.order_detail?.map((detailProduct) => (
-                                                    <TableRow key={detailProduct.color}>
+                                                    <TableRow key={detailProduct.color} onClick={() => navigate(`${detailProduct.id}/detail`)}>
                                                         <TableCell style={{ color: "inherit" }}>
                                                             <img
                                                                 src={

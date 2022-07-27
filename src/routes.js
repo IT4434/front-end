@@ -51,7 +51,7 @@ const routes = [
 
     {
         path: "/settings",
-        element: <UserLayout />,
+        // element: <UserLayout />,
         children: [
             { path: "", element: <Settings /> },
             { path: ":userId/verify/email", element: <Verify /> },
